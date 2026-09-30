@@ -13,7 +13,6 @@ import { drawBlockText } from './ui/blockText';
 import { Hud } from './ui/hud';
 import { Overview } from './ui/overview';
 import { TouchPad } from './ui/touchPad';
-import { Tutorial } from './ui/tutorial';
 
 const STEP = 1 / 60;
 const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
@@ -64,7 +63,6 @@ async function boot(): Promise<void> {
     () => {
       pad.enable();
       hud.setHint('');
-      tutorial.refresh();
     },
     { once: true, passive: true },
   );
@@ -80,13 +78,6 @@ async function boot(): Promise<void> {
       persist();
     });
   });
-  const tutorial = new Tutorial(
-    () => pad.enabled,
-    (level) => {
-      if (!save.tutorials.includes(level)) save.tutorials = [...save.tutorials, level];
-      persist();
-    },
-  );
   // Warm up shaders behind the loading screen so the first frame of play doesn't hitch.
   stage.renderer.compile(stage.scene, stage.camera);
   platform.setLoadingProgress(90);
@@ -144,7 +135,6 @@ async function boot(): Promise<void> {
   };
 
   const toMenu = () => {
-    tutorial.stop();
     game.enterMenu();
     hud.show(false);
     pad.setMode(null);
@@ -279,14 +269,10 @@ async function boot(): Promise<void> {
                 ? 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Lay brick: D   Pause: Q'
                 : 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Pause: Q',
         );
-        if (!save.tutorials.includes(key)) tutorial.start(key);
-        else tutorial.stop();
         platform.logEvent('level_start', { level: e.level, round: e.round });
       } else if (e.type === 'levelClear') {
-        tutorial.stop();
         platform.logEvent('level_clear', { level: e.level, round: e.round });
       } else if (e.type === 'gameOver') {
-        tutorial.stop();
         const best = e.score > save.hiScore;
         save.hiScore = Math.max(save.hiScore, e.score);
         persist();
@@ -357,7 +343,6 @@ async function boot(): Promise<void> {
       onGameEvents(events);
       view.onEvents(events, game);
       hud.onEvents(events);
-      tutorial.observe(events, moved);
     }
     stage.mobile = pad.enabled;
     view.update(game, dt);

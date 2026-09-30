@@ -171,39 +171,6 @@ button {
   color: var(--green);
 }
 
-/* --- Tutorial card --- */
-#tutorial {
-  position: absolute;
-  left: 50%;
-  top: 6px;
-  transform: translateX(-50%);
-  width: min(92%, 440px);
-  padding: 10px 44px 10px 14px;
-  background: var(--panel);
-  border: 2px solid var(--gold-dark);
-  border-radius: 12px;
-  font-size: clamp(12px, 3.5vw, 16px);
-  line-height: 1.35;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-}
-#tutorial .step {
-  color: var(--gold);
-  font-size: 0.8em;
-  letter-spacing: 0.08em;
-}
-#tutorial .skip {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 36px;
-  height: 36px;
-  border: 0;
-  background: none;
-  color: var(--dim);
-  font-size: 20px;
-  cursor: pointer;
-}
-
 /* --- Touch pad --- */
 #pad {
   --stick-size: 112px;

@@ -1,7 +1,7 @@
 {
   "name": "digdon-web",
   "private": true,
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Dig Don - HTML5 build for Facebook Instant Games and the web",
   "type": "module",
   "scripts": {
