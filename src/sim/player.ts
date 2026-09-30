@@ -8,7 +8,7 @@ const KINDA_SMALL = 1e-4;
 const LAY_COOLDOWN = 0.15;
 
 /**
- * Don Blox (port of ADigPawn, lane levels). Moves on grid lanes in four directions; a perpendicular input first
+ * Mega Don (port of ADigPawn, lane levels). Moves on grid lanes in four directions; a perpendicular input first
  * slides him to the nearest lane (the arcade corner assist). Moving into dirt carves a tunnel at dig speed.
  */
 export class Player {
