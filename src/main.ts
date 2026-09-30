@@ -95,6 +95,7 @@ async function boot(): Promise<void> {
   let returnTo: ScreenName = 'menu';
   const show = (name: ScreenName) => {
     screen = name;
+    if (name === 'menu') $<HTMLDetailsElement>('#level-select').open = false;
     if (name !== null) {
       pad.reset();
       overview.reset();
@@ -124,7 +125,7 @@ async function boot(): Promise<void> {
   refreshBest();
 
   const startGame = (single: number | null) => {
-    game.startNewGame(single, $<HTMLInputElement>('#summit-coop').checked);
+    game.startNewGame(single, window.innerWidth > 600 && $<HTMLInputElement>('#summit-coop').checked);
     platform.logEvent('game_start', { mode: single === null ? 'full' : LEVELS[single].key });
     hud.show(true);
     show(null);
@@ -252,8 +253,9 @@ async function boot(): Promise<void> {
   // Arrow keys move between menu buttons.
   window.addEventListener('keydown', (e) => {
     if (!screen || (e.code !== 'ArrowDown' && e.code !== 'ArrowUp')) return;
-    const buttons = [...$(`#screen-${screen}`).querySelectorAll<HTMLButtonElement>('.menu button:not([hidden])')];
-    const i = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    const buttons = [...$(`#screen-${screen}`).querySelectorAll<HTMLElement>('.menu button:not([hidden]), .menu summary')]
+      .filter(button => button.checkVisibility());
+    const i = buttons.indexOf(document.activeElement as HTMLElement);
     const next = buttons[(i + (e.code === 'ArrowDown' ? 1 : buttons.length - 1)) % buttons.length] ?? buttons[0];
     next?.focus();
     e.preventDefault();

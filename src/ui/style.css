@@ -437,16 +437,58 @@ button {
   gap: 10px;
   width: min(86vw, 360px);
 }
-.menu button {
+.menu button,
+.menu summary {
+  width: 100%;
   min-height: 48px;
   padding: 10px 16px;
   border: 2px solid #4a2e20;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #22150f;
   font-size: clamp(14px, 4vw, 18px);
   font-weight: 700;
   letter-spacing: 0.06em;
   cursor: pointer;
+}
+.menu summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+}
+.menu summary::-webkit-details-marker { display: none; }
+.menu details { position: relative; }
+.menu summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(45deg);
+}
+.menu details[open] summary::after { transform: rotate(225deg); }
+.level-options {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: min(340px, 45vh);
+  overflow-y: auto;
+  margin-top: 4px;
+  padding: 6px;
+  border: 2px solid #4a2e20;
+  border-radius: 8px;
+  background: #120b09;
+  box-shadow: 0 8px 20px #0008;
+  touch-action: pan-y;
+}
+.level-options button { flex: 0 0 auto; font-size: 14px; letter-spacing: 0; }
+@media (max-width: 600px) {
+  #summit-coop-option { display: none; }
 }
 .menu button.primary {
   background: var(--gold);
@@ -454,7 +496,8 @@ button {
   border-color: #b8860b;
   box-shadow: 0 4px 0 var(--gold-dark);
 }
-.menu button:focus-visible {
+.menu button:focus-visible,
+.menu summary:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
 }

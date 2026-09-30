@@ -3,7 +3,7 @@
 Play at https://jamietowater.github.io/digdon/.
 
 The web port includes the six Unreal arenas in their original order. PLAY rotates through them;
-the individual level buttons repeat the selected level with increasing difficulty.
+SELECT LEVEL opens a compact menu to repeat a chosen level with increasing difficulty.
 
 | Level | Objective |
 | --- | --- |
@@ -20,7 +20,7 @@ the individual level buttons repeat the selected level with increasing difficult
 - Dig, Bricklayer and Conga: Space/J sprays mortar, S throws, A boosts movement, D lays bricks where enabled.
 - Invasion: Space/S throws upward; D builds cover.
 - Scaffold and Summit: Space/J jumps, S throws. Scaffold ladders use Up/Down; mallets prevent climbing until they expire.
-- Summit co-op: enable the menu checkbox. Player 2 uses A/D to move, W to jump, F to throw.
+- Summit co-op on desktop: enable the menu checkbox. Player 2 uses A/D to move, W to jump, F to throw.
 	Player 2 uses the shared keyboard, not a second touch pad or gamepad.
 - Q pauses; touch screens have a pause button.
 
