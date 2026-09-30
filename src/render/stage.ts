@@ -16,10 +16,13 @@ export interface LevelLook {
   background: number;
 }
 
-export const LOOKS: Record<'dig' | 'bricklayer' | 'invasion', LevelLook> = {
+export const LOOKS: Record<'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit', LevelLook> = {
+  scaffold: { keyLightScale: 0.8, gain: [1.04, 1, 0.96], background: 0x09161a },
+  summit: { keyLightScale: 0.9, gain: [0.96, 1.02, 1.08], background: 0x111b23 },
   // Warm earth underground.
   dig: { keyLightScale: 0.6, gain: [1.06, 1.0, 0.9], background: 0x0c0708 },
   bricklayer: { keyLightScale: 0.6, gain: [1.06, 1.0, 0.9], background: 0x0c0708 },
+  conga: { keyLightScale: 0.6, gain: [1.06, 1.0, 0.9], background: 0x0c0708 },
   // A cool night sky over the site.
   invasion: { keyLightScale: 0.8, gain: [0.95, 1.0, 1.08], background: 0x070a14 },
 };
@@ -47,6 +50,7 @@ export class Stage {
   private readonly hemi: THREE.HemisphereLight;
   private gridW = 14;
   private gridH = 18;
+  private viewTop = 0;
   private pitch = -6;
 
   constructor(readonly canvas: HTMLCanvasElement, lowEnd: boolean) {
@@ -73,7 +77,7 @@ export class Stage {
   }
 
   private placeLight(light: THREE.DirectionalLight, dir: THREE.Vector3): void {
-    const centre = new THREE.Vector3((this.gridW - 1) / 2, -(this.gridH - 1) / 2, 0);
+    const centre = new THREE.Vector3((this.gridW - 1) / 2, -(this.gridH - 1) / 2 - this.viewTop, 0);
     light.target.position.copy(centre);
     light.position.copy(centre).addScaledVector(dir, -40);
   }
@@ -85,9 +89,10 @@ export class Stage {
   }
 
   /** Fit the whole grid plus a little sky above, like ADigGameMode::FrameCamera. */
-  frame(gridW: number, gridH: number): void {
+  frame(gridW: number, gridH: number, viewTop = 0): void {
     this.gridW = gridW;
     this.gridH = gridH;
+    this.viewTop = viewTop;
     this.placeLight(this.key, lightDirection(-40, -60));
     this.placeLight(this.fill, lightDirection(-10, -120));
     this.placeLight(this.rim, lightDirection(-35, 90));
@@ -113,7 +118,7 @@ export class Stage {
     const halfH = this.gridH * 0.5 + 1.2;
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(this.camera.fov * 0.5));
     const distance = Math.max(halfH, halfW / aspect) / tanHalf;
-    const centre = new THREE.Vector3((this.gridW - 1) * 0.5, -((this.gridH - 1) * 0.5 - 0.6), 0);
+    const centre = new THREE.Vector3((this.gridW - 1) * 0.5, -((this.gridH - 1) * 0.5 - 0.6) - this.viewTop, 0);
     const pitch = THREE.MathUtils.degToRad(-this.pitch);
     this.camera.position.set(centre.x, centre.y + Math.sin(pitch) * distance, Math.cos(pitch) * distance);
     this.camera.lookAt(centre);
@@ -123,6 +128,17 @@ export class Stage {
   }
 
   /** World position to CSS pixels within the canvas. */
+  scroll(viewTop: number): void {
+    const delta = this.viewTop - viewTop;
+    this.viewTop = viewTop;
+    this.camera.position.y += delta;
+    this.camera.updateMatrixWorld();
+    for (const light of [this.key, this.fill, this.rim]) {
+      light.position.y += delta;
+      light.target.position.y += delta;
+    }
+  }
+
   project(p: THREE.Vector3): { x: number; y: number } {
     const v = p.clone().project(this.camera);
     return { x: (v.x * 0.5 + 0.5) * this.canvas.clientWidth, y: (-v.y * 0.5 + 0.5) * this.canvas.clientHeight };

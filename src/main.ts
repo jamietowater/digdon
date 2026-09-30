@@ -103,7 +103,7 @@ async function boot(): Promise<void> {
   refreshBest();
 
   const startGame = (single: number | null) => {
-    game.startNewGame(single);
+    game.startNewGame(single, $<HTMLInputElement>('#summit-coop').checked);
     platform.logEvent('game_start', { mode: single === null ? 'full' : LEVELS[single].key });
     hud.show(true);
     show(null);
@@ -193,6 +193,9 @@ async function boot(): Promise<void> {
     'level-0': () => startGame(0),
     'level-1': () => startGame(1),
     'level-2': () => startGame(2),
+    'level-3': () => startGame(3),
+    'level-4': () => startGame(4),
+    'level-5': () => startGame(5),
     leaderboard: () => openBoard(screen),
     sound: toggleSound,
     resume: () => pause(false),
@@ -244,11 +247,11 @@ async function boot(): Promise<void> {
         const key = game.level.key;
         pad.setMode(key);
         hud.setHint(
-          pad.enabled
+          pad.enabled || game.isPlatformLevel
             ? ''
             : key === 'invasion'
               ? 'Move: ← →   Throw: Space / S   Brick above: D   Pause: Q'
-              : key === 'bricklayer'
+              : key === 'bricklayer' || key === 'conga'
                 ? 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Lay brick: D   Pause: Q'
                 : 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Pause: Q',
         );
@@ -293,6 +296,11 @@ async function boot(): Promise<void> {
         ...input,
         firePressed: input.firePressed || carry.firePressed,
         throwPressed: input.throwPressed || carry.throwPressed,
+        player2: {
+          ...(input.player2 ?? { moveX: 0, moveY: 0, firePressed: false, throwPressed: false, brickHeld: false, turboHeld: false }),
+          firePressed: !!(input.player2?.firePressed || carry.player2?.firePressed),
+          throwPressed: !!(input.player2?.throwPressed || carry.player2?.throwPressed),
+        },
       };
       carry = null;
     }
@@ -342,7 +350,8 @@ async function boot(): Promise<void> {
   if (import.meta.env.DEV) {
     // Background tabs get no animation frames; keep the dev build ticking so automated checks can see it.
     setInterval(() => {
-      if (document.hidden) frame(performance.now());
+      const now = performance.now();
+      if (document.hidden || now - last > 100) frame(now);
     }, 1000 / 30);
   }
   // Keep a reference for debugging from the console in development.

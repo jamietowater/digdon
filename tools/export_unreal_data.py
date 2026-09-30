@@ -12,7 +12,7 @@ from pathlib import Path
 WEB = Path(__file__).resolve().parents[1]
 UNREAL = WEB.parent / "DigDon"
 SRC = UNREAL / "Source" / "DigDon" / "Private"
-LEVELS = ["arena01.txt", "arena02.txt", "arena04.txt"]
+LEVELS = ["arena01.txt", "arena02.txt", "arena03.txt", "arena04.txt", "arena05.txt", "arena06.txt"]
 
 ROWS_RE = re.compile(r"const TCHAR\*\s+(\w+)\s*\[[^\]]*\]\s*=\s*\{(.*?)\};", re.S)
 TEXT_RE = re.compile(r'TEXT\("([^"]*)"\)')

@@ -1,33 +1,44 @@
 import arena01 from '../data/levels/arena01.txt?raw';
 import arena02 from '../data/levels/arena02.txt?raw';
+import arena03 from '../data/levels/arena03.txt?raw';
 import arena04 from '../data/levels/arena04.txt?raw';
+import arena05 from '../data/levels/arena05.txt?raw';
+import arena06 from '../data/levels/arena06.txt?raw';
 import { BonusItems } from '../data/sprites';
 import { InvaderFleet } from './fleet';
+import { CongaLine } from './conga';
+import { ScaffoldSite } from './scaffold';
+import { SummitSite } from './summit';
 import { DonJr } from './donjr';
 import { Enemy } from './enemy';
 import { EventQueue } from './events';
 import { Grid } from './grid';
-import { dist, randInt, type Vec2 } from './math';
+import { dist, randInt, toCell, type Vec2 } from './math';
 import { Player } from './player';
 import { FallingRock } from './rock';
 import { Rules } from './config';
 import { ThrownTrowel } from './trowel';
-import type { Input, World } from './world';
+import { NO_INPUT, type Input, type World } from './world';
 
 export type MatchState = 'menu' | 'playing' | 'dying' | 'levelClear' | 'interlude' | 'gameOver';
 
 export interface LevelDef {
-  key: 'dig' | 'bricklayer' | 'invasion';
+  key: 'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit';
   title: string;
   layout: string;
   invaders: boolean;
   brickLaying: boolean;
+  conga?: number;
+  platform?: 'scaffold' | 'summit';
 }
 
 export const LEVELS: readonly LevelDef[] = [
   { key: 'dig', title: 'DIG DON', layout: arena01, invaders: false, brickLaying: false },
   { key: 'bricklayer', title: 'BRICKLAYER', layout: arena02, invaders: false, brickLaying: true },
+  { key: 'conga', title: 'CONGA LINE', layout: arena03, invaders: false, brickLaying: true, conga: 10 },
   { key: 'invasion', title: 'INVASION', layout: arena04, invaders: true, brickLaying: true },
+  { key: 'scaffold', title: 'SCAFFOLD', layout: arena05, invaders: false, brickLaying: false, platform: 'scaffold' },
+  { key: 'summit', title: 'SUMMIT', layout: arena06, invaders: false, brickLaying: false, platform: 'summit' },
 ];
 
 export interface BonusItem {
@@ -58,10 +69,15 @@ export class Game implements World {
 
   grid!: Grid;
   player!: Player;
+  player2: Player | null = null;
+  twoPlayers = false;
   enemies: Enemy[] = [];
   rocks: FallingRock[] = [];
   trowels: ThrownTrowel[] = [];
   fleet: InvaderFleet | null = null;
+  conga: CongaLine[] = [];
+  scaffold: ScaffoldSite | null = null;
+  summit: SummitSite | null = null;
   bonus: BonusItem | null = null;
   jr: DonJr | null = null;
   collectedItems: number[] = [];
@@ -99,9 +115,25 @@ export class Game implements World {
     return this.level.brickLaying;
   }
 
+  get canWeaponsKill(): boolean { return this.level.key !== 'bricklayer' || this.enemies.length > 1; }
+
+  get isCongaLevel(): boolean {
+    return this.hasArena && !!this.level.conga;
+  }
+
   isPlaying(): boolean {
     return this.state === 'playing' && !this.paused;
   }
+
+  get isPlatformLevel(): boolean { return !!this.level.platform; }
+  get isSummitLevel(): boolean { return this.level.platform === 'summit'; }
+
+  onBrickBroken(at: Vec2): void {
+    this.events.push({ type: 'brickBroken', at });
+    this.summit?.onBrickBroken(at);
+  }
+
+  get climbers(): Player[] { return [this.player, ...(this.player2 ? [this.player2] : [])].filter(player => player.alive); }
 
   difficulty(): number {
     return 1 + Rules.roundSpeedUp * (this.round - 1);
@@ -112,8 +144,9 @@ export class Game implements World {
   }
 
   /** null plays the levels in rotation; otherwise every round repeats that level index. */
-  startNewGame(singleLevel: number | null): void {
+  startNewGame(singleLevel: number | null, twoPlayers = false): void {
     this.singleLevel = singleLevel;
+    this.twoPlayers = twoPlayers;
     this.carryDonJr = false;
     this.score = 0;
     this.lives = Rules.startingLives;
@@ -140,8 +173,12 @@ export class Game implements World {
     this.rocks = [];
     this.trowels = [];
     this.fleet = null;
+    this.conga = [];
+    this.scaffold = null;
+    this.summit = null;
     this.bonus = null;
     this.jr = null;
+    this.player2 = null;
     this.hasArena = false;
     this.levelSerial++;
   }
@@ -183,7 +220,21 @@ export class Game implements World {
     }
 
     this.player.init(this.grid.playerStart);
-    if (this.carryDonJr && level.invaders) this.grantDonJr();
+    if (level.platform === 'scaffold') this.scaffold = new ScaffoldSite(this);
+    if (level.platform === 'summit') this.summit = new SummitSite(this);
+    if (this.summit && this.twoPlayers) {
+      this.player2 = new Player(this);
+      this.player2.init(this.summit.respawn(this.grid.playerStart.x + 3, this.player));
+    }
+    if (level.conga) {
+      for (const entry of this.grid.congaSpawns) {
+        const length = level.conga + 2 * Math.floor((this.round - 1) / this.levels.length);
+        const segments = Array.from({ length }, (_, index) => new Enemy(this, entry, index + this.round - 1, 'conga'));
+        this.enemies.push(...segments);
+        this.conga.push(new CongaLine(this, entry, segments));
+      }
+    }
+    if (this.carryDonJr && (level.invaders || level.conga)) this.grantDonJr();
     this.carryDonJr = false;
 
     this.state = 'playing';
@@ -248,17 +299,59 @@ export class Game implements World {
 
   private tickActors(dt: number, input: Input): void {
     this.player.update(dt, input);
+    if (this.player2) {
+      this.player2.update(dt, input.player2 ?? NO_INPUT);
+      if (this.isPlaying() && !this.player2.alive && this.player2.deathTime >= Rules.respawnDelay) {
+        this.player2.init(this.summit!.respawn(Math.round(this.player.pos.x) + 2, this.player));
+      }
+    }
+    this.scaffold?.update(dt);
+    this.summit?.update(dt);
     if (this.jr) {
       this.jr.update(dt);
       if (this.jr.gone) this.jr = null;
     }
     this.fleet?.update(dt);
+    for (const line of this.conga) line.update(dt);
     for (const e of [...this.enemies]) e.update(dt);
     for (const r of this.rocks) r.update(dt);
     this.rocks = this.rocks.filter((r) => r.state !== 'gone');
     for (const t of this.trowels) t.update(dt);
     this.trowels = this.trowels.filter((t) => !t.done);
+    for (const line of this.conga) line.splitLosses();
+    if (this.isPlaying() && this.level.key === 'bricklayer') this.trapEnclosedEnemies();
     if (this.bonus) this.bonus.life += dt;
+  }
+
+  private trapEnclosedEnemies(): void {
+    const playerCells = new Set(this.player.occupiedCells().map(cell => this.grid.index(cell.x, cell.y)));
+    const snapshot = [...this.enemies];
+    for (const enemy of snapshot) {
+      if (enemy.state === 'dead' || enemy.state === 'crushed') continue;
+      const start = toCell(enemy.pos);
+      if (!this.grid.isPassable(start.x, start.y)) continue;
+      const pocket = [start];
+      const seen = new Set([this.grid.index(start.x, start.y)]);
+      let trapped = true;
+      for (let index = 0; index < pocket.length; index++) {
+        const cell = pocket[index];
+        if (pocket.length > 12 || playerCells.has(this.grid.index(cell.x, cell.y))) { trapped = false; break; }
+        for (const neighbor of [{ x: cell.x + 1, y: cell.y }, { x: cell.x - 1, y: cell.y }, { x: cell.x, y: cell.y + 1 }, { x: cell.x, y: cell.y - 1 }]) {
+          const address = this.grid.index(neighbor.x, neighbor.y);
+          if (!seen.has(address) && this.grid.isPassable(neighbor.x, neighbor.y)) { seen.add(address); pocket.push(neighbor); }
+        }
+      }
+      if (!trapped) continue;
+      for (const victim of snapshot) {
+        const cell = toCell(victim.pos);
+        if (victim.state === 'dead' || !seen.has(this.grid.index(cell.x, cell.y))) continue;
+        this.addScore(1000, victim.pos);
+        victim.kill();
+      }
+      for (const cell of pocket) {
+        if (this.grid.layBrick(cell.x, cell.y)) this.events.push({ type: 'brickLaid', at: cell });
+      }
+    }
   }
 
   private roundClear(): void {
@@ -269,11 +362,15 @@ export class Game implements World {
 
   private respawnAfterDeath(): void {
     // Classic arcade reset: terrain keeps its tunnels, everyone else returns to their start.
-    for (const e of this.enemies) if (e.kind === 'digger') e.resetToSpawn();
+    for (const e of this.enemies) e.resetToSpawn();
     this.fleet?.regroup();
+    for (const line of this.conga) line.regroup();
     this.trowels = [];
-    this.player.init(this.grid.playerStart);
+    this.player.init(this.summit?.respawn(this.grid.playerStart.x, this.player2) ?? this.grid.playerStart);
+    if (this.player2 && !this.player2.alive) this.player2.init(this.summit!.respawn(this.player.pos.x + 3, this.player));
     this.state = 'playing';
+    this.scaffold?.reset();
+    this.summit?.reset();
     this.stateTimer = 0;
   }
 
@@ -291,7 +388,8 @@ export class Game implements World {
     if (this.enemies.length === 0 && this.state === 'playing') this.roundClear();
   }
 
-  onPlayerKilled(): void {
+  onPlayerKilled(player: Player = this.player): void {
+    if (player === this.player2) return;
     if (this.state !== 'playing') return;
     this.lives--;
     this.state = 'dying';
@@ -309,7 +407,9 @@ export class Game implements World {
   }
 
   tryTrowelBonusHit(pos: Vec2): boolean {
-    if (this.state !== 'playing' || !this.level.invaders) return false;
+    if (this.isPlaying() && this.scaffold?.trowelHit(pos)) return true;
+    if (this.isPlaying() && this.summit?.trowelHit(pos)) return true;
+    if (this.state !== 'playing' || !(this.level.invaders || this.level.conga)) return false;
     if (this.fleet?.hitUfoAt(pos, () => this.grantDonJr())) return true;
     if (this.bonus && dist(pos, this.bonus.cell) < Rules.bonusReach) {
       this.collectBonus();
@@ -322,6 +422,18 @@ export class Game implements World {
     if (this.donJr() || !this.hasArena || !this.player.alive) return;
     this.jr = new DonJr(this, this.player);
     this.events.push({ type: 'donJr' });
+  }
+
+  collectSiteItem(item: number, at: Vec2): void {
+    this.addScore(800, at);
+    this.pendingTrophies.push(item);
+    this.events.push({ type: 'bonusCollect', at: { ...at } });
+  }
+
+  completeSite(bonus: number): void {
+    if (!this.isPlaying()) return;
+    this.addScore(bonus, this.player.pos);
+    this.roundClear();
   }
 
   private spawnBonus(): void {
@@ -348,6 +460,6 @@ export class Game implements World {
     this.events.push({ type: 'bonusCollect', at });
     this.bonus = null;
     // On the invasion level the bonus also brings Don Jr. in.
-    if (this.level.invaders) this.grantDonJr();
+    if (this.level.invaders || this.level.conga) this.grantDonJr();
   }
 }

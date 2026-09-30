@@ -14,7 +14,11 @@ export interface World {
   readonly rocks: readonly FallingRock[];
   readonly events: EventQueue;
   readonly isInvaderLevel: boolean;
+  readonly isCongaLevel: boolean;
+  readonly isPlatformLevel: boolean;
+  readonly isSummitLevel: boolean;
   readonly brickLaying: boolean;
+  readonly canWeaponsKill: boolean;
   isPlaying(): boolean;
   /** Enemy speed multiplier; +8% per cleared round. */
   difficulty(): number;
@@ -22,8 +26,9 @@ export interface World {
   donJr(): DonJr | null;
   addScore(points: number, at: Vec2): void;
   onEnemyKilled(enemy: Enemy): void;
-  onPlayerKilled(): void;
+  onPlayerKilled(player: Player): void;
   onRockDropped(): void;
+  onBrickBroken(at: Vec2): void;
   spawnTrowel(from: Vec2, dir: Vec2): void;
   /** A trowel at pos hits the UFO or the bonus item (invasion only). */
   tryTrowelBonusHit(pos: Vec2): boolean;
@@ -37,6 +42,7 @@ export interface Input {
   throwPressed: boolean;
   brickHeld: boolean;
   turboHeld: boolean;
+  player2?: Input;
 }
 
 export const NO_INPUT: Input = {

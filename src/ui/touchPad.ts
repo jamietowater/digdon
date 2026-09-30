@@ -7,14 +7,18 @@ interface ActionDef {
   big?: boolean;
 }
 
-const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion', ActionDef[]> = {
+const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion' | 'platform', ActionDef[]> = {
+  platform: [
+    { key: 'fire', label: 'JUMP', cls: 'spray', big: true },
+    { key: 'throw', label: 'TROWEL', cls: 'trowel' },
+  ],
   dig: [
     { key: 'fire', label: 'SPRAY', cls: 'spray', big: true },
     { key: 'throw', label: 'TROWEL', cls: 'trowel' },
     { key: 'turbo', label: 'TURBO', cls: 'turbo' },
   ],
   bricklayer: [
-    { key: 'fire', label: 'SPRAY', cls: 'spray', big: true },
+    { key: 'fire', label: 'SPRAY', cls: 'spray' },
     { key: 'throw', label: 'TROWEL', cls: 'trowel' },
     { key: 'turbo', label: 'TURBO', cls: 'turbo' },
     { key: 'brick', label: 'BRICK', cls: 'brick' },
@@ -31,7 +35,7 @@ export class TouchPad {
   private readonly dpad = document.getElementById('dpad')!;
   private readonly knob = document.getElementById('dpad-knob')!;
   private readonly actions = document.getElementById('actions')!;
-  private mode: 'dig' | 'bricklayer' | 'invasion' | null = null;
+  private mode: keyof typeof LAYOUTS | null = null;
   private dpadPointer: number | null = null;
   enabled = false;
 
@@ -80,10 +84,16 @@ export class TouchPad {
   }
 
   /** Swap the action buttons for the level and show the pad on touch devices. */
-  setMode(mode: 'dig' | 'bricklayer' | 'invasion' | null): void {
+  setMode(mode: keyof typeof LAYOUTS | 'conga' | 'scaffold' | 'summit' | null): void {
+    if (mode === 'conga') mode = 'bricklayer';
+    if (mode === 'scaffold' || mode === 'summit') mode = 'platform';
     this.pad.hidden = !this.enabled || mode === null;
     if (mode === this.mode) return;
     this.mode = mode;
+    this.touch.moveX = 0;
+    this.touch.moveY = 0;
+    this.dpadPointer = null;
+    this.knob.style.transform = 'translate(-50%, -50%)';
     this.actions.replaceChildren();
     for (const k of ['fire', 'throw', 'brick', 'turbo'] as const) this.touch[k] = false;
     if (!mode) return;

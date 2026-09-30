@@ -91,6 +91,24 @@ export class GridView {
     this.brickCourses.receiveShadow = true;
     this.group.add(bedrockMesh, backdrop, this.chips, this.brickMortar, this.brickCourses);
 
+    const ladders = new THREE.InstancedMesh(cube, mat(lin(0.72, 0.76, 0.66), 0.9, 0, 0.2), n * 5);
+    ladders.count = 0;
+    for (let row = 0; row < grid.height; row++) {
+      for (let column = 0; column < grid.width; column++) {
+        if (!grid.isLadder(column, row)) continue;
+        for (const offset of [-0.3, 0.3]) {
+          this.m.makeScale(0.08, 1, 0.1).setPosition(column + offset, -row, 0.25);
+          ladders.setMatrixAt(ladders.count++, this.m);
+        }
+        for (const offset of [-0.33, 0, 0.33]) {
+          this.m.makeScale(0.65, 0.07, 0.1).setPosition(column, -row + offset, 0.3);
+          ladders.setMatrixAt(ladders.count++, this.m);
+        }
+      }
+    }
+    ladders.instanceMatrix.needsUpdate = true;
+    this.group.add(ladders);
+
     const pixel = 1 / 8;
     for (let y = 0; y < grid.height; y++) {
       for (let x = 0; x < grid.width; x++) {

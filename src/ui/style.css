@@ -304,6 +304,34 @@ button {
   background: rgba(10, 6, 5, 0.82);
   backdrop-filter: blur(2px);
 }
+#screen-menu {
+  justify-content: flex-start;
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+#screen-menu > * {
+  flex-shrink: 0;
+}
+#screen-menu .title {
+  margin-top: auto;
+}
+#screen-menu .version {
+  margin-bottom: auto;
+}
+.menu label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+.menu input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
 .screen h2 {
   margin: 0;
   color: var(--gold);

@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { Breeds } from '../data/sprites';
+import type { SiteThing } from '../sim/scaffold';
 import { BonusItems, CM_PER_CELL, Sprites, type PaletteEntry, type SpriteDef } from '../data/sprites';
 import type { Enemy } from '../sim/enemy';
 import type { Game } from '../sim/game';
@@ -47,6 +49,8 @@ class WalkingSprite {
   }
 
   dispose(): void {
+    this.stand.mesh.geometry.dispose();
+    this.stride?.mesh.geometry.dispose();
     this.stand.mesh.dispose();
     this.stride?.mesh.dispose();
   }
@@ -55,16 +59,24 @@ class WalkingSprite {
 class EnemyView {
   readonly root = new THREE.Group();
   private readonly voxels: VoxelMesh;
+  private readonly hat: VoxelMesh | null;
   private tintKey = '';
 
   constructor(readonly enemy: Enemy) {
     const b = enemy.breed;
     this.voxels = buildVoxelSprite(b, CHARACTER_FILL / Math.max(b.width, b.height));
     this.root.add(this.voxels.mesh);
+    this.hat = enemy.kind === 'conga' ? buildVoxelSprite(Sprites.hat, 0.055) : null;
+    if (this.hat) {
+      this.hat.mesh.position.y = CHARACTER_FILL * b.height / Math.max(b.width, b.height) / 2 + 0.08;
+      this.root.add(this.hat.mesh);
+    }
   }
 
   sync(): void {
     const e = this.enemy;
+    this.root.visible = !e.hidden;
+    if (this.hat) this.hat.mesh.visible = e.head;
     const b = e.breed;
     const p = at(e.pos);
     if (e.state === 'ghost') p.y += (Math.sin(e.animTime * 6) * 6) / CM_PER_CELL;
@@ -107,6 +119,8 @@ class EnemyView {
 
   dispose(): void {
     this.voxels.mesh.dispose();
+    this.hat?.mesh.geometry.dispose();
+    this.hat?.mesh.dispose();
   }
 }
 
@@ -243,6 +257,28 @@ class BonusView {
 }
 
 /** Keeps a view per live sim object, creating and disposing them as objects come and go. */
+class SiteView {
+  readonly root = new THREE.Group();
+  private readonly voxels: VoxelMesh;
+
+  constructor(readonly thing: SiteThing) {
+    const sprite = thing.item !== undefined ? BonusItems[thing.item] : thing.breed !== undefined ? Breeds[thing.breed] : Sprites.characters[thing.sprite!];
+    this.voxels = buildVoxelSprite(sprite, (thing.scale ?? CHARACTER_FILL) / Math.max(sprite.width, sprite.height));
+    this.root.add(this.voxels.mesh);
+  }
+
+  sync(time: number): void {
+    this.root.position.copy(at(this.thing.pos));
+    this.root.rotation.z = this.thing.angle ?? 0;
+    if (this.thing.item !== undefined) this.root.position.y += Math.sin(time * 3.2) * 0.06;
+  }
+
+  dispose(): void {
+    this.voxels.mesh.geometry.dispose();
+    this.voxels.mesh.dispose();
+  }
+}
+
 class ViewSet<T extends object, V extends { root: THREE.Object3D; dispose(): void }> {
   private readonly views = new Map<T, V>();
   constructor(
@@ -287,6 +323,8 @@ export class GameView {
   private readonly rocks: ViewSet<FallingRock, RockView>;
   private readonly trowels: ViewSet<ThrownTrowel, TrowelView>;
   private readonly bombs: ViewSet<InvaderBomb, BombView>;
+  private readonly site: ViewSet<SiteThing, SiteView>;
+  private readonly mallet = buildVoxelSprite(Sprites.characters.Mallet, 0.05);
   private bonus: BonusView | null = null;
   private trophies: BonusView[] = [];
   private shake = 0;
@@ -301,6 +339,8 @@ export class GameView {
     this.rocks = new ViewSet(this.arena, (r) => new RockView(r));
     this.trowels = new ViewSet(this.arena, (t) => new TrowelView(t));
     this.bombs = new ViewSet(this.arena, (b) => new BombView(b));
+    this.site = new ViewSet(this.arena, thing => new SiteView(thing));
+    this.arena.add(this.mallet.mesh);
   }
 
   private rebuild(game: Game): void {
@@ -311,6 +351,8 @@ export class GameView {
     this.rocks.clear();
     this.trowels.clear();
     this.bombs.clear();
+    this.site.clear();
+    this.mallet.mesh.visible = false;
     this.bonus?.root.removeFromParent();
     this.bonus?.dispose();
     this.bonus = null;
@@ -322,6 +364,9 @@ export class GameView {
     this.fx.clear();
     this.arena.remove(this.don.root, this.jr.root);
     if (!game.hasArena) return;
+    this.don.dispose();
+    const sprite = game.level.platform === 'scaffold' ? Sprites.characters.DonJr : Sprites.characters.Don;
+    this.don = new WalkingSprite(sprite, CHARACTER_FILL / sprite.height);
     this.gridView = new GridView(game.grid);
     this.arena.add(this.gridView.group, this.don.root, this.jr.root);
     const count = Math.min(game.collectedItems.length, Math.max(1, Math.floor(game.grid.width / 1.1)));
@@ -335,7 +380,7 @@ export class GameView {
       this.arena.add(trophy.root);
     }
     this.stage.applyLook(LOOKS[game.level.key]);
-    this.stage.frame(game.grid.width, game.grid.height);
+    this.stage.frame(game.grid.width, game.summit ? 18 : game.grid.height, game.summit?.viewTop ?? 0);
   }
 
   update(game: Game, dt: number): void {
@@ -346,6 +391,11 @@ export class GameView {
     }
     const frameDt = game.paused ? 0 : dt;
     this.syncPawn(game, frameDt);
+    this.stage.scroll(game.summit?.viewTop ?? 0);
+    this.site.sync(game.scaffold?.things ?? game.summit?.things ?? [], view => view.sync(game.levelTime));
+    this.mallet.mesh.visible = game.player.platform.mallet > 0;
+    this.mallet.mesh.position.copy(at({ x: game.player.pos.x + game.player.facing.x * 0.65, y: game.player.pos.y - 0.3 }));
+    this.mallet.mesh.rotation.z = game.player.facing.x * (0.4 + Math.sin(game.levelTime * 18) * 0.8);
     const ufo = game.fleet?.ufo;
     this.enemies.sync(ufo ? [...game.enemies, ufo] : game.enemies, (v) => v.sync());
     this.rocks.sync(game.rocks, (v) => v.sync());
@@ -379,7 +429,7 @@ export class GameView {
       don.root.scale.set(1 - 0.18 * r + 0.2 * k, 1 + 0.14 * r - 0.12 * k, 1);
     }
 
-    const jr = game.jr;
+    const jr = game.player2 ?? game.jr;
     this.jr.root.visible = !!jr;
     if (jr) {
       this.jr.step(jr.moving, dt);
@@ -391,8 +441,9 @@ export class GameView {
         this.jr.root.rotation.z = t * Math.PI * 2;
       } else {
         // Joining pop, like a rescued fighter docking: small, overshoot, settle.
-        const grow = Math.min(1, jr.age / 0.12);
-        const overshoot = Math.sin(Math.min(1, Math.max(0, (jr.age - 0.12) / 0.25)) * Math.PI) * 0.3;
+        const age = game.player2 ? 1 : game.jr!.age;
+        const grow = Math.min(1, age / 0.12);
+        const overshoot = Math.sin(Math.min(1, Math.max(0, (age - 0.12) / 0.25)) * Math.PI) * 0.3;
         this.jr.root.scale.setScalar(0.3 + 0.7 * grow + overshoot);
         this.jr.root.rotation.z = 0;
       }

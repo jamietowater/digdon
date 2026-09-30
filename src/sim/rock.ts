@@ -81,7 +81,7 @@ export class FallingRock {
     const beneath = (p: Vec2) =>
       Math.abs(p.x - this.cell.x) < Rock.crushWidth && p.y - this.row >= -0.1 && p.y - this.row < Rock.crushDepth;
     for (const e of this.world.enemies) {
-      if (e.state !== 'crushed' && e.state !== 'ghost' && e.state !== 'dead' && beneath(e.pos)) {
+      if (!e.hidden && e.state !== 'crushed' && e.state !== 'ghost' && e.state !== 'dead' && beneath(e.pos)) {
         e.crush();
         this.crushed.push(e);
       }

@@ -64,7 +64,7 @@ export class Hud {
       pad6(game.score),
       pad6(game.hiScore),
       `LV ${game.levelNumber} · RD ${game.round}`,
-      game.hasArena ? (game.level.invaders ? `INVADERS ${game.enemies.length}` : `DIRT ${game.grid.dirtRemaining}`) : '',
+      game.hasArena ? (game.isPlatformLevel ? `BONUS ${game.scaffold?.bonus ?? game.summit?.bonus ?? 0}` : game.level.invaders ? `INVADERS ${game.enemies.length}` : game.isCongaLevel ? `CONGA ${game.enemies.length}` : game.level.key === 'bricklayer' ? `CREATURES ${game.enemies.length}` : `DIRT ${game.grid.dirtRemaining}`) : '',
       '■'.repeat(Math.max(0, game.lives)),
     ];
     const joined = text.join('|');

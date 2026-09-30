@@ -6,7 +6,7 @@ import type { World } from './world';
 
 export type EnemyState = 'wander' | 'chase' | 'ghost' | 'encased' | 'crushed' | 'dead';
 /** Diggers route through tunnels; invaders are marched by the fleet. */
-export type EnemyKind = 'digger' | 'invader';
+export type EnemyKind = 'digger' | 'invader' | 'conga';
 
 const DIRS: readonly Vec2[] = [
   { x: 1, y: 0 },
@@ -25,6 +25,8 @@ export class Enemy {
   state: EnemyState = 'wander';
   pos: Vec2;
   facingX = 1;
+  hidden = false;
+  head = false;
   mortarLayers = 0;
   animTime = 0;
   private nextCell: Vec2;
@@ -50,15 +52,15 @@ export class Enemy {
   }
 
   get setStages(): number {
-    return Tuning.setStages + this.breed.extraSetStages;
+    return this.kind === 'conga' ? 2 : Tuning.setStages + this.breed.extraSetStages;
   }
 
   isHarmful(): boolean {
-    return this.state === 'wander' || this.state === 'chase';
+    return !this.hidden && (this.state === 'wander' || this.state === 'chase');
   }
 
   canBeEncased(): boolean {
-    return this.state === 'wander' || this.state === 'chase' || this.state === 'encased';
+    return !this.hidden && (this.state === 'wander' || this.state === 'chase' || this.state === 'encased');
   }
 
   resetToSpawn(): void {
@@ -85,6 +87,7 @@ export class Enemy {
     this.mortarLayers++;
     this.crackTimer = Tuning.crackInterval;
     this.state = 'encased';
+    if (!this.world.canWeaponsKill && this.mortarLayers >= this.setStages) this.mortarLayers = Math.max(1, this.setStages - 1);
     if (this.mortarLayers >= this.setStages) {
       this.kill();
       return true;

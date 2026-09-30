@@ -2,6 +2,7 @@ import { Pawn, Score } from './config';
 import { Cell } from './grid';
 import { dist, toCell, type Vec2 } from './math';
 import { MortarMixer } from './mortar';
+import { PlatformMotion } from './platform';
 import type { Input, World } from './world';
 
 const KINDA_SMALL = 1e-4;
@@ -22,6 +23,7 @@ export class Player {
   /** True on frames where he actually moved; drives the walk cycle. */
   moving = false;
   readonly mortar: MortarMixer;
+  readonly platform: PlatformMotion;
   private diggingCell: Vec2 | null = null;
   private wasHorizontal = false;
   private wasVertical = false;
@@ -29,6 +31,7 @@ export class Player {
 
   constructor(private readonly world: World) {
     this.mortar = new MortarMixer(world, this);
+    this.platform = new PlatformMotion(world, this);
   }
 
   init(start: Vec2): void {
@@ -41,6 +44,7 @@ export class Player {
     this.throwKick = 0;
     this.layTimer = 0;
     this.moving = false;
+    this.platform.reset();
     this.mortar.release();
   }
 
@@ -62,7 +66,7 @@ export class Player {
     this.deathTime = 0;
     this.mortar.release();
     this.world.events.push({ type: 'playerDied', at: { ...this.pos } });
-    this.world.onPlayerKilled();
+    this.world.onPlayerKilled(this);
   }
 
   update(dt: number, input: Input): void {
@@ -73,6 +77,14 @@ export class Player {
       return;
     }
     if (!this.world.isPlaying()) return;
+
+    if (this.world.isPlatformLevel) {
+      this.throwKick = Math.max(0, this.throwKick - dt / 0.16);
+      this.throwTimer = Math.max(0, this.throwTimer - dt);
+      if (input.throwPressed && !this.platform.climbing) this.throwTrowel();
+      this.platform.update(dt, input);
+      return;
+    }
 
     const invaders = this.world.isInvaderLevel;
     const desired = this.readMoveInput(input);
@@ -108,7 +120,7 @@ export class Player {
   private throwTrowel(): void {
     if (this.throwTimer > 0) return;
     const invaders = this.world.isInvaderLevel;
-    this.throwTimer = invaders ? Pawn.arcadeThrowCooldown : Pawn.throwCooldown;
+    this.throwTimer = invaders || this.world.isCongaLevel ? Pawn.arcadeThrowCooldown : Pawn.throwCooldown;
     this.throwKick = 1;
     // On the invasion level every throw goes straight up, whichever way Don faces.
     const dir = invaders ? { x: 0, y: -1 } : { ...this.facing };

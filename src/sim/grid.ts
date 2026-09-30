@@ -24,8 +24,11 @@ export class Grid {
   playerStart: Vec2 = { x: 0, y: 0 };
   enemySpawns: Vec2[] = [];
   invaderSpawns: Vec2[] = [];
+  congaSpawns: Vec2[] = [];
   rockCells: Vec2[] = [];
   listeners: CellListener[] = [];
+  markers = new Map<string, Vec2[]>();
+  private ladders = new Set<string>();
 
   static fromText(text: string): Grid {
     const grid = new Grid();
@@ -41,7 +44,10 @@ export class Grid {
     this.cells = new Array<Cell>(this.width * this.height).fill(Cell.Dirt);
     this.enemySpawns = [];
     this.invaderSpawns = [];
+    this.congaSpawns = [];
     this.rockCells = [];
+    this.markers.clear();
+    this.ladders.clear();
     this.playerStart = { x: Math.floor(this.width / 2), y: 0 };
 
     for (let y = 0; y < this.height; y++) {
@@ -56,8 +62,13 @@ export class Grid {
           case 'P': type = Cell.Tunnel; this.playerStart = { x, y }; break;
           case 'E': type = Cell.Tunnel; this.enemySpawns.push({ x, y }); break;
           case 'I': type = Cell.Tunnel; this.invaderSpawns.push({ x, y }); break;
+          case 'C': type = Cell.Tunnel; this.congaSpawns.push({ x, y }); break;
           case '#': break;
-          default: type = Cell.Tunnel; break;
+          default:
+            type = Cell.Tunnel;
+            if (c === 'H') this.ladders.add(`${x},${y}`);
+            else this.markers.set(c, [...(this.markers.get(c) ?? []), { x, y }]);
+            break;
         }
         this.cells[this.index(x, y)] = type;
       }
@@ -67,6 +78,10 @@ export class Grid {
 
   index(x: number, y: number): number {
     return y * this.width + x;
+  }
+
+  isLadder(x: number, y: number): boolean {
+    return this.ladders.has(`${x},${y}`);
   }
 
   inBounds(x: number, y: number): boolean {

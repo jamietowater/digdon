@@ -24,7 +24,7 @@ const TURBO = ['KeyA', 'ShiftLeft'];
 const BRICK = ['KeyD'];
 const PAUSE = ['KeyQ', 'KeyP'];
 const BACK = ['KeyM', 'Escape'];
-const GAME_KEYS = new Set([...FIRE, ...THROW, ...TURBO, ...BRICK, 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']);
+const GAME_KEYS = new Set([...FIRE, ...THROW, ...TURBO, ...BRICK, 'KeyW', 'KeyF', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']);
 
 // Standard gamepad mapping.
 const PAD = { a: 0, x: 2, y: 3, lt: 6, rt: 7, back: 8, start: 9, up: 12, down: 13, left: 14, right: 15 };
@@ -80,6 +80,12 @@ export class Controls {
 
     const frame: InputFrame = {
       ...NO_INPUT,
+      player2: {
+        ...NO_INPUT,
+        moveX: Number(this.down.has('KeyD')) - Number(this.down.has('KeyA')),
+        firePressed: this.pressed.has('KeyW'),
+        throwPressed: this.pressed.has('KeyF'),
+      },
       moveX: x,
       moveY: y,
       firePressed: this.any(FIRE, this.pressed) || padPressed.has('a') || padPressed.has('rt') || touchFire,
@@ -119,5 +125,6 @@ export class Controls {
 
 /** Input frame with the one-shot edges removed, for extra sim steps within the same render frame. */
 export function withoutEdges(frame: InputFrame): InputFrame {
-  return { ...frame, firePressed: false, throwPressed: false, pausePressed: false, backPressed: false, anyPressed: false };
+  return { ...frame, player2: frame.player2 ? { ...frame.player2, firePressed: false, throwPressed: false } : undefined,
+    firePressed: false, throwPressed: false, pausePressed: false, backPressed: false, anyPressed: false };
 }

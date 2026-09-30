@@ -27,7 +27,7 @@ export class ThrownTrowel {
     this.travelled += step;
 
     // On the invasion level the trowel flies until it hits something, and knocks out the first brick it meets.
-    const arcade = this.world.isInvaderLevel;
+    const arcade = this.world.isInvaderLevel || this.world.isCongaLevel;
     const here = toCell(this.pos);
     if (this.hitEnemy() || this.world.tryTrowelBonusHit(this.pos)) {
       this.impact(16);
@@ -56,6 +56,7 @@ export class ThrownTrowel {
   private hitEnemy(): boolean {
     for (const e of [...this.world.enemies]) {
       if (e.isHarmful() && dist(e.pos, this.pos) < Trowel.hitRadius) {
+        if (!this.world.canWeaponsKill) return true;
         const at = { ...e.pos };
         this.world.addScore(Trowel.killPoints, at);
         this.world.events.push({ type: 'trowelKill', at });

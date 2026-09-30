@@ -1,0 +1,24 @@
+; Dig-Don arena 05 - Scaffold  (14 x 18)
+; 'B' girder (brick)  'H' ladder  'K' Can Slinger  'D' Don (captive)  'O' drum  'M' mallet  'P' Don Jr. start  'X' bedrock
+; Fiesta decorations (no effect on play): 'F' flag  'T' potted cactus  'A' chili amigo  'Q' cactus amigo  'L' luchador
+; Cans roll along each girder toward its open end and drop to the next, zig-zagging down to the drum.
+; 'U' collectible (grab it, or hit it with the trowel). Roaming creatures appear on their own.
+; Walking rows are 1, 4, 7, 10, 13 and 16. Row 0 is the sky.
+..............
+F.K..........D
+BBBBBBBBBB..HB
+............H.
+...M....U....T
+..BBHBBBBBBHBB
+....H......H..
+T.............
+BBBHBBBBBHBB..
+...H.....H....
+...U...M.....T
+..BBBBHBBBHBBB
+......H...H...
+T..........U..
+BBHBBBBBHBBB..
+..H.....H.....
+O...P....L.A.Q
+XXXXXXXXXXXXXX

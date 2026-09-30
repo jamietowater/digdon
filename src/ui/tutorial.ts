@@ -1,4 +1,5 @@
 import type { GameEvent } from '../sim/events';
+import type { LevelDef } from '../sim/game';
 
 interface Step {
   touch: string;
@@ -7,7 +8,21 @@ interface Step {
   done: (e: GameEvent | 'moved') => boolean;
 }
 
-const STEPS: Record<'dig' | 'bricklayer' | 'invasion', Step[]> = {
+const STEPS: Record<LevelDef['key'], Step[]> = {
+  scaffold: [],
+  summit: [],
+  conga: [
+    {
+      touch: 'Face the line and tap TROWEL. Hit a girder to drop the can above it.',
+      keys: 'Face the line and press S. Hit a girder to drop the can above it.',
+      done: (event) => event !== 'moved' && event.type === 'trowelThrow',
+    },
+    {
+      touch: 'SPRAY freezes a chain. Two hits set a link solid. Leaders wear hard hats.',
+      keys: 'SPACE sprays mortar and freezes a chain. Two hits set a link solid. Leaders wear hard hats.',
+      done: (event) => event !== 'moved' && event.type === 'encaseKill',
+    },
+  ],
   dig: [
     {
       touch: 'Drag the pad to walk. Walking into dirt digs a tunnel.',
@@ -62,15 +77,16 @@ const STEPS: Record<'dig' | 'bricklayer' | 'invasion', Step[]> = {
 /** First-play guide for each level: one short card at a time, advanced by actually doing the thing. */
 export class Tutorial {
   private readonly card = document.getElementById('tutorial')!;
-  private level: 'dig' | 'bricklayer' | 'invasion' | null = null;
+  private level: LevelDef['key'] | null = null;
   private index = 0;
 
   constructor(
     private readonly isTouch: () => boolean,
-    private readonly onFinished: (level: 'dig' | 'bricklayer' | 'invasion') => void,
+    private readonly onFinished: (level: LevelDef['key']) => void,
   ) {}
 
-  start(level: 'dig' | 'bricklayer' | 'invasion'): void {
+  start(level: LevelDef['key']): void {
+    if (!STEPS[level].length) { this.stop(); return; }
     this.level = level;
     this.index = 0;
     this.render();
