@@ -51,9 +51,17 @@ describe('grid', () => {
   });
 
   it('parses the invasion formation', () => {
-    const grid = Grid.fromText(LEVELS[1].layout);
+    const grid = Grid.fromText(LEVELS[2].layout);
     expect(grid.invaderSpawns).toHaveLength(40);
     expect(grid.playerStart).toEqual({ x: 6, y: 16 });
+    expect(grid.dirtRemaining).toBe(0);
+  });
+
+  it('parses the open Bricklayer arena', () => {
+    const grid = Grid.fromText(LEVELS[1].layout);
+    expect(grid.playerStart).toEqual({ x: 6, y: 1 });
+    expect(grid.enemySpawns).toHaveLength(5);
+    expect(grid.rockCells).toHaveLength(4);
     expect(grid.dirtRemaining).toBe(0);
   });
 
@@ -154,7 +162,7 @@ describe('invasion', () => {
   });
 
   it('keeps the march beat measured when half the fleet is gone', () => {
-    const game = play(LEVELS[1].layout, true);
+    const game = play(LEVELS[2].layout, true);
     for (const enemy of [...game.enemies].slice(0, 20)) enemy.kill();
     game.fleet!.regroup();
     let steps = 0;
@@ -168,7 +176,7 @@ describe('invasion', () => {
   });
 
   it('marches, drops at the edge and speeds up as it thins', () => {
-    const game = play(LEVELS[1].layout, true);
+    const game = play(LEVELS[2].layout, true);
     const first = game.enemies[0];
     const startX = first.pos.x;
     const march = (seconds: number) => {
@@ -186,7 +194,7 @@ describe('invasion', () => {
   });
 
   it('throws straight up and knocks out the lowest invader', () => {
-    const game = play(LEVELS[1].layout, true);
+    const game = play(LEVELS[2].layout, true);
     game.player.pos = { x: 5, y: 16 };
     game.update(DT, { ...NO_INPUT, firePressed: true });
     run(game, 2);

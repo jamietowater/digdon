@@ -7,7 +7,7 @@ interface Step {
   done: (e: GameEvent | 'moved') => boolean;
 }
 
-const STEPS: Record<'dig' | 'invasion', Step[]> = {
+const STEPS: Record<'dig' | 'bricklayer' | 'invasion', Step[]> = {
   dig: [
     {
       touch: 'Drag the pad to walk. Walking into dirt digs a tunnel.',
@@ -25,6 +25,18 @@ const STEPS: Record<'dig' | 'invasion', Step[]> = {
     {
       touch: 'Dig out the dirt under a soda can, then step aside: it drops and crushes whatever is below.',
       keys: 'Dig out the dirt under a soda can, then step aside: it drops and crushes whatever is below.',
+      done: (e) => e !== 'moved' && e.type === 'rockFall',
+    },
+  ],
+  bricklayer: [
+    {
+      touch: 'Drag the pad to walk. Hold BRICK while moving to wall creatures into a pocket.',
+      keys: 'Arrow keys to walk. Hold D while moving to wall creatures into a pocket.',
+      done: (e) => e !== 'moved' && e.type === 'brickLaid',
+    },
+    {
+      touch: 'Dig under a soda can, then step aside to drop it on the creatures below.',
+      keys: 'Dig under a soda can, then step aside to drop it on the creatures below.',
       done: (e) => e !== 'moved' && e.type === 'rockFall',
     },
   ],
@@ -50,15 +62,15 @@ const STEPS: Record<'dig' | 'invasion', Step[]> = {
 /** First-play guide for each level: one short card at a time, advanced by actually doing the thing. */
 export class Tutorial {
   private readonly card = document.getElementById('tutorial')!;
-  private level: 'dig' | 'invasion' | null = null;
+  private level: 'dig' | 'bricklayer' | 'invasion' | null = null;
   private index = 0;
 
   constructor(
     private readonly isTouch: () => boolean,
-    private readonly onFinished: (level: 'dig' | 'invasion') => void,
+    private readonly onFinished: (level: 'dig' | 'bricklayer' | 'invasion') => void,
   ) {}
 
-  start(level: 'dig' | 'invasion'): void {
+  start(level: 'dig' | 'bricklayer' | 'invasion'): void {
     this.level = level;
     this.index = 0;
     this.render();

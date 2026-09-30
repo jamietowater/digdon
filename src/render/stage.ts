@@ -16,9 +16,10 @@ export interface LevelLook {
   background: number;
 }
 
-export const LOOKS: Record<'dig' | 'invasion', LevelLook> = {
+export const LOOKS: Record<'dig' | 'bricklayer' | 'invasion', LevelLook> = {
   // Warm earth underground.
   dig: { keyLightScale: 0.6, gain: [1.06, 1.0, 0.9], background: 0x0c0708 },
+  bricklayer: { keyLightScale: 0.6, gain: [1.06, 1.0, 0.9], background: 0x0c0708 },
   // A cool night sky over the site.
   invasion: { keyLightScale: 0.8, gain: [0.95, 1.0, 1.08], background: 0x070a14 },
 };

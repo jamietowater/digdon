@@ -192,6 +192,7 @@ async function boot(): Promise<void> {
     play: () => startGame(null),
     'level-0': () => startGame(0),
     'level-1': () => startGame(1),
+    'level-2': () => startGame(2),
     leaderboard: () => openBoard(screen),
     sound: toggleSound,
     resume: () => pause(false),
@@ -247,7 +248,9 @@ async function boot(): Promise<void> {
             ? ''
             : key === 'invasion'
               ? 'Move: ← →   Throw: Space / S   Brick above: D   Pause: Q'
-              : 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Pause: Q',
+              : key === 'bricklayer'
+                ? 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Lay brick: D   Pause: Q'
+                : 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Pause: Q',
         );
         if (!save.tutorials.includes(key)) tutorial.start(key);
         else tutorial.stop();

@@ -1,4 +1,5 @@
 import arena01 from '../data/levels/arena01.txt?raw';
+import arena02 from '../data/levels/arena02.txt?raw';
 import arena04 from '../data/levels/arena04.txt?raw';
 import { BonusItems } from '../data/sprites';
 import { InvaderFleet } from './fleet';
@@ -16,7 +17,7 @@ import type { Input, World } from './world';
 export type MatchState = 'menu' | 'playing' | 'dying' | 'levelClear' | 'interlude' | 'gameOver';
 
 export interface LevelDef {
-  key: 'dig' | 'invasion';
+  key: 'dig' | 'bricklayer' | 'invasion';
   title: string;
   layout: string;
   invaders: boolean;
@@ -25,6 +26,7 @@ export interface LevelDef {
 
 export const LEVELS: readonly LevelDef[] = [
   { key: 'dig', title: 'DIG DON', layout: arena01, invaders: false, brickLaying: false },
+  { key: 'bricklayer', title: 'BRICKLAYER', layout: arena02, invaders: false, brickLaying: true },
   { key: 'invasion', title: 'INVASION', layout: arena04, invaders: true, brickLaying: true },
 ];
 

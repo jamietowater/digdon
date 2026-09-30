@@ -7,11 +7,17 @@ interface ActionDef {
   big?: boolean;
 }
 
-const LAYOUTS: Record<'dig' | 'invasion', ActionDef[]> = {
+const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion', ActionDef[]> = {
   dig: [
     { key: 'fire', label: 'SPRAY', cls: 'spray', big: true },
     { key: 'throw', label: 'TROWEL', cls: 'trowel' },
     { key: 'turbo', label: 'TURBO', cls: 'turbo' },
+  ],
+  bricklayer: [
+    { key: 'fire', label: 'SPRAY', cls: 'spray', big: true },
+    { key: 'throw', label: 'TROWEL', cls: 'trowel' },
+    { key: 'turbo', label: 'TURBO', cls: 'turbo' },
+    { key: 'brick', label: 'BRICK', cls: 'brick' },
   ],
   invasion: [
     { key: 'fire', label: 'THROW', cls: 'throw', big: true },
@@ -25,7 +31,7 @@ export class TouchPad {
   private readonly dpad = document.getElementById('dpad')!;
   private readonly knob = document.getElementById('dpad-knob')!;
   private readonly actions = document.getElementById('actions')!;
-  private mode: 'dig' | 'invasion' | null = null;
+  private mode: 'dig' | 'bricklayer' | 'invasion' | null = null;
   private dpadPointer: number | null = null;
   enabled = false;
 
@@ -74,7 +80,7 @@ export class TouchPad {
   }
 
   /** Swap the action buttons for the level and show the pad on touch devices. */
-  setMode(mode: 'dig' | 'invasion' | null): void {
+  setMode(mode: 'dig' | 'bricklayer' | 'invasion' | null): void {
     this.pad.hidden = !this.enabled || mode === null;
     if (mode === this.mode) return;
     this.mode = mode;
