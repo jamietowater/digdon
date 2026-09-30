@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Controls } from '../src/input/controls';
+import { CameraTracker, cameraBounds, fitCamera, mobileCameraPreference, type CameraRequest } from '../src/render/camera';
 import { Game, LEVELS, type LevelDef } from '../src/sim/game';
 import { Cell, Grid } from '../src/sim/grid';
 import { encaseKillPoints, rockKillPoints } from '../src/sim/config';
@@ -28,6 +29,105 @@ function run(game: Game, seconds: number, input: Partial<Input> = {}): void {
 
 beforeEach(() => setRandom(mulberry32(7)));
 afterEach(() => vi.unstubAllGlobals());
+
+describe('mobile camera', () => {
+  const request = (overrides: Partial<CameraRequest> = {}): CameraRequest => ({
+    width: 412, height: 648, columns: 14, rows: 18, top: 0, focus: true, platform: true, invasion: false,
+    subjects: [{ pos: { x: 6, y: 12 }, facing: { x: 1, y: 0 }, moving: false }], ...overrides,
+  });
+
+  it('magnifies actual world units to readable phone sprite sizes', () => {
+    for (const width of [320, 390, 412]) {
+      const input = request({ width });
+      const frame = new CameraTracker().update(input, DT);
+      const spriteHeight = 0.9 * input.height / (2 * frame.halfHeight);
+      expect(spriteHeight).toBeGreaterThan(width === 320 ? 33 : 40);
+      expect(frame.halfHeight).toBeLessThan(fitCamera(input).halfHeight);
+    }
+  });
+
+  it('clamps all arena corners while retaining space for the player', () => {
+    for (const pos of [{ x: 0, y: 0 }, { x: 13, y: 0 }, { x: 0, y: 16 }, { x: 13, y: 16 }]) {
+      const input = request({ subjects: [{ pos, facing: { x: 1, y: 0 }, moving: false }] });
+      const frame = new CameraTracker().update(input, DT);
+      const bounds = cameraBounds(frame, input.width / input.height);
+      expect(pos.x).toBeGreaterThan(bounds.left + 0.5);
+      expect(pos.x).toBeLessThan(bounds.right - 0.5);
+      expect(pos.y).toBeGreaterThan(bounds.top + 0.5);
+      expect(pos.y).toBeLessThan(bounds.bottom - 0.5);
+    }
+  });
+
+  it('leaves invasion and desktop fit framing intact and restores focus after a peek', () => {
+    const tracker = new CameraTracker();
+    const input = request();
+    const focused = tracker.update(input, DT);
+    expect(tracker.update({ ...input, invasion: true }, DT)).toEqual(fitCamera(input));
+    expect(tracker.update({ ...input, focus: false }, DT)).toEqual(fitCamera(input));
+    expect(tracker.update(input, DT)).toEqual(focused);
+  });
+
+  it('does not bob on a small jump and snaps correctly after a reset or resize', () => {
+    const tracker = new CameraTracker();
+    const input = request();
+    const before = tracker.update(input, DT);
+    const jump = request({ subjects: [{ ...input.subjects[0], pos: { x: 6, y: 11 } }] });
+    expect(tracker.update(jump, DT)).toEqual(before);
+    tracker.reset();
+    expect(tracker.update(jump, DT).y).toBeLessThan(before.y);
+    expect(tracker.update({ ...jump, width: 320 }, DT).focused).toBe(true);
+  });
+
+  it('keeps separated co-op players visible without changing the logical Summit window', () => {
+    const input = request({ top: 17, subjects: [
+      { pos: { x: 0, y: 20 }, facing: { x: 1, y: 0 }, moving: true },
+      { pos: { x: 13, y: 33 }, facing: { x: -1, y: 0 }, moving: true },
+    ] });
+    const frame = new CameraTracker().update(input, DT);
+    const bounds = cameraBounds(frame, input.width / input.height);
+    expect(bounds.left).toBeLessThan(0);
+    expect(bounds.right).toBeGreaterThan(13);
+    expect(bounds.top).toBeLessThan(20);
+    expect(bounds.bottom).toBeGreaterThan(33);
+    expect(input.top).toBe(17);
+  });
+
+  it('defaults older or invalid saves to Focus without rejecting Full', () => {
+    expect(mobileCameraPreference(undefined)).toBe('focus');
+    expect(mobileCameraPreference('invalid')).toBe('focus');
+    expect(mobileCameraPreference('fit')).toBe('fit');
+  });
+
+  it('uses time-based follow easing and freezes a paused frame', () => {
+    const input = request({ width: 320, height: 360, subjects: [
+      { pos: { x: 6, y: 10 }, facing: { x: 1, y: 0 }, moving: false },
+    ] });
+    const destination = request({ ...input, subjects: [{ ...input.subjects[0], pos: { x: 10, y: 5 } }] });
+    const slow = new CameraTracker();
+    const fast = new CameraTracker();
+    const before = slow.update(input, DT);
+    fast.update(input, DT);
+    expect(slow.update(destination, 0)).toEqual(before);
+    let slowFrame = before;
+    let fastFrame = before;
+    for (let step = 0; step < 30; step++) slowFrame = slow.update(destination, 1 / 30);
+    for (let step = 0; step < 120; step++) fastFrame = fast.update(destination, 1 / 120);
+    expect(slowFrame.x).toBeCloseTo(fastFrame.x, 8);
+    expect(slowFrame.y).toBeCloseTo(fastFrame.y, 8);
+    expect(slowFrame.y).toBeLessThan(before.y);
+  });
+
+  it('gives Conga more upper context and honors reduced motion', () => {
+    const input = request({ width: 320, height: 360, platform: false });
+    const frame = new CameraTracker().update(input, DT);
+    expect(new CameraTracker().update({ ...input, conga: true }, DT).y).toBeLessThan(frame.y);
+    const tracker = new CameraTracker();
+    tracker.update(input, DT);
+    const destination = { ...input, subjects: [{ ...input.subjects[0], pos: { x: 12, y: 3 } }] };
+    const immediate = tracker.update(destination, DT, true);
+    expect(tracker.update(destination, DT, true)).toEqual(immediate);
+  });
+});
 
 describe('hosted input', () => {
   it('keeps keyboard and touch available when the host blocks gamepads', () => {

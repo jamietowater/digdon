@@ -37,16 +37,20 @@ export class TouchPad {
   private readonly actions = document.getElementById('actions')!;
   private mode: keyof typeof LAYOUTS | null = null;
   private dpadPointer: number | null = null;
+  private readonly held = new Map<HTMLButtonElement, { pointer: number }>();
   enabled = false;
 
   /** First touch seen: switch to on-screen controls from now on. */
   enable(): void {
+    if (this.enabled) return;
     this.enabled = true;
     this.setMode(this.mode);
   }
 
   constructor(private readonly touch: TouchState) {
     this.dpad.addEventListener('pointerdown', (e) => {
+      if (this.dpadPointer !== null) return;
+      e.preventDefault();
       this.dpadPointer = e.pointerId;
       this.dpad.setPointerCapture(e.pointerId);
       this.steer(e);
@@ -63,6 +67,23 @@ export class TouchPad {
     };
     this.dpad.addEventListener('pointerup', release);
     this.dpad.addEventListener('pointercancel', release);
+    this.dpad.addEventListener('lostpointercapture', release);
+    window.addEventListener('blur', () => this.reset());
+    document.addEventListener('visibilitychange', () => { if (document.hidden) this.reset(); });
+  }
+
+  reset(): void {
+    const pointer = this.dpadPointer;
+    this.dpadPointer = null;
+    if (pointer !== null && this.dpad.hasPointerCapture(pointer)) this.dpad.releasePointerCapture(pointer);
+    const held = [...this.held];
+    this.held.clear();
+    for (const [button, entry] of held) {
+      button.classList.remove('on');
+      if (button.hasPointerCapture(entry.pointer)) button.releasePointerCapture(entry.pointer);
+    }
+    Object.assign(this.touch, { moveX: 0, moveY: 0, fire: false, throw: false, brick: false, turbo: false });
+    this.knob.style.transform = 'translate(-50%, -50%)';
   }
 
   private steer(e: PointerEvent): void {
@@ -88,15 +109,12 @@ export class TouchPad {
     if (mode === 'conga') mode = 'bricklayer';
     if (mode === 'scaffold' || mode === 'summit') mode = 'platform';
     this.pad.hidden = !this.enabled || mode === null;
+    this.reset();
     if (mode === this.mode) return;
     this.mode = mode;
-    this.touch.moveX = 0;
-    this.touch.moveY = 0;
-    this.dpadPointer = null;
-    this.knob.style.transform = 'translate(-50%, -50%)';
     this.actions.replaceChildren();
-    for (const k of ['fire', 'throw', 'brick', 'turbo'] as const) this.touch[k] = false;
     if (!mode) return;
+    this.actions.dataset.count = String(LAYOUTS[mode].length);
     for (const def of LAYOUTS[mode]) {
       const b = document.createElement('button');
       b.className = `act ${def.cls}${def.big ? ' big' : ''}`;
@@ -104,6 +122,10 @@ export class TouchPad {
       b.setAttribute('aria-label', def.label);
       const set = (on: boolean) => (e: PointerEvent) => {
         e.preventDefault();
+        if (on && this.held.has(b)) return;
+        if (!on && this.held.get(b)?.pointer !== e.pointerId) return;
+        if (on) this.held.set(b, { pointer: e.pointerId });
+        else this.held.delete(b);
         this.touch[def.key] = on;
         b.classList.toggle('on', on);
         if (on) b.setPointerCapture(e.pointerId);
@@ -111,6 +133,7 @@ export class TouchPad {
       b.addEventListener('pointerdown', set(true));
       b.addEventListener('pointerup', set(false));
       b.addEventListener('pointercancel', set(false));
+      b.addEventListener('lostpointercapture', set(false));
       b.addEventListener('contextmenu', (e) => e.preventDefault());
       this.actions.append(b);
     }

@@ -1,7 +1,7 @@
 {
   "name": "digdon-web",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Dig Don - HTML5 build for Facebook Instant Games and the web",
   "type": "module",
   "scripts": {
@@ -14,6 +14,7 @@
     "export-data": "python tools/export_unreal_data.py"
   },
   "dependencies": {
+    "lucide": "^1.49.0",
     "three": "^0.186.1"
   },
   "devDependencies": {

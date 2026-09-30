@@ -3,9 +3,10 @@ export interface SaveData {
   muted: boolean;
   /** Level keys whose tutorial has been completed. */
   tutorials: string[];
+  mobileCamera: 'focus' | 'fit';
 }
 
-export const DEFAULT_SAVE: SaveData = { hiScore: 0, muted: false, tutorials: [] };
+export const DEFAULT_SAVE: SaveData = { hiScore: 0, muted: false, tutorials: [], mobileCamera: 'focus' };
 
 export interface LeaderboardEntry {
   rank: number;

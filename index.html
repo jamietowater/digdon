@@ -29,6 +29,7 @@
         <main id="view">
           <canvas id="game" aria-label="Dig Don"></canvas>
           <div id="popups"></div>
+          <div id="threats" aria-hidden="true"></div>
           <div id="banner" aria-live="polite"></div>
           <div id="tutorial" hidden></div>
         </main>
@@ -37,6 +38,9 @@
             <span class="arrow up"></span><span class="arrow right"></span><span class="arrow down"></span><span class="arrow left"></span>
             <span id="dpad-knob"></span>
           </div>
+          <button id="overview" aria-label="Hold for full view" title="Hold for full view" aria-pressed="false">
+            <canvas id="overview-map" width="112" height="192" aria-hidden="true"></canvas>
+          </button>
           <div id="actions"></div>
         </footer>
         <div id="hint"></div>
@@ -68,6 +72,11 @@
 
       <section id="screen-pause" class="screen dim" hidden>
         <h2>PAUSED</h2>
+        <fieldset id="camera-setting" hidden>
+          <legend>CAMERA</legend>
+          <label><input type="radio" name="camera" value="focus" />FOCUS</label>
+          <label><input type="radio" name="camera" value="fit" />FIT</label>
+        </fieldset>
         <nav class="menu">
           <button data-action="resume" class="primary">RESUME</button>
           <button data-action="sound" class="sound-toggle">SOUND ON</button>

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { CameraTracker, fitCamera, type CameraBounds, type CameraFrame, type CameraRequest, type CameraSubject, type MobileCamera } from './camera';
 
 /** Characters stand on a plane in front of the dirt face, so blocks never cover them (GridToActorWorld). */
 export const ACTOR_Z = 0.62;
@@ -52,6 +53,20 @@ export class Stage {
   private gridH = 18;
   private viewTop = 0;
   private pitch = -6;
+  mobile = false;
+  mobileCamera: MobileCamera = 'focus';
+  peeking = false;
+  focused = false;
+  private readonly tracker = new CameraTracker();
+  private readonly reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  private subjects: readonly CameraSubject[] = [];
+  private platform = false;
+  private invasion = false;
+  private conga = false;
+
+  get mobileView(): boolean {
+    return this.mobile && this.canvas.clientWidth <= 600 && window.innerHeight >= window.innerWidth;
+  }
 
   constructor(readonly canvas: HTMLCanvasElement, lowEnd: boolean) {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowEnd, powerPreference: 'high-performance' });
@@ -93,6 +108,8 @@ export class Stage {
     this.gridW = gridW;
     this.gridH = gridH;
     this.viewTop = viewTop;
+    this.tracker.reset();
+    this.subjects = [];
     this.placeLight(this.key, lightDirection(-40, -60));
     this.placeLight(this.fill, lightDirection(-10, -120));
     this.placeLight(this.rim, lightDirection(-35, 90));
@@ -112,35 +129,64 @@ export class Stage {
     const w = this.canvas.clientWidth || 1;
     const h = this.canvas.clientHeight || 1;
     this.renderer.setSize(w, h, false);
-    const aspect = w / h;
+    this.updateCamera(0);
+  }
+
+  follow(target: Pick<CameraRequest, 'top' | 'subjects' | 'platform' | 'invasion' | 'conga'>, dt: number, reset = false): void {
+    this.viewTop = target.top;
+    if (target.subjects.length) this.subjects = target.subjects;
+    this.platform = target.platform;
+    this.invasion = target.invasion;
+    this.conga = !!target.conga;
+    if (reset) this.tracker.reset();
+    this.updateCamera(dt);
+  }
+
+  private updateCamera(dt: number): void {
+    const request: CameraRequest = {
+      width: this.canvas.clientWidth || 1, height: this.canvas.clientHeight || 1,
+      columns: this.gridW, rows: this.gridH, top: this.viewTop,
+      focus: this.mobileView && this.mobileCamera === 'focus' && !this.peeking,
+      platform: this.platform, invasion: this.invasion, conga: this.conga, subjects: this.subjects,
+    };
+    const frame = this.subjects.length ? this.tracker.update(request, dt, this.reducedMotion.matches) : fitCamera(request);
+    this.applyCamera(frame, request.width / request.height);
+  }
+
+  private applyCamera(frame: CameraFrame, aspect: number): void {
+    this.focused = frame.focused;
     this.camera.aspect = aspect;
-    const halfW = this.gridW * 0.5 + 0.5;
-    const halfH = this.gridH * 0.5 + 1.2;
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(this.camera.fov * 0.5));
-    const distance = Math.max(halfH, halfW / aspect) / tanHalf;
-    const centre = new THREE.Vector3((this.gridW - 1) * 0.5, -((this.gridH - 1) * 0.5 - 0.6) - this.viewTop, 0);
+    const distance = frame.halfHeight / tanHalf;
+    const centre = new THREE.Vector3(frame.x, -frame.y, 0);
     const pitch = THREE.MathUtils.degToRad(-this.pitch);
     this.camera.position.set(centre.x, centre.y + Math.sin(pitch) * distance, Math.cos(pitch) * distance);
     this.camera.lookAt(centre);
     this.camera.near = distance * 0.5;
     this.camera.far = distance * 1.5;
     this.camera.updateProjectionMatrix();
-  }
-
-  /** World position to CSS pixels within the canvas. */
-  scroll(viewTop: number): void {
-    const delta = this.viewTop - viewTop;
-    this.viewTop = viewTop;
-    this.camera.position.y += delta;
     this.camera.updateMatrixWorld();
     for (const light of [this.key, this.fill, this.rim]) {
-      light.position.y += delta;
-      light.target.position.y += delta;
+      const shift = centre.clone().sub(light.target.position);
+      light.position.add(shift);
+      light.target.position.copy(centre);
+      light.target.updateMatrixWorld();
     }
   }
 
+  get visibleBounds(): CameraBounds {
+    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -ACTOR_Z);
+    const points = [[-1, -1], [-1, 1], [1, -1], [1, 1]].map(([horizontal, vertical]) => {
+      const point = new THREE.Vector3(horizontal, vertical, 0).unproject(this.camera);
+      return new THREE.Ray(this.camera.position, point.sub(this.camera.position).normalize())
+        .intersectPlane(plane, new THREE.Vector3())!;
+    });
+    return { left: Math.min(...points.map(point => point.x)), right: Math.max(...points.map(point => point.x)),
+      top: Math.min(...points.map(point => -point.y)), bottom: Math.max(...points.map(point => -point.y)) };
+  }
+
   project(p: THREE.Vector3): { x: number; y: number } {
-    const v = p.clone().project(this.camera);
+    const v = p.clone().add(this.world.position).project(this.camera);
     return { x: (v.x * 0.5 + 0.5) * this.canvas.clientWidth, y: (-v.y * 0.5 + 0.5) * this.canvas.clientHeight };
   }
 

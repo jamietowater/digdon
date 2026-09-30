@@ -5,11 +5,13 @@ import { FacebookPlatform } from './platform/facebook';
 import { LocalPlatform } from './platform/local';
 import { DEFAULT_SAVE, type Platform, type SaveData } from './platform/platform';
 import { Stage } from './render/stage';
+import { mobileCameraPreference } from './render/camera';
 import { GameView } from './render/views';
 import { Game, LEVELS } from './sim/game';
 import type { GameEvent } from './sim/events';
 import { drawBlockText } from './ui/blockText';
 import { Hud } from './ui/hud';
+import { Overview } from './ui/overview';
 import { TouchPad } from './ui/touchPad';
 import { Tutorial } from './ui/tutorial';
 
@@ -40,10 +42,12 @@ async function boot(): Promise<void> {
   platform.setLoadingProgress(10);
 
   let save: SaveData = { ...DEFAULT_SAVE, ...(await platform.load()) };
+  save.mobileCamera = mobileCameraPreference(save.mobileCamera);
   platform.setLoadingProgress(40);
 
   const canvas = $<HTMLCanvasElement>('#game');
   const stage = new Stage(canvas, isLowEnd());
+  stage.mobileCamera = save.mobileCamera;
   const view = new GameView(stage);
   const game = new Game();
   game.hiScore = save.hiScore;
@@ -53,6 +57,7 @@ async function boot(): Promise<void> {
   const hud = new Hud(stage);
   const coarse = window.matchMedia('(pointer: coarse)');
   const pad = new TouchPad(controls.touch);
+  const overview = new Overview(stage);
   pad.enabled = coarse.matches || 'ontouchstart' in window;
   window.addEventListener(
     'touchstart',
@@ -64,6 +69,17 @@ async function boot(): Promise<void> {
     { once: true, passive: true },
   );
   const persist = () => void platform.save(save);
+  document.querySelectorAll<HTMLInputElement>('input[name="camera"]').forEach(input => {
+    input.checked = input.value === save.mobileCamera;
+    input.addEventListener('change', () => {
+      if (!input.checked) return;
+      save.mobileCamera = mobileCameraPreference(input.value);
+      stage.mobileCamera = save.mobileCamera;
+      overview.reset();
+      stage.resize();
+      persist();
+    });
+  });
   const tutorial = new Tutorial(
     () => pad.enabled,
     (level) => {
@@ -79,6 +95,11 @@ async function boot(): Promise<void> {
   let returnTo: ScreenName = 'menu';
   const show = (name: ScreenName) => {
     screen = name;
+    if (name !== null) {
+      pad.reset();
+      overview.reset();
+      carry = null;
+    }
     for (const s of screens) $(`#screen-${s}`).hidden = s !== name;
     const first = name ? $(`#screen-${name}`).querySelector<HTMLButtonElement>('button:not([hidden])') : null;
     if (first && !pad.enabled) first.focus({ preventScroll: true });
@@ -245,6 +266,7 @@ async function boot(): Promise<void> {
       sfx.play(e);
       if (e.type === 'levelStart') {
         const key = game.level.key;
+        overview.reset();
         pad.setMode(key);
         hud.setHint(
           pad.enabled || game.isPlatformLevel
@@ -281,7 +303,11 @@ async function boot(): Promise<void> {
     }
   };
 
-  new ResizeObserver(() => stage.resize()).observe($('#view'));
+  new ResizeObserver(() => {
+    pad.reset();
+    overview.reset();
+    stage.resize();
+  }).observe($('#view'));
 
   let last = performance.now();
   let acc = 0;
@@ -331,7 +357,10 @@ async function boot(): Promise<void> {
       hud.onEvents(events);
       tutorial.observe(events, moved);
     }
+    stage.mobile = pad.enabled;
     view.update(game, dt);
+    $('#camera-setting').hidden = !stage.mobileView;
+    overview.update(game, screen === null && !$('#pad').hidden, dt);
     hud.update(game, dt);
     stage.render();
   };

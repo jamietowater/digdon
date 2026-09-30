@@ -24,6 +24,26 @@ the individual level buttons repeat the selected level with increasing difficult
 	Player 2 uses the shared keyboard, not a second touch pad or gamepad.
 - Q pauses; touch screens have a pause button.
 
+### Mobile View
+
+Portrait phones up to 600 CSS pixels wide start in Focus: a close-up camera follows the player.
+The compact dock keeps the same actions, with a miniature arena map between the movement pad and buttons.
+Hold that map to peek at the full arena; release to return without pausing play. Keyboard users can hold
+Space or Enter while the overview button is focused. Choose Focus or Fit in the pause menu to remember a preference.
+
+Invasion always shows the whole battlefield. Summit co-op widens the view to include both living players.
+On Summit, peeking shows the active 18-row window, while the map shows the entire mountain. Its dashed red
+outline marks the logical window; the cyan outline marks the camera view. Cropping never changes the fall boundary.
+White/cyan circles mark players, red triangles mark threats, and gold squares mark items or objectives.
+Nearby offscreen threats have edge arrows; a bottom cue reports when Summit's fall line is below the visible area.
+
+## Rollback Checkpoint
+
+The annotated tag `v0.9.0-pre-mobile-focus` preserves deployed commit `b61252e` before the mobile changes.
+The mobile release is a separate `0.10.0` commit. To roll it back, revert that feature commit and push `main`
+through the normal deployment workflow; do not reset or force-push. Saved scores and player preferences
+are browser/cloud data, not part of the source checkpoint.
+
 ## Development
 
 ```sh

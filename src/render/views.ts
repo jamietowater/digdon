@@ -328,6 +328,7 @@ export class GameView {
   private bonus: BonusView | null = null;
   private trophies: BonusView[] = [];
   private shake = 0;
+  private wasAlive = false;
 
   constructor(private readonly stage: Stage) {
     stage.world.add(this.arena, this.fx.group);
@@ -391,7 +392,10 @@ export class GameView {
     }
     const frameDt = game.paused ? 0 : dt;
     this.syncPawn(game, frameDt);
-    this.stage.scroll(game.summit?.viewTop ?? 0);
+    this.stage.follow({ top: game.summit?.viewTop ?? 0, subjects: game.climbers, platform: game.isPlatformLevel,
+      invasion: game.isInvaderLevel, conga: game.isCongaLevel }, game.isPlaying() ? frameDt : 0,
+      game.player.alive && !this.wasAlive);
+    this.wasAlive = game.player.alive;
     this.site.sync(game.scaffold?.things ?? game.summit?.things ?? [], view => view.sync(game.levelTime));
     this.mallet.mesh.visible = game.player.platform.mallet > 0;
     this.mallet.mesh.position.copy(at({ x: game.player.pos.x + game.player.facing.x * 0.65, y: game.player.pos.y - 0.3 }));
