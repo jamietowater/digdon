@@ -1,0 +1,3138 @@
+{
+ "characters": {
+  "Don": {
+   "name": "Don",
+   "width": 12,
+   "height": 16,
+   "rows": [
+    "    CCCCC   ",
+    "   CCCCCCC  ",
+    "   CCCCCCCCC",
+    "   HHSSSSS  ",
+    "   HHSSKSS  ",
+    "   HHSSSSSS ",
+    "     HHHHH  ",
+    "   FPFFPFF  ",
+    "  FFPFFPFF  ",
+    "  PPPPPPPP  ",
+    "  GFPFFPFGT ",
+    "   FPFFPF T ",
+    "   LLYLLL   ",
+    "   JJ  JJ   ",
+    "   JJ  JJ   ",
+    "  LLL  LLL  "
+   ],
+   "palette": [
+    {
+     "key": "C",
+     "rgb": [
+      0.66,
+      0.11,
+      0.08
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "H",
+     "rgb": [
+      0.87,
+      0.48,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.98,
+      0.78,
+      0.58
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.04,
+      0.04,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "F",
+     "rgb": [
+      0.69,
+      0.22,
+      0.17
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.43,
+      0.11,
+      0.07
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.96,
+      0.96,
+      0.93
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "T",
+     "rgb": [
+      0.8,
+      0.82,
+      0.84
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.25
+    },
+    {
+     "key": "L",
+     "rgb": [
+      0.29,
+      0.17,
+      0.09
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.96,
+      0.76,
+      0.24
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.25
+    },
+    {
+     "key": "J",
+     "rgb": [
+      0.23,
+      0.29,
+      0.42
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ],
+   "stride": [
+    "    CCCCC   ",
+    "   CCCCCCC  ",
+    "   CCCCCCCCC",
+    "   HHSSSSS  ",
+    "   HHSSKSS  ",
+    "   HHSSSSSS ",
+    "     HHHHH  ",
+    "   FPFFPFF  ",
+    "  FFPFFPFF  ",
+    "  PPPPPPPP  ",
+    "  GFPFFPFGT ",
+    "   FPFFPF T ",
+    "   LLYLLL   ",
+    "   JJ   JJ  ",
+    "  JJ     JJ ",
+    " LLL     LLL"
+   ]
+  },
+  "DonJr": {
+   "name": "DonJr",
+   "width": 12,
+   "height": 16,
+   "rows": [
+    "    AAAA    ",
+    "  AAAAAAAA  ",
+    " AAAAAAAAAA ",
+    " AAAAAAAAAAA",
+    " AAAASSSSS  ",
+    " AAAASSKSS  ",
+    "  AAASSSSSS ",
+    "   AASSSS   ",
+    "    FPFF    ",
+    "   FFPFFF   ",
+    "   PPPPPP   ",
+    "   GFPFFGT  ",
+    "    FPFF T  ",
+    "    LYLL    ",
+    "    J  J    ",
+    "   LL  LL   "
+   ],
+   "palette": [
+    {
+     "key": "A",
+     "rgb": [
+      0.85,
+      0.2,
+      0.07
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.9
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.98,
+      0.78,
+      0.58
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.04,
+      0.04,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "F",
+     "rgb": [
+      0.69,
+      0.22,
+      0.17
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.43,
+      0.11,
+      0.07
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.96,
+      0.96,
+      0.93
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "T",
+     "rgb": [
+      0.8,
+      0.82,
+      0.84
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.25
+    },
+    {
+     "key": "L",
+     "rgb": [
+      0.29,
+      0.17,
+      0.09
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.96,
+      0.76,
+      0.24
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.25
+    },
+    {
+     "key": "J",
+     "rgb": [
+      0.23,
+      0.29,
+      0.42
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ],
+   "stride": [
+    "    AAAA    ",
+    "  AAAAAAAA  ",
+    " AAAAAAAAAA ",
+    " AAAAAAAAAAA",
+    " AAAASSSSS  ",
+    " AAAASSKSS  ",
+    "  AAASSSSSS ",
+    "   AASSSS   ",
+    "    FPFF    ",
+    "   FFPFFF   ",
+    "   PPPPPP   ",
+    "   GFPFFGT  ",
+    "    FPFF T  ",
+    "    LYLL    ",
+    "   J    J   ",
+    "  LL    LL  "
+   ]
+  },
+  "Can": {
+   "name": "Can",
+   "width": 8,
+   "height": 11,
+   "rows": [
+    "  gggg  ",
+    " gggggg ",
+    " BBBBBB ",
+    " BBBBBB ",
+    " BwwwwB ",
+    " BwrrwB ",
+    " BwwwwB ",
+    " BBBBBB ",
+    " BBBBBB ",
+    " gggggg ",
+    "  gggg  "
+   ],
+   "palette": [
+    {
+     "key": "g",
+     "rgb": [
+      0.7,
+      0.72,
+      0.76
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.3
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.04,
+      0.12,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.45
+    },
+    {
+     "key": "w",
+     "rgb": [
+      0.95,
+      0.95,
+      0.95
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.45
+    },
+    {
+     "key": "r",
+     "rgb": [
+      0.85,
+      0.1,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.45
+    }
+   ]
+  },
+  "Mallet": {
+   "name": "Mallet",
+   "width": 8,
+   "height": 8,
+   "rows": [
+    " HHHHHH ",
+    " HHHHHH ",
+    " HHHHHH ",
+    "   WW   ",
+    "   WW   ",
+    "   WW   ",
+    "   WW   ",
+    "   WW   "
+   ],
+   "palette": [
+    {
+     "key": "H",
+     "rgb": [
+      0.8,
+      0.82,
+      0.86
+     ],
+     "glow": 0.4,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.55,
+      0.33,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "Drum": {
+   "name": "Drum",
+   "width": 10,
+   "height": 12,
+   "rows": [
+    "  f  y  f ",
+    " fyf fy f ",
+    " ffyffyff ",
+    "BBBBBBBBBB",
+    "bbbbbbbbbb",
+    "BBBBBBBBBB",
+    "BBBBBBBBBB",
+    "BBBBBBBBBB",
+    "bbbbbbbbbb",
+    "BBBBBBBBBB",
+    "BBBBBBBBBB",
+    "bbbbbbbbbb"
+   ],
+   "palette": [
+    {
+     "key": "B",
+     "rgb": [
+      0.1,
+      0.25,
+      0.75
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.45
+    },
+    {
+     "key": "b",
+     "rgb": [
+      0.45,
+      0.7,
+      0.95
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.35
+    },
+    {
+     "key": "f",
+     "rgb": [
+      1.0,
+      0.5,
+      0.1
+     ],
+     "glow": 3.0,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "y",
+     "rgb": [
+      1.0,
+      0.9,
+      0.3
+     ],
+     "glow": 4.0,
+     "metal": 0.0,
+     "rough": 0.5
+    }
+   ]
+  },
+  "Flame": {
+   "name": "Flame",
+   "width": 8,
+   "height": 8,
+   "rows": [
+    "   y    ",
+    "  yf  y ",
+    "  yffyf ",
+    " yfffff ",
+    " fKffKf ",
+    "ffrrrrff",
+    " frrrrf ",
+    "  ffff  "
+   ],
+   "palette": [
+    {
+     "key": "y",
+     "rgb": [
+      1.0,
+      0.9,
+      0.3
+     ],
+     "glow": 5.0,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "f",
+     "rgb": [
+      1.0,
+      0.5,
+      0.1
+     ],
+     "glow": 3.5,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "r",
+     "rgb": [
+      0.9,
+      0.15,
+      0.05
+     ],
+     "glow": 2.5,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "MexiJuan": {
+   "name": "MexiJuan",
+   "width": 16,
+   "height": 24,
+   "rows": [
+    "       YY       ",
+    "      YYYY      ",
+    "      YYYY      ",
+    "     YYYYYY     ",
+    "     McMcMc     ",
+    " YYYYYYYYYYYYYY ",
+    "YMcMcMcMcMcMcMcY",
+    " YYYYYYYYYYYYYY ",
+    "    HHSSSSS     ",
+    "   HHHSSSKSS    ",
+    "   HHSSSSSSSSS  ",
+    "   HHSSSKKKKKK  ",
+    "    HSSKKKKKKK  ",
+    "     SSSSSS     ",
+    "   RRVVRRVVRR   ",
+    "  VVBBTTBBTTVV  ",
+    " SVVTTPPTTPPVVS ",
+    " WBBVVGGVVGGBBW ",
+    " WPPTTRRTTRRPPW ",
+    "  VVBBVVBBVVBB  ",
+    "  W W W W W W   ",
+    "    NNN  NNN    ",
+    "    NNN  NNN    ",
+    "   LLLL  LLLL   "
+   ],
+   "palette": [
+    {
+     "key": "Y",
+     "rgb": [
+      0.93,
+      0.66,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "M",
+     "rgb": [
+      0.62,
+      0.16,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "c",
+     "rgb": [
+      0.88,
+      0.82,
+      0.62
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "H",
+     "rgb": [
+      0.45,
+      0.27,
+      0.13
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.9,
+      0.68,
+      0.52
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.03,
+      0.03,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "R",
+     "rgb": [
+      0.75,
+      0.12,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "V",
+     "rgb": [
+      0.45,
+      0.18,
+      0.6
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.2,
+      0.4,
+      0.85
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "T",
+     "rgb": [
+      0.2,
+      0.65,
+      0.6
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.45,
+      0.65,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.95,
+      0.55,
+      0.6
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.92,
+      0.9,
+      0.82
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "N",
+     "rgb": [
+      0.35,
+      0.4,
+      0.18
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "L",
+     "rgb": [
+      0.35,
+      0.2,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "Flag": {
+   "name": "Flag",
+   "width": 12,
+   "height": 14,
+   "rows": [
+    "y           ",
+    "pGGGGWWWWRRR",
+    "pGGGGWWWWRRR",
+    "pGGGGWEEWRRR",
+    "pGGGGWeeWRRR",
+    "pGGGGWWWWRRR",
+    "pGGGGWWWWRRR",
+    "p           ",
+    "p           ",
+    "p           ",
+    "p           ",
+    "p           ",
+    "p           ",
+    "p           "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.0,
+      0.45,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.95,
+      0.95,
+      0.93
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "R",
+     "rgb": [
+      0.8,
+      0.08,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "E",
+     "rgb": [
+      0.45,
+      0.28,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.2,
+      0.55,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "p",
+     "rgb": [
+      0.45,
+      0.3,
+      0.18
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "y",
+     "rgb": [
+      0.95,
+      0.78,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 1.0,
+     "rough": 0.3
+    }
+   ]
+  },
+  "Cactus": {
+   "name": "Cactus",
+   "width": 8,
+   "height": 12,
+   "rows": [
+    "   hG   ",
+    "   hG G ",
+    " G hG G ",
+    " G hG G ",
+    " GGhGGG ",
+    "   hG   ",
+    "   hG   ",
+    "   hG   ",
+    "  QQQQ  ",
+    " PPPPPP ",
+    "  PPPP  ",
+    "  PPPP  "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.3,
+      0.62,
+      0.22
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "h",
+     "rgb": [
+      0.5,
+      0.8,
+      0.32
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.55,
+      0.28,
+      0.14
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.9
+    },
+    {
+     "key": "Q",
+     "rgb": [
+      0.68,
+      0.38,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.9
+    }
+   ]
+  },
+  "ChiliAmigo": {
+   "name": "ChiliAmigo",
+   "width": 10,
+   "height": 16,
+   "rows": [
+    "    YY    ",
+    "   YYYY   ",
+    "   McMc   ",
+    " YYYYYYYY ",
+    "YMcMcMcMcY",
+    " YYYYYYYY ",
+    "   RRRR   ",
+    "  RKRRKR  ",
+    "  RRRRRR  ",
+    " KKKKKKKK ",
+    "  RRRRRR  ",
+    "  rRRRRR  ",
+    "   rRRR   ",
+    "    RRR   ",
+    "     RR   ",
+    "      R   "
+   ],
+   "palette": [
+    {
+     "key": "Y",
+     "rgb": [
+      0.93,
+      0.66,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "M",
+     "rgb": [
+      0.62,
+      0.16,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "c",
+     "rgb": [
+      0.88,
+      0.82,
+      0.62
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "R",
+     "rgb": [
+      0.85,
+      0.1,
+      0.08
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.35
+    },
+    {
+     "key": "r",
+     "rgb": [
+      1.0,
+      0.45,
+      0.4
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.35
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.03,
+      0.03,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "CactusAmigo": {
+   "name": "CactusAmigo",
+   "width": 14,
+   "height": 18,
+   "rows": [
+    "      YY      ",
+    "     YYYY     ",
+    "     McMc     ",
+    "  YYYYYYYYYY  ",
+    " YMcMcMcMcMcY ",
+    "  YYYYYYYYYY  ",
+    "     GGGG     ",
+    "     KGGK     ",
+    "     GGGG     ",
+    "    KKKKKK    ",
+    " mm  GGGG  mm ",
+    " mmGGGGGGGGmm ",
+    "  w  GGGG  w  ",
+    "     GhGG     ",
+    "     GhGG     ",
+    "     GhGG     ",
+    "     GhGG     ",
+    "    gggggg    "
+   ],
+   "palette": [
+    {
+     "key": "Y",
+     "rgb": [
+      0.93,
+      0.66,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "M",
+     "rgb": [
+      0.62,
+      0.16,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "c",
+     "rgb": [
+      0.88,
+      0.82,
+      0.62
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.7
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.3,
+      0.62,
+      0.22
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "h",
+     "rgb": [
+      0.5,
+      0.8,
+      0.32
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "g",
+     "rgb": [
+      0.18,
+      0.4,
+      0.14
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.03,
+      0.03,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "m",
+     "rgb": [
+      0.95,
+      0.45,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "w",
+     "rgb": [
+      0.9,
+      0.8,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "Luchador": {
+   "name": "Luchador",
+   "width": 10,
+   "height": 14,
+   "rows": [
+    "   MMMM   ",
+    "  MyMMyM  ",
+    "  MKMMKM  ",
+    "  MMMMMM  ",
+    "   MMMM   ",
+    "  OOOOOO  ",
+    " OOOOOOOO ",
+    "O OOOOOO O",
+    "O OOOOOO O",
+    "S BBBBBB S",
+    "  GGGGGG  ",
+    "  GG  GG  ",
+    "  GG  GG  ",
+    "  KK  KK  "
+   ],
+   "palette": [
+    {
+     "key": "M",
+     "rgb": [
+      0.25,
+      0.7,
+      0.3
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "y",
+     "rgb": [
+      0.98,
+      0.8,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.03,
+      0.03,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "O",
+     "rgb": [
+      0.95,
+      0.62,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.8,
+      0.15,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.9,
+      0.68,
+      0.52
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.2,
+      0.5,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    }
+   ]
+  },
+  "PapelPicado": {
+   "name": "PapelPicado",
+   "width": 56,
+   "height": 4,
+   "rows": [
+    "ssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+    "PPP YYY GGG BBB OOO PPP YYY GGG BBB OOO PPP YYY GGG BBB ",
+    "P P Y Y G G B B O O P P Y Y G G B B O O P P Y Y G G B B ",
+    " P   Y   G   B   O   P   Y   G   B   O   P   Y   G   B  "
+   ],
+   "palette": [
+    {
+     "key": "s",
+     "rgb": [
+      0.85,
+      0.82,
+      0.75
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.8
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.95,
+      0.3,
+      0.6
+     ],
+     "glow": 0.3,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.98,
+      0.82,
+      0.2
+     ],
+     "glow": 0.3,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.3,
+      0.8,
+      0.35
+     ],
+     "glow": 0.3,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.25,
+      0.55,
+      0.95
+     ],
+     "glow": 0.3,
+     "metal": 0.0,
+     "rough": 0.5
+    },
+    {
+     "key": "O",
+     "rgb": [
+      1.0,
+      0.55,
+      0.15
+     ],
+     "glow": 0.3,
+     "metal": 0.0,
+     "rough": 0.5
+    }
+   ]
+  }
+ },
+ "breeds": [
+  {
+   "name": "Llama",
+   "width": 12,
+   "height": 14,
+   "rows": [
+    "         PP ",
+    "        BBB ",
+    "       PPBB ",
+    "      PPeBB ",
+    "        BBB ",
+    "        BB  ",
+    "  BBBBBBBB  ",
+    " BBsssssBB  ",
+    " BBtttttBB  ",
+    " BBgggggBB  ",
+    " BBBBBBBBB  ",
+    " BB    BB   ",
+    " BB    BB   ",
+    " hh    hh   "
+   ],
+   "palette": [
+    {
+     "key": "B",
+     "rgb": [
+      0.42,
+      0.1,
+      0.8
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.95,
+      0.55,
+      0.8
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "s",
+     "rgb": [
+      0.85,
+      0.12,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "t",
+     "rgb": [
+      0.1,
+      0.75,
+      0.8
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "g",
+     "rgb": [
+      0.95,
+      0.65,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "h",
+     "rgb": [
+      0.05,
+      0.05,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.95,
+    0.15,
+    0.35
+   ],
+   "speedMul": 1.0,
+   "patienceMul": 1.15,
+   "bobHeightCm": 7.0,
+   "bobRate": 9.0,
+   "wobble": 5.0,
+   "extraSetStages": 0,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Lobster",
+   "width": 14,
+   "height": 12,
+   "rows": [
+    "          CCC ",
+    "         CCCC ",
+    "         CCC  ",
+    "   LL  RRaa   ",
+    " DDDRRRRRRRR  ",
+    " DDDRRRRRReRA ",
+    " DDDRRRRRReRA ",
+    " DDDRRRRRRRR  ",
+    "   LL  RRaa   ",
+    "         CCC  ",
+    "         CCCC ",
+    "          CCC "
+   ],
+   "palette": [
+    {
+     "key": "R",
+     "rgb": [
+      0.9,
+      0.22,
+      0.05
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.55,
+      0.1,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "C",
+     "rgb": [
+      0.95,
+      0.4,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "a",
+     "rgb": [
+      0.7,
+      0.15,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "A",
+     "rgb": [
+      0.35,
+      0.06,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "L",
+     "rgb": [
+      0.6,
+      0.12,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.95,
+    0.05,
+    0.05
+   ],
+   "speedMul": 0.9,
+   "patienceMul": 0.7,
+   "bobHeightCm": 3.0,
+   "bobRate": 14.0,
+   "wobble": 12.0,
+   "extraSetStages": 1,
+   "pauseInterval": 2.4,
+   "pauseTime": 0.6
+  },
+  {
+   "name": "Bigfoot",
+   "width": 12,
+   "height": 16,
+   "rows": [
+    "    BBBB    ",
+    "   BBBBBB   ",
+    "   BFFFFB   ",
+    "   FeFFeF   ",
+    "   FFFFFF   ",
+    "   FwwwwF   ",
+    "   BFFFFB   ",
+    "  BBBBBBBB  ",
+    " BBBBBBBBBB ",
+    " BBBBBBBBBB ",
+    " BBBBBBBBBB ",
+    " BB BBBB BB ",
+    " BB BBBB BB ",
+    "  B  BB  B  ",
+    " BBB    BBB ",
+    " DDD    DDD "
+   ],
+   "palette": [
+    {
+     "key": "B",
+     "rgb": [
+      0.45,
+      0.3,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.28,
+      0.17,
+      0.08
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "F",
+     "rgb": [
+      0.75,
+      0.6,
+      0.42
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "w",
+     "rgb": [
+      0.92,
+      0.9,
+      0.85
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.03,
+      0.02,
+      0.02
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.85,
+    0.3,
+    0.1
+   ],
+   "speedMul": 0.85,
+   "patienceMul": 1.1,
+   "bobHeightCm": 4.0,
+   "bobRate": 8.0,
+   "wobble": 6.0,
+   "extraSetStages": 1,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Snake",
+   "width": 16,
+   "height": 10,
+   "rows": [
+    "           GGG  ",
+    "          GGGGG ",
+    "          GeGGr ",
+    "          GGGr  ",
+    "   GGG   GGGG   ",
+    "  GGGGG GGGG    ",
+    " GGGGGGGGGG     ",
+    " GGGGGGGG       ",
+    "  GGGGGG        ",
+    "   DDDD         "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.2,
+      0.65,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.12,
+      0.45,
+      0.18
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "r",
+     "rgb": [
+      0.9,
+      0.15,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.9,
+    0.9,
+    0.1
+   ],
+   "speedMul": 1.15,
+   "patienceMul": 0.6,
+   "bobHeightCm": 2.0,
+   "bobRate": 12.0,
+   "wobble": 10.0,
+   "extraSetStages": 0,
+   "pauseInterval": 1.8,
+   "pauseTime": 0.4
+  },
+  {
+   "name": "Dragon",
+   "width": 15,
+   "height": 12,
+   "rows": [
+    " W             ",
+    " WWW    PPP    ",
+    "  WWWW PPPPP   ",
+    "  WWWWWPPPPe   ",
+    "   WWPPPPPP  ff",
+    "   PPPPPPPP fyf",
+    "   PPPPPPPP  ff",
+    "   PPPPPPPP    ",
+    "   DPPPPPPD    ",
+    "   D P  P D    ",
+    "   D P  P D    ",
+    "    DD  DD     "
+   ],
+   "palette": [
+    {
+     "key": "P",
+     "rgb": [
+      0.55,
+      0.2,
+      0.7
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.38,
+      0.12,
+      0.5
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.8,
+      0.7,
+      0.35
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "f",
+     "rgb": [
+      0.95,
+      0.45,
+      0.1
+     ],
+     "glow": 2.5,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "y",
+     "rgb": [
+      0.97,
+      0.88,
+      0.25
+     ],
+     "glow": 4.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.95,
+    0.4,
+    0.1
+   ],
+   "speedMul": 1.05,
+   "patienceMul": 0.8,
+   "bobHeightCm": 5.0,
+   "bobRate": 7.0,
+   "wobble": 6.0,
+   "extraSetStages": 1,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "T-Rex",
+   "width": 15,
+   "height": 13,
+   "rows": [
+    "         GGGGG ",
+    "        GGGGGGG",
+    "        GGeGGGG",
+    " G      GGGGGGG",
+    " GG    GGwwwww ",
+    " GGGGGGGGGGGG  ",
+    " GGGGGGGGGGG   ",
+    "  GGGGGGGGG G  ",
+    "   GGGGGGGG    ",
+    "   GGG GGG     ",
+    "   GG   GG     ",
+    "   GG   GG     ",
+    "  DDD   DDD    "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.3,
+      0.65,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.18,
+      0.45,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "w",
+     "rgb": [
+      0.92,
+      0.9,
+      0.85
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.9,
+    0.2,
+    0.1
+   ],
+   "speedMul": 1.0,
+   "patienceMul": 0.9,
+   "bobHeightCm": 3.0,
+   "bobRate": 8.0,
+   "wobble": 8.0,
+   "extraSetStages": 2,
+   "pauseInterval": 2.0,
+   "pauseTime": 0.5
+  },
+  {
+   "name": "Skull",
+   "width": 11,
+   "height": 11,
+   "rows": [
+    "   WWWWW   ",
+    "  WWWWWWW  ",
+    " WWWWWWWWW ",
+    " WWWWWWWWW ",
+    " WKKWWWKKW ",
+    " WKKWWWKKW ",
+    " WWWWKWWWW ",
+    "  WWWWWWW  ",
+    "  WKWKWKW  ",
+    "  WKWKWKW  ",
+    "   WWWWW   "
+   ],
+   "palette": [
+    {
+     "key": "W",
+     "rgb": [
+      0.88,
+      0.87,
+      0.82
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.04,
+      0.04,
+      0.05
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.95,
+    0.95,
+    0.95
+   ],
+   "speedMul": 0.95,
+   "patienceMul": 0.5,
+   "bobHeightCm": 6.0,
+   "bobRate": 10.0,
+   "wobble": 4.0,
+   "extraSetStages": 0,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Alien",
+   "width": 11,
+   "height": 14,
+   "rows": [
+    "   GGGGG   ",
+    "  GGGGGGG  ",
+    " GGGGGGGGG ",
+    " GGGGGGGGG ",
+    " GeeGGGeeG ",
+    " GeeGGGeeG ",
+    " GGGGGGGGG ",
+    "  GGGGGGG  ",
+    "   GGGGG   ",
+    "  GGGGGGG  ",
+    " GGGGGGGGG ",
+    " G GGGGG G ",
+    "   G   G   ",
+    "  DD   DD  "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.35,
+      0.7,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.22,
+      0.5,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.3,
+    0.95,
+    0.3
+   ],
+   "speedMul": 1.1,
+   "patienceMul": 0.7,
+   "bobHeightCm": 4.0,
+   "bobRate": 11.0,
+   "wobble": 6.0,
+   "extraSetStages": 0,
+   "pauseInterval": 1.5,
+   "pauseTime": 0.3
+  },
+  {
+   "name": "UFO",
+   "width": 16,
+   "height": 10,
+   "rows": [
+    "      CCCC      ",
+    "     CCGGCC     ",
+    "     CGGGGC     ",
+    "   SSSSSSSSSS   ",
+    " SSBSSBSSBSSBSS ",
+    " SSSSSSSSSSSSSS ",
+    "  DDSSSSSSSSDD  ",
+    "    DDDDDDDD    ",
+    "      yyyy      ",
+    "      yyyy      "
+   ],
+   "palette": [
+    {
+     "key": "S",
+     "rgb": [
+      0.55,
+      0.6,
+      0.65
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.3,
+      0.33,
+      0.38
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "C",
+     "rgb": [
+      0.55,
+      0.8,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.2,
+      0.6,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.2,
+      0.55,
+      0.95
+     ],
+     "glow": 3.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "y",
+     "rgb": [
+      0.95,
+      0.9,
+      0.3
+     ],
+     "glow": 2.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.3,
+    0.7,
+    0.95
+   ],
+   "speedMul": 1.2,
+   "patienceMul": 0.6,
+   "bobHeightCm": 8.0,
+   "bobRate": 6.0,
+   "wobble": 2.0,
+   "extraSetStages": 0,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Police car",
+   "width": 16,
+   "height": 10,
+   "rows": [
+    "      B         ",
+    "    WWWWWW      ",
+    "   WWCCCCWWW    ",
+    "  WWWCCCCWWWWW  ",
+    " WWWWWWWWWWWWWW ",
+    " rBBBBBBBBBBByW ",
+    " WWWWWWWWWWWWWW ",
+    " WWKKWWWWWWKKWW ",
+    "  KKKK    KKKK  ",
+    "   KK      KK   "
+   ],
+   "palette": [
+    {
+     "key": "W",
+     "rgb": [
+      0.9,
+      0.9,
+      0.92
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.1,
+      0.25,
+      0.75
+     ],
+     "glow": 1.5,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.05,
+      0.05,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "C",
+     "rgb": [
+      0.55,
+      0.75,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "r",
+     "rgb": [
+      0.85,
+      0.1,
+      0.1
+     ],
+     "glow": 3.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "y",
+     "rgb": [
+      0.95,
+      0.8,
+      0.2
+     ],
+     "glow": 3.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.1,
+    0.3,
+    0.95
+   ],
+   "speedMul": 1.15,
+   "patienceMul": 1.2,
+   "bobHeightCm": 1.0,
+   "bobRate": 14.0,
+   "wobble": 3.0,
+   "extraSetStages": 1,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Devil",
+   "width": 13,
+   "height": 16,
+   "rows": [
+    " R         R ",
+    " RR       RR ",
+    "  RR     RR  ",
+    "  RRR   RRR  ",
+    "   RRRRRRR   ",
+    "  RRRRRRRRR  ",
+    "  RYKRRRKYR  ",
+    "  RRRRRRRRR  ",
+    "   RYYYYYR   ",
+    "   RRRRRRR   ",
+    "  RRRRRRRRR  ",
+    "  RRRRYRRRR  ",
+    "  RRKKKKKRR  ",
+    "  RR RRR RR  ",
+    "  RR     RR  ",
+    "  KK     KK  "
+   ],
+   "palette": [
+    {
+     "key": "R",
+     "rgb": [
+      0.75,
+      0.12,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.95,
+      0.8,
+      0.2
+     ],
+     "glow": 1.5,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.05,
+      0.04,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.95,
+    0.1,
+    0.1
+   ],
+   "speedMul": 1.05,
+   "patienceMul": 0.75,
+   "bobHeightCm": 4.0,
+   "bobRate": 9.0,
+   "wobble": 7.0,
+   "extraSetStages": 2,
+   "pauseInterval": 0.0,
+   "pauseTime": 0.0
+  },
+  {
+   "name": "Gangster",
+   "width": 12,
+   "height": 16,
+   "rows": [
+    "   HHHH     ",
+    "  HHHHHH    ",
+    "  SSSSSS    ",
+    "  SeSSeS    ",
+    "  SSSSSS    ",
+    "  WWWWWW    ",
+    " WWWWWWWSGG ",
+    " WWWWWWWW G ",
+    "  WWWWWW    ",
+    "  SSWWSS    ",
+    "  JJJJJJ    ",
+    "  JJJJJJ    ",
+    "  JJ  JJ    ",
+    "  JJ  JJ    ",
+    "  JJ  JJ    ",
+    "  KK  KK    "
+   ],
+   "palette": [
+    {
+     "key": "H",
+     "rgb": [
+      0.05,
+      0.04,
+      0.04
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.45,
+      0.3,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.9,
+      0.9,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "J",
+     "rgb": [
+      0.15,
+      0.25,
+      0.55
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.45,
+      0.45,
+      0.5
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.08,
+      0.08,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.02,
+      0.02,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ],
+   "angry": [
+    0.9,
+    0.7,
+    0.2
+   ],
+   "speedMul": 1.0,
+   "patienceMul": 0.9,
+   "bobHeightCm": 3.0,
+   "bobRate": 8.0,
+   "wobble": 5.0,
+   "extraSetStages": 1,
+   "pauseInterval": 2.2,
+   "pauseTime": 0.5
+  }
+ ],
+ "bonus": [
+  {
+   "name": "Gas",
+   "width": 11,
+   "height": 12,
+   "rows": [
+    "    KKKK  S ",
+    "   KRRRRKKS ",
+    "   KRRRRRKS ",
+    "  KKKKKRRK  ",
+    "  KRRRRRRK  ",
+    "  KR   RRK  ",
+    "  KR   RRK  ",
+    "  KRRRRRRK  ",
+    "  KRRDDRRK  ",
+    "  KRRDDRRK  ",
+    "  KRRRRRRK  ",
+    "   KKKKKK   "
+   ],
+   "palette": [
+    {
+     "key": "K",
+     "rgb": [
+      0.05,
+      0.05,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "R",
+     "rgb": [
+      0.78,
+      0.1,
+      0.09
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.52,
+      0.06,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "S",
+     "rgb": [
+      0.1,
+      0.1,
+      0.11
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Chick",
+   "width": 10,
+   "height": 12,
+   "rows": [
+    "    KKK   ",
+    "   KBBBK  ",
+    "  KBBBBBK ",
+    "  KBooBBK ",
+    "  KBBBBBK ",
+    "  KBBBBK  ",
+    "   KBBK   ",
+    "   KBBK   ",
+    "   KWWK   ",
+    "  KWKKW   ",
+    "  KW  K   ",
+    "   KK     "
+   ],
+   "palette": [
+    {
+     "key": "K",
+     "rgb": [
+      0.08,
+      0.05,
+      0.03
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.55,
+      0.33,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "o",
+     "rgb": [
+      0.95,
+      0.7,
+      0.28
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.92,
+      0.88,
+      0.78
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Rain",
+   "width": 13,
+   "height": 8,
+   "rows": [
+    "     RRR     ",
+    "   RROOORR   ",
+    "  RROYYYORR  ",
+    " RROYGGGYORR ",
+    " ROYGBBBGYOR ",
+    "ROYGBP PBGYOR",
+    "ROYGBP PBGYOR",
+    "ROYGBP PBGYOR"
+   ],
+   "palette": [
+    {
+     "key": "R",
+     "rgb": [
+      0.9,
+      0.1,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "O",
+     "rgb": [
+      0.95,
+      0.55,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.95,
+      0.9,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.25,
+      0.75,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.15,
+      0.45,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.55,
+      0.2,
+      0.75
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Bug",
+   "width": 14,
+   "height": 9,
+   "rows": [
+    "    RRRRRR    ",
+    "   RRRRRRRR   ",
+    "  RRWWWWWWRR  ",
+    " RRWWWWWWWWRR ",
+    " RRRRRRRRRRRR ",
+    "RRRRRRRRRRRRRR",
+    "RKKRRRRRRRRKKR",
+    " KKKK    KKKK ",
+    "  KK      KK  "
+   ],
+   "palette": [
+    {
+     "key": "R",
+     "rgb": [
+      0.8,
+      0.11,
+      0.1
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.65,
+      0.8,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.05,
+      0.05,
+      0.06
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Coffee",
+   "width": 11,
+   "height": 10,
+   "rows": [
+    "           ",
+    "  KKKKKK   ",
+    " KWWWWWWK  ",
+    " KWWWWWWKKK",
+    " KWGGGGWK K",
+    " KWGGGGWK K",
+    " KWWWWWWKK ",
+    "  KWWWWK   ",
+    "KKKKKKKKKK ",
+    " KKKKKKKK  "
+   ],
+   "palette": [
+    {
+     "key": "K",
+     "rgb": [
+      0.15,
+      0.15,
+      0.17
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.86,
+      0.87,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.35,
+      0.22,
+      0.12
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Melon",
+   "width": 12,
+   "height": 10,
+   "rows": [
+    "GGGGGGGGGGGG",
+    " WWWWWWWWWW ",
+    " RRRRKRRRRR ",
+    "  RRRRRRRR  ",
+    "  RRKRRRKR  ",
+    "   RRRRRR   ",
+    "   RRRRRR   ",
+    "    RRKR    ",
+    "    RRRR    ",
+    "     RR     "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.2,
+      0.65,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.85,
+      0.95,
+      0.8
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "R",
+     "rgb": [
+      0.86,
+      0.15,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.08,
+      0.08,
+      0.08
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Gem",
+   "width": 10,
+   "height": 10,
+   "rows": [
+    " KKKKKK   ",
+    "KWCCCCBK  ",
+    "KCCCCCBBK ",
+    " KBBBBBBK ",
+    "  KBDDBK  ",
+    "  KDDDDK  ",
+    "   KDDK   ",
+    "   KDDK   ",
+    "    KK    ",
+    "          "
+   ],
+   "palette": [
+    {
+     "key": "K",
+     "rgb": [
+      0.05,
+      0.1,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "W",
+     "rgb": [
+      0.9,
+      0.98,
+      1.0
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "C",
+     "rgb": [
+      0.5,
+      0.85,
+      0.95
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "B",
+     "rgb": [
+      0.25,
+      0.6,
+      0.9
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.15,
+      0.4,
+      0.75
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Uni",
+   "width": 15,
+   "height": 12,
+   "rows": [
+    "     H         ",
+    "    PHW        ",
+    "   PPWWW       ",
+    "   PWWeW       ",
+    "   PWWWWW      ",
+    "  PWWWWWWWWWN  ",
+    "  WWWWWWWWWWNY ",
+    "  WWWWWWWWWWPYG",
+    "  WWWWWWWWWW NG",
+    "  W WW  WW W   ",
+    "  W WW  WW W   ",
+    "  K KK  KK K   "
+   ],
+   "palette": [
+    {
+     "key": "W",
+     "rgb": [
+      0.92,
+      0.92,
+      0.96
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.12,
+      0.12,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "H",
+     "rgb": [
+      0.95,
+      0.8,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.6,
+      0.25,
+      0.78
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "N",
+     "rgb": [
+      0.95,
+      0.45,
+      0.7
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.95,
+      0.85,
+      0.25
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.3,
+      0.72,
+      0.35
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "e",
+     "rgb": [
+      0.15,
+      0.1,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Potion",
+   "width": 10,
+   "height": 12,
+   "rows": [
+    "    W     ",
+    "    CC    ",
+    "    CC    ",
+    "   KGGK   ",
+    "   KGGK   ",
+    "  KGGGGK  ",
+    " KGLLLLGK ",
+    " KLLLLLLK ",
+    " KLPPLLLK ",
+    " KLLLLLLK ",
+    "  KLLLLK  ",
+    "   KKKK   "
+   ],
+   "palette": [
+    {
+     "key": "W",
+     "rgb": [
+      0.95,
+      0.95,
+      0.98
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "C",
+     "rgb": [
+      0.5,
+      0.35,
+      0.2
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "K",
+     "rgb": [
+      0.1,
+      0.1,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "G",
+     "rgb": [
+      0.7,
+      0.85,
+      0.95
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "L",
+     "rgb": [
+      0.6,
+      0.2,
+      0.78
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "P",
+     "rgb": [
+      0.92,
+      0.45,
+      0.82
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  },
+  {
+   "name": "Money",
+   "width": 14,
+   "height": 11,
+   "rows": [
+    "   GGGGGGGG   ",
+    "  GDGGGGGGDG  ",
+    "  GGGGGGGGGG  ",
+    "  GDGGGGGGDG  ",
+    "  GGGGGGGGGG  ",
+    " YY GGGGGG YY ",
+    "YOYY      YOYY",
+    "YYOY  YY  YYOY",
+    " YY  YOYY  YY ",
+    "     YYOY     ",
+    "      YY      "
+   ],
+   "palette": [
+    {
+     "key": "G",
+     "rgb": [
+      0.2,
+      0.65,
+      0.4
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "D",
+     "rgb": [
+      0.1,
+      0.42,
+      0.26
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "Y",
+     "rgb": [
+      0.98,
+      0.82,
+      0.28
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    },
+    {
+     "key": "O",
+     "rgb": [
+      0.75,
+      0.55,
+      0.15
+     ],
+     "glow": 0.0,
+     "metal": 0.0,
+     "rough": 0.6
+    }
+   ]
+  }
+ ],
+ "hat": {
+  "name": "Hat",
+  "width": 8,
+  "height": 3,
+  "rows": [
+   "  YYYY  ",
+   " YYYYYY ",
+   "BBBBBBBB"
+  ],
+  "palette": [
+   {
+    "key": "Y",
+    "rgb": [
+     0.98,
+     0.8,
+     0.1
+    ],
+    "glow": 0.0,
+    "metal": 0.0,
+    "rough": 0.6
+   },
+   {
+    "key": "B",
+    "rgb": [
+     0.8,
+     0.55,
+     0.05
+    ],
+    "glow": 0.0,
+    "metal": 0.0,
+    "rough": 0.6
+   }
+  ]
+ }
+}

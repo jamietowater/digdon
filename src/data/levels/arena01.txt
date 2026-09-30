@@ -1,0 +1,21 @@
+; Dig-Don arena 01  (14 x 18)
+; '#' dirt  '.' tunnel  'R' rock  'X' bedrock  'P' player start  'E' enemy spawn
+; Row 0 is the surface. Rocks need dirt beneath them; dig it out to drop them.
+..............
+######P#######
+######.#######
+##R###.####R##
+######.#######
+#....E########
+##############
+########R#####
+##############
+#########.####
+##.####.E.####
+##E####.....##
+##.###########
+##.###########
+#####R########
+#########E..##
+##############
+XXXXXXXXXXXXXX

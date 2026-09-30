@@ -1,0 +1,26 @@
+{
+  "name": "digdon-web",
+  "private": true,
+  "version": "0.8.4",
+  "description": "Dig Don - HTML5 build for Facebook Instant Games and the web",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:fb": "tsc && vite build --mode fb",
+    "bundle": "npm run build:fb && node scripts/bundle.mjs",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "export-data": "python tools/export_unreal_data.py"
+  },
+  "dependencies": {
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "fflate": "^0.8.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}
