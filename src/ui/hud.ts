@@ -9,6 +9,8 @@ interface Popup {
   el: HTMLElement;
   world: THREE.Vector3;
   age: number;
+  /** Level 7 has no 3D world: the popup rises from this spot across the road instead. */
+  road: number | null;
 }
 
 const pad6 = (n: number) => String(Math.min(999999, n)).padStart(6, '0');
@@ -27,6 +29,7 @@ export class Hud {
   private live: Popup[] = [];
   private bannerKey = '';
   private text = '';
+  private racing = false;
 
   constructor(private readonly stage: Stage) {}
 
@@ -50,7 +53,7 @@ export class Hud {
       el.className = 'popup';
       el.textContent = String(e.points);
       this.popups.append(el);
-      this.live.push({ el, world: new THREE.Vector3(e.at.x, -e.at.y, ACTOR_Z), age: 0 });
+      this.live.push({ el, world: new THREE.Vector3(e.at.x, -e.at.y, ACTOR_Z), age: 0, road: this.racing ? e.at.x : null });
     }
   }
 
@@ -60,10 +63,12 @@ export class Hud {
   }
 
   update(game: Game, dt: number): void {
+    this.racing = !!game.race;
     const text = [
       pad6(game.score),
       pad6(game.hiScore),
       `LV ${game.levelNumber} · RD ${game.round}`,
+      game.race ? `TIME ${Math.ceil(game.race.timeLeft)} · ${Math.floor(game.race.progress * 100)}%` :
       game.hasArena ? (game.isPlatformLevel ? `BONUS ${game.scaffold?.bonus ?? game.summit?.bonus ?? 0}` : game.level.invaders ? `INVADERS ${game.enemies.length}` : game.isCongaLevel ? `CONGA ${game.enemies.length}` : game.level.key === 'bricklayer' ? `CREATURES ${game.enemies.length}` : `DIRT ${game.grid.dirtRemaining}`) : '',
       '■'.repeat(Math.max(0, game.lives)),
     ];
@@ -87,7 +92,10 @@ export class Hud {
           continue;
         }
         // Rise ~0.5 cells a second and fade, like the Unreal popups.
-        const s = this.stage.project(p.world.clone().setY(p.world.y + p.age * 0.53));
+        const view = this.popups.parentElement!;
+        const s = p.road === null
+          ? this.stage.project(p.world.clone().setY(p.world.y + p.age * 0.53))
+          : { x: view.clientWidth * (0.5 + Math.max(-1, Math.min(1, p.road)) * 0.25), y: view.clientHeight * 0.4 - p.age * 40 };
         p.el.style.left = `${s.x}px`;
         p.el.style.top = `${s.y}px`;
         p.el.style.opacity = String(1 - p.age / Rules.popupLife);
@@ -99,7 +107,7 @@ export class Hud {
   private updateBanner(game: Game): void {
     let key = '';
     if (game.state === 'playing' && game.levelTime < Rules.titleTime) key = `title:${game.levelSerial}`;
-    else if (game.state === 'dying') key = game.lives > 0 ? 'ouch' : 'last';
+    else if (game.state === 'dying') key = game.race?.timedOut ? 'timeup' : game.lives > 0 ? 'ouch' : 'last';
     else if (game.state === 'levelClear') key = 'clear';
     else if (game.state === 'interlude') key = `interlude:${game.round}`;
 
@@ -113,6 +121,7 @@ export class Hud {
     this.setBanner(key, () => {
       if (key.startsWith('title')) return [span(game.levelTitle, 'banner-text banner-title')];
       if (key === 'ouch') return [span('OUCH!', 'banner-text banner-ouch')];
+      if (key === 'timeup') return [span('TIME UP!', 'banner-text banner-ouch')];
       if (key === 'last') return [span('LAST LIFE LOST', 'banner-text banner-ouch')];
       if (key === 'clear') return [span('ROUND CLEAR!', 'banner-text banner-clear')];
       if (key.startsWith('interlude')) {

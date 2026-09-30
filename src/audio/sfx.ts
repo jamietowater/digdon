@@ -11,6 +11,7 @@ export class Sfx {
   private master: GainNode | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private ufoOsc: { osc: OscillatorNode; lfo: OscillatorNode; gain: GainNode } | null = null;
+  private engineOsc: { osc: OscillatorNode; gain: GainNode } | null = null;
   private muted = false;
 
   constructor() {
@@ -120,6 +121,33 @@ export class Sfx {
     this.ufoOsc = { osc, lfo, gain };
   }
 
+  /** The Level 7 engine drone: pitch follows speed (0 to 1); null stops it. */
+  engine(speed: number | null): void {
+    const ctx = this.ctx;
+    if (speed === null || !ctx || !this.master || ctx.state !== 'running') {
+      if (this.engineOsc) {
+        const { osc, gain } = this.engineOsc;
+        gain.gain.setTargetAtTime(0, ctx?.currentTime ?? 0, 0.05);
+        setTimeout(() => osc.stop(), 300);
+        this.engineOsc = null;
+      }
+      return;
+    }
+    if (!this.engineOsc) {
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      filter.type = 'lowpass';
+      filter.frequency.value = 700;
+      gain.gain.value = 0.05;
+      osc.connect(filter).connect(gain).connect(this.master);
+      osc.start();
+      this.engineOsc = { osc, gain };
+    }
+    this.engineOsc.osc.frequency.setTargetAtTime(50 + 130 * speed, ctx.currentTime, 0.05);
+  }
+
   play(e: GameEvent): void {
     if (!this.ctx) return;
     switch (e.type) {
@@ -144,6 +172,11 @@ export class Sfx {
       case 'bonusCollect': this.notes([784, 988, 1175, 1568, 1976], 0.05, 'square', 0.07); break;
       case 'donJr': this.notes([392, 523, 659, 784, 1047], 0.08, 'square', 0.08); break;
       case 'ghost': this.tone(300, 0.6, 'sine', 0.07, 900); break;
+      case 'brickThrow': this.noise(0.1, 0.15, 600, 'bandpass', 0, 2000); this.tone(220, 0.08, 'square', 0.05, 160); break;
+      case 'canThrow': this.tone(1200, 0.3, 'sine', 0.05, 500); break;
+      case 'raceHit': this.tone(2200, 0.2, 'triangle', 0.16, 1900); this.noise(0.18, 0.25, 1400, 'lowpass', 0, 200); break;
+      case 'splat': this.noise(0.35, 0.4, 500, 'lowpass', 0, 120); this.tone(160, 0.2, 'sine', 0.2, 60); break;
+      case 'crash': this.noise(0.6, 0.45, 1500, 'lowpass', 0, 80); this.tone(90, 0.5, 'sawtooth', 0.15, 35); this.engine(null); break;
       case 'playerDied': this.notes([784, 659, 523, 392, 262, 196], 0.08, 'square', 0.08); this.ufo(false); break;
       case 'levelStart': this.notes([523, 659, 784, 1047], 0.09, 'square', 0.07); break;
       case 'levelClear': this.notes([523, 659, 784, 1047, 784, 1047, 1319], 0.08, 'square', 0.08); this.ufo(false); break;

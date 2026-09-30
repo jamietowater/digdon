@@ -25,6 +25,11 @@ export type GameEvent =
   | { type: 'donJr' }
   | { type: 'ghost'; at: Vec2 }
   | { type: 'playerDied'; at: Vec2 }
+  | { type: 'brickThrow'; at: Vec2 }
+  | { type: 'canThrow'; at: Vec2 }
+  | { type: 'raceHit'; at: Vec2 }
+  | { type: 'splat'; at: Vec2 }
+  | { type: 'crash'; at: Vec2 }
   | { type: 'levelStart'; level: number; round: number }
   | { type: 'levelClear'; level: number; round: number }
   | { type: 'gameOver'; score: number };

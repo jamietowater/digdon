@@ -17,7 +17,9 @@ export interface LevelLook {
   background: number;
 }
 
-export const LOOKS: Record<'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit', LevelLook> = {
+export const LOOKS: Record<'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit' | 'drive', LevelLook> = {
+  // Drawn by RaceView; this only colours the stage behind it.
+  drive: { keyLightScale: 0.8, gain: [1, 1, 1], background: 0x120b09 },
   scaffold: { keyLightScale: 0.8, gain: [1.04, 1, 0.96], background: 0x09161a },
   summit: { keyLightScale: 0.9, gain: [0.96, 1.02, 1.08], background: 0x111b23 },
   // Warm earth underground.

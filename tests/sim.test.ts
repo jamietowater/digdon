@@ -3,7 +3,7 @@ import { Controls } from '../src/input/controls';
 import { CameraTracker, cameraBounds, fitCamera, mobileCameraPreference, type CameraRequest } from '../src/render/camera';
 import { Game, LEVELS, type LevelDef } from '../src/sim/game';
 import { Cell, Grid } from '../src/sim/grid';
-import { encaseKillPoints, rockKillPoints } from '../src/sim/config';
+import { Race, Rules, encaseKillPoints, rockKillPoints } from '../src/sim/config';
 import { mulberry32, setRandom } from '../src/sim/math';
 import { NO_INPUT, type Input } from '../src/sim/world';
 import { Breeds, BonusItems, Sprites } from '../src/data/sprites';
@@ -535,7 +535,7 @@ describe('summit', () => {
   });
 
   it('exports all six layouts and every platform sprite used by the renderer', () => {
-    expect(LEVELS.map(entry => entry.key)).toEqual(['dig', 'bricklayer', 'conga', 'invasion', 'scaffold', 'summit']);
+    expect(LEVELS.map(entry => entry.key)).toEqual(['dig', 'bricklayer', 'conga', 'invasion', 'scaffold', 'summit', 'drive']);
     for (const name of ['CanSlinger', 'DonJr', 'Mallet', 'Can', 'Drum', 'Flame', 'Flag', 'Cactus', 'ChiliAmigo', 'CactusAmigo', 'Luchador']) {
       expect(Sprites.characters[name], name).toBeDefined();
     }
@@ -600,5 +600,87 @@ describe('scoring and data', () => {
     }
     expect(Breeds).toHaveLength(12);
     expect(BonusItems).toHaveLength(10);
+  });
+});
+
+describe('driving level', () => {
+  function drive(): Game {
+    const game = new Game();
+    game.startNewGame(LEVELS.findIndex(entry => entry.key === 'drive'));
+    game.race!.spawnTimer = Infinity;
+    return game;
+  }
+
+  it("is Level 7, I CAN'T SEE!!", () => {
+    const game = drive();
+    expect(game.levelNumber).toBe(7);
+    expect(game.level.title).toBe("I CAN'T SEE!!");
+    expect(game.race).not.toBeNull();
+  });
+
+  it('accelerates up the road and clears the round at the finish line with a time bonus', () => {
+    const game = drive();
+    const race = game.race!;
+    run(game, 1, { moveY: -1 });
+    expect(race.speed).toBeGreaterThan(2000);
+    expect(race.position).toBeGreaterThan(0);
+    race.position = race.finishZ - 500;
+    run(game, 0.5, { moveY: -1 });
+    expect(game.state).toBe('levelClear');
+    expect(game.score).toBeGreaterThanOrEqual(Math.ceil(race.timeLeft) * Race.timeBonus);
+  });
+
+  it('knocks out a creature ahead with a thrown brick', () => {
+    const game = drive();
+    const race = game.race!;
+    race.addEnemy('ChiliAmigo', race.position + 6000, 0);
+    game.update(DT, { ...NO_INPUT, firePressed: true });
+    run(game, 0.8);
+    expect(race.enemies.every(enemy => enemy.hit >= 0)).toBe(true);
+    expect(game.score).toBe(100);
+    run(game, Race.hitTime);
+    expect(race.enemies).toHaveLength(0);
+  });
+
+  it('crashes into a creature in its lane, loses a life and restarts stopped', () => {
+    const game = drive();
+    const race = game.race!;
+    race.speed = Race.maxSpeed;
+    race.addEnemy('Luchador', race.position + 4000, 0).timer = Infinity;
+    run(game, 1);
+    expect(game.state).toBe('dying');
+    expect(game.lives).toBe(2);
+    for (let frame = 0; frame < 200 && game.state === 'dying'; frame++) game.update(DT, NO_INPUT);
+    expect(game.state).toBe('playing');
+    expect(race.speed).toBe(0);
+    expect(race.playerX).toBe(0);
+  });
+
+  it('slows down off the road', () => {
+    const game = drive();
+    const race = game.race!;
+    race.speed = Race.maxSpeed;
+    race.playerX = 1.6;
+    run(game, 1, { moveY: -1 });
+    expect(race.speed).toBeLessThanOrEqual(Race.offRoadMaxSpeed + 1);
+  });
+
+  it('splats the windshield when a Can Slinger lands a can', () => {
+    const game = drive();
+    const race = game.race!;
+    race.addEnemy('CanSlinger', race.position + 8000, 0).timer = 0;
+    run(game, Race.canFlight + 0.1, { moveY: 1 });
+    expect(race.splat).toBeGreaterThan(0);
+    expect(game.state).toBe('playing');
+  });
+
+  it('costs a life when the clock runs out', () => {
+    const game = drive();
+    game.race!.timeLeft = 0.05;
+    run(game, 0.1);
+    expect(game.state).toBe('dying');
+    expect(game.race!.timedOut).toBe(true);
+    run(game, Rules.respawnDelay);
+    expect(game.race!.timeLeft).toBeGreaterThanOrEqual(Race.retryTime - 0.1);
   });
 });

@@ -2,7 +2,7 @@
 
 Play at https://jamietowater.github.io/digdon/.
 
-The web port includes the six Unreal arenas in their original order. PLAY rotates through them;
+The web port includes the six Unreal arenas in their original order, plus a web-only driving level. PLAY rotates through them;
 SELECT LEVEL opens a compact menu to repeat a chosen level with increasing difficulty.
 
 | Level | Objective |
@@ -13,6 +13,7 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 | 4. Invasion | Defeat the descending formation using upward throws and brick cover. |
 | 5. Scaffold | As Don Jr., climb past Can Slinger and rescue Don. |
 | 6. Summit | Smash through floors, avoid the repair lobsters and dragon, and reach the UFO. |
+| 7. I CAN'T SEE!! | Don Jr. can't see, so his friend drives. Reach the finish before time runs out, dodging or bricking Can Slinger, Luchadors and Chili Amigos. |
 
 ## Controls
 
@@ -22,6 +23,8 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 - Scaffold and Summit: Space/J jumps, S throws. Scaffold ladders use Up/Down; mallets prevent climbing until they expire.
 - Summit co-op on desktop: enable the menu checkbox. Player 2 uses A/D to move, W to jump, F to throw.
 	Player 2 uses the shared keyboard, not a second touch pad or gamepad.
+- I CAN'T SEE!!: Left/Right steer, Up accelerates, Down brakes; the car cruises on its own. Space/J/S throws a brick.
+	A Can Slinger's can splats the windshield for a moment. Crashing or running out of time costs a life.
 - Q pauses; touch screens have a pause button.
 
 ### Mobile View
@@ -53,6 +56,7 @@ npm test
 npm run build
 ```
 
-`npm run export-data` regenerates sprite data and all six layouts from the sibling Unreal project.
+`npm run export-data` regenerates sprite data and all six arena layouts from the sibling Unreal project.
+Level 7 has no Unreal arena: its track is generated in `src/sim/race.ts` and drawn by `src/render/raceView.ts`.
 `npm run build` produces the SDK-free web build in `dist/`. Pushes to `main` run tests and deploy it via GitHub Pages.
 Facebook builds use `npm run build:fb` or `npm run bundle`; deploying Pages does not upload a Facebook bundle.

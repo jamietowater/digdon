@@ -9,6 +9,7 @@ import { InvaderFleet } from './fleet';
 import { CongaLine } from './conga';
 import { ScaffoldSite } from './scaffold';
 import { SummitSite } from './summit';
+import { RaceSite } from './race';
 import { DonJr } from './donjr';
 import { Enemy } from './enemy';
 import { EventQueue } from './events';
@@ -23,14 +24,18 @@ import { NO_INPUT, type Input, type World } from './world';
 export type MatchState = 'menu' | 'playing' | 'dying' | 'levelClear' | 'interlude' | 'gameOver';
 
 export interface LevelDef {
-  key: 'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit';
+  key: 'dig' | 'bricklayer' | 'conga' | 'invasion' | 'scaffold' | 'summit' | 'drive';
   title: string;
   layout: string;
   invaders: boolean;
   brickLaying: boolean;
   conga?: number;
   platform?: 'scaffold' | 'summit';
+  race?: boolean;
 }
+
+/** The driving level has no arena; this stub keeps the shared grid and player in place. */
+const DRIVE_LAYOUT = 'P..\n...\nXXX';
 
 export const LEVELS: readonly LevelDef[] = [
   { key: 'dig', title: 'DIG DON', layout: arena01, invaders: false, brickLaying: false },
@@ -39,6 +44,7 @@ export const LEVELS: readonly LevelDef[] = [
   { key: 'invasion', title: 'INVASION', layout: arena04, invaders: true, brickLaying: true },
   { key: 'scaffold', title: 'SCAFFOLD', layout: arena05, invaders: false, brickLaying: false, platform: 'scaffold' },
   { key: 'summit', title: 'SUMMIT', layout: arena06, invaders: false, brickLaying: false, platform: 'summit' },
+  { key: 'drive', title: "I CAN'T SEE!!", layout: DRIVE_LAYOUT, invaders: false, brickLaying: false, race: true },
 ];
 
 export interface BonusItem {
@@ -78,6 +84,7 @@ export class Game implements World {
   conga: CongaLine[] = [];
   scaffold: ScaffoldSite | null = null;
   summit: SummitSite | null = null;
+  race: RaceSite | null = null;
   bonus: BonusItem | null = null;
   jr: DonJr | null = null;
   collectedItems: number[] = [];
@@ -176,6 +183,7 @@ export class Game implements World {
     this.conga = [];
     this.scaffold = null;
     this.summit = null;
+    this.race = null;
     this.bonus = null;
     this.jr = null;
     this.player2 = null;
@@ -222,6 +230,7 @@ export class Game implements World {
     this.player.init(this.grid.playerStart);
     if (level.platform === 'scaffold') this.scaffold = new ScaffoldSite(this);
     if (level.platform === 'summit') this.summit = new SummitSite(this);
+    if (level.race) this.race = new RaceSite(this);
     if (this.summit && this.twoPlayers) {
       this.player2 = new Player(this);
       this.player2.init(this.summit.respawn(this.grid.playerStart.x + 3, this.player));
@@ -298,6 +307,10 @@ export class Game implements World {
   }
 
   private tickActors(dt: number, input: Input): void {
+    if (this.race) {
+      this.race.update(dt, input);
+      return;
+    }
     this.player.update(dt, input);
     if (this.player2) {
       this.player2.update(dt, input.player2 ?? NO_INPUT);
@@ -371,6 +384,7 @@ export class Game implements World {
     this.state = 'playing';
     this.scaffold?.reset();
     this.summit?.reset();
+    this.race?.reset();
     this.stateTimer = 0;
   }
 

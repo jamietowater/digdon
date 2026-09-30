@@ -143,7 +143,7 @@ async function boot(): Promise<void> {
   };
 
   const scoreCard = (): string => {
-    const shot = stage.snapshot();
+    const shot = view.racing ? $<HTMLCanvasElement>('#race') : stage.snapshot();
     const card = document.createElement('canvas');
     card.width = 1200;
     card.height = 630;
@@ -208,6 +208,7 @@ async function boot(): Promise<void> {
     'level-3': () => startGame(3),
     'level-4': () => startGame(4),
     'level-5': () => startGame(5),
+    'level-6': () => startGame(6),
     leaderboard: () => openBoard(screen),
     sound: toggleSound,
     resume: () => pause(false),
@@ -260,9 +261,12 @@ async function boot(): Promise<void> {
         const key = game.level.key;
         overview.reset();
         pad.setMode(key);
+        $('#overview').hidden = !!game.race;
         hud.setHint(
           pad.enabled || game.isPlatformLevel
             ? ''
+            : key === 'drive'
+              ? 'Steer: ← →   Gas: ↑   Brake: ↓   Brick: Space / J   Pause: Q'
             : key === 'invasion'
               ? 'Move: ← →   Throw: Space / S   Brick above: D   Pause: Q'
               : key === 'bricklayer' || key === 'conga'
@@ -347,9 +351,10 @@ async function boot(): Promise<void> {
     stage.mobile = pad.enabled;
     view.update(game, dt);
     $('#camera-setting').hidden = !stage.mobileView;
-    overview.update(game, screen === null && !$('#pad').hidden, dt);
+    overview.update(game, screen === null && !$('#pad').hidden && !game.race, dt);
     hud.update(game, dt);
-    stage.render();
+    sfx.engine(screen === null && game.race && game.isPlaying() ? game.race.speedRatio : null);
+    if (!view.racing) stage.render();
   };
 
   platform.setLoadingProgress(100);

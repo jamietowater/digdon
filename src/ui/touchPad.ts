@@ -7,7 +7,10 @@ interface ActionDef {
   big?: boolean;
 }
 
-const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion' | 'platform', ActionDef[]> = {
+const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion' | 'platform' | 'drive', ActionDef[]> = {
+  drive: [
+    { key: 'fire', label: 'BRICK', cls: 'brick', big: true },
+  ],
   platform: [
     { key: 'fire', label: 'JUMP', cls: 'spray', big: true },
     { key: 'throw', label: 'TROWEL', cls: 'trowel' },

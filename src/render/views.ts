@@ -10,6 +10,7 @@ import type { FallingRock } from '../sim/rock';
 import type { ThrownTrowel } from '../sim/trowel';
 import type { InvaderBomb } from '../sim/bomb';
 import { Effects } from './fx';
+import { RaceView } from './raceView';
 import { GridView, strataColour } from './gridView';
 import { ACTOR_Z, CHARACTER_FILL, LOOKS, type Stage } from './stage';
 import { buildVoxelSprite, createVoxelInstances, tintVoxels, type VoxelMesh } from './voxel';
@@ -329,6 +330,9 @@ export class GameView {
   private trophies: BonusView[] = [];
   private shake = 0;
   private wasAlive = false;
+  private readonly raceView = new RaceView(document.getElementById('race') as HTMLCanvasElement);
+  /** Level 7 draws on its own canvas; the 3D stage is hidden and not rendered meanwhile. */
+  racing = false;
 
   constructor(private readonly stage: Stage) {
     stage.world.add(this.arena, this.fx.group);
@@ -386,6 +390,16 @@ export class GameView {
 
   update(game: Game, dt: number): void {
     if (game.levelSerial !== this.serial) this.rebuild(game);
+    if (!!game.race !== this.racing) {
+      this.racing = !!game.race;
+      this.raceView.canvas.hidden = !this.racing;
+      this.stage.canvas.hidden = this.racing;
+      if (!this.racing) this.stage.resize();
+    }
+    if (game.race) {
+      this.raceView.render(game.race, game.paused ? 0 : dt);
+      return;
+    }
     if (!game.hasArena) {
       this.fx.update(dt, []);
       return;
