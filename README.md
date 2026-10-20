@@ -1,6 +1,6 @@
-# Dig Don Web
+# Trowelblazer (Dig Don)
 
-Play at https://jamietowater.github.io/digdon/.
+Play at https://jtowater.github.io/trowelblazer/.
 
 The web port includes the six Unreal arenas in their original order, plus a web-only driving level. PLAY rotates through them;
 SELECT LEVEL opens a compact menu to repeat a chosen level with increasing difficulty.
