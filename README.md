@@ -21,6 +21,8 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 ## Controls
 
 - Movement: arrow keys, gamepad D-pad/left stick, or the on-screen pad.
+- Touch on Groundwork, Bricklayer and Conga: two buttons only (TROWEL + TURBO, or TROWEL + BRICK). Push the stick
+	to its rim to sprint; it glows orange. Mortar spray is keyboard and gamepad only.
 - Dig, Bricklayer and Conga: Space/J sprays mortar, S throws, A boosts movement, D lays bricks where enabled.
 - Invasion: Space/S throws upward; D builds cover.
 - Scaffold and Summit: Space/J jumps, S throws. Scaffold ladders use Up/Down; a gold trowel smashes cans and blobs but prevents climbing until it expires.

@@ -1,7 +1,7 @@
 import type { TouchState } from '../input/controls';
 
 interface ActionDef {
-  key: keyof Omit<TouchState, 'moveX' | 'moveY'>;
+  key: keyof Omit<TouchState, 'moveX' | 'moveY' | 'sprint'>;
   label: string;
   cls: string;
   big?: boolean;
@@ -15,15 +15,13 @@ const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion' | 'platform' | 'drive', 
     { key: 'fire', label: 'JUMP', cls: 'spray', big: true },
     { key: 'throw', label: 'TROWEL', cls: 'trowel' },
   ],
+  // Touch keeps the lane levels to two buttons; mortar spray stays on keyboard and gamepad.
   dig: [
-    { key: 'fire', label: 'SPRAY', cls: 'spray', big: true },
-    { key: 'throw', label: 'TROWEL', cls: 'trowel' },
+    { key: 'throw', label: 'TROWEL', cls: 'trowel', big: true },
     { key: 'turbo', label: 'TURBO', cls: 'turbo' },
   ],
   bricklayer: [
-    { key: 'fire', label: 'SPRAY', cls: 'spray' },
-    { key: 'throw', label: 'TROWEL', cls: 'trowel' },
-    { key: 'turbo', label: 'TURBO', cls: 'turbo' },
+    { key: 'throw', label: 'TROWEL', cls: 'trowel', big: true },
     { key: 'brick', label: 'BRICK', cls: 'brick' },
   ],
   invasion: [
@@ -32,7 +30,13 @@ const LAYOUTS: Record<'dig' | 'bricklayer' | 'invasion' | 'platform' | 'drive', 
   ],
 };
 
-/** On-screen d-pad (drag anywhere on it; the dominant axis wins) and the level's action buttons. */
+/** Pushing the stick past this share of its radius sprints (turbo) on the lane levels. */
+const SPRINT_PUSH = 0.7;
+
+/**
+ * On-screen d-pad (drag anywhere on it; the dominant axis wins) and the level's action buttons. On the lane levels,
+ * dragging to the rim sprints, so turbo needs no button of its own.
+ */
 export class TouchPad {
   private readonly pad = document.getElementById('pad')!;
   private readonly dpad = document.getElementById('dpad')!;
@@ -66,6 +70,8 @@ export class TouchPad {
       this.dpadPointer = null;
       this.touch.moveX = 0;
       this.touch.moveY = 0;
+      this.touch.sprint = false;
+      this.dpad.classList.remove('sprint');
       this.knob.style.transform = 'translate(-50%, -50%)';
     };
     this.dpad.addEventListener('pointerup', release);
@@ -85,7 +91,8 @@ export class TouchPad {
       button.classList.remove('on');
       if (button.hasPointerCapture(entry.pointer)) button.releasePointerCapture(entry.pointer);
     }
-    Object.assign(this.touch, { moveX: 0, moveY: 0, fire: false, throw: false, brick: false, turbo: false });
+    Object.assign(this.touch, { moveX: 0, moveY: 0, fire: false, throw: false, brick: false, turbo: false, sprint: false });
+    this.dpad.classList.remove('sprint');
     this.knob.style.transform = 'translate(-50%, -50%)';
   }
 
@@ -96,14 +103,18 @@ export class TouchPad {
     const dead = r.width * 0.1;
     let x = 0;
     let y = 0;
-    if (Math.hypot(dx, dy) > dead) {
+    const push = Math.hypot(dx, dy);
+    if (push > dead) {
       if (Math.abs(dx) >= Math.abs(dy)) x = Math.sign(dx);
       else y = Math.sign(dy);
     }
     if (this.mode === 'invasion') y = 0;
     this.touch.moveX = x;
     this.touch.moveY = y;
-    const reach = r.width * 0.28;
+    const sprint = (this.mode === 'dig' || this.mode === 'bricklayer') && push > (r.width / 2) * SPRINT_PUSH;
+    this.touch.sprint = sprint;
+    this.dpad.classList.toggle('sprint', sprint);
+    const reach = r.width * (sprint ? 0.34 : 0.28);
     this.knob.style.transform = `translate(calc(-50% + ${x * reach}px), calc(-50% + ${y * reach}px))`;
   }
 

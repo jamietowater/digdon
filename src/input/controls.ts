@@ -15,6 +15,8 @@ export interface TouchState {
   throw: boolean;
   brick: boolean;
   turbo: boolean;
+  /** The stick is pushed to its rim: run at turbo speed without a button. */
+  sprint: boolean;
 }
 
 // Same bindings as the Unreal build (DigInput.h): one key, one job.
@@ -30,7 +32,7 @@ const GAME_KEYS = new Set([...FIRE, ...THROW, ...TURBO, ...BRICK, 'KeyW', 'KeyF'
 const PAD = { a: 0, x: 2, y: 3, lt: 6, rt: 7, back: 8, start: 9, up: 12, down: 13, left: 14, right: 15 };
 
 export class Controls {
-  readonly touch: TouchState = { moveX: 0, moveY: 0, fire: false, throw: false, brick: false, turbo: false };
+  readonly touch: TouchState = { moveX: 0, moveY: 0, fire: false, throw: false, brick: false, turbo: false, sprint: false };
   private readonly down = new Set<string>();
   private readonly pressed = new Set<string>();
   private prevTouch = { fire: false, throw: false };
@@ -91,7 +93,7 @@ export class Controls {
       firePressed: this.any(FIRE, this.pressed) || padPressed.has('a') || padPressed.has('rt') || touchFire,
       throwPressed: this.any(THROW, this.pressed) || padPressed.has('x') || touchThrow,
       brickHeld: this.any(BRICK, this.down) || heldPad.has('y') || this.touch.brick,
-      turboHeld: this.any(TURBO, this.down) || heldPad.has('lt') || this.touch.turbo,
+      turboHeld: this.any(TURBO, this.down) || heldPad.has('lt') || this.touch.turbo || this.touch.sprint,
       pausePressed: this.any(PAUSE, this.pressed) || padPressed.has('start'),
       backPressed: this.any(BACK, this.pressed) || padPressed.has('back'),
       anyPressed: this.pressed.size > 0 || padPressed.size > 0 || touchFire || touchThrow,
