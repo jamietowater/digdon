@@ -4,7 +4,7 @@ import type { Input, World } from './world';
 
 export const Platform = {
   walkSpeed: 3, gravity: 30, climbSpeed: 2.5, jumpApex: 1.15, summitApex: 3.3,
-  airControl: 0.8, safeFall: 1.5, malletTime: 7.5,
+  airControl: 0.8, safeFall: 1.5, goldTrowelTime: 7.5,
 } as const;
 
 export function solid(grid: Grid, column: number, row: number): boolean {
@@ -31,7 +31,7 @@ export class PlatformMotion {
   climbing: { top: number; bottom: number } | null = null;
   velocity = { x: 0, y: 0 };
   highest = 0;
-  mallet = 0;
+  goldTrowel = 0;
 
   constructor(private readonly world: World, private readonly player: Player) {}
 
@@ -40,7 +40,7 @@ export class PlatformMotion {
     this.climbing = null;
     this.velocity = { x: 0, y: 0 };
     this.highest = this.player.pos.y;
-    this.mallet = 0;
+    this.goldTrowel = 0;
   }
 
   private supported(column: number, row: number): boolean {
@@ -55,7 +55,7 @@ export class PlatformMotion {
     const position = player.pos;
     const summit = this.world.isSummitLevel;
     const before = { ...position };
-    this.mallet = Math.max(0, this.mallet - dt);
+    this.goldTrowel = Math.max(0, this.goldTrowel - dt);
     if (this.climbing) {
       position.y = Math.max(this.climbing.top, Math.min(this.climbing.bottom, position.y + input.moveY * Platform.climbSpeed * dt));
       if ((input.moveY < 0 && position.y === this.climbing.top) || (input.moveY > 0 && position.y === this.climbing.bottom)) {
@@ -69,7 +69,7 @@ export class PlatformMotion {
     if (this.grounded) {
       position.y = Math.round(position.y);
       const column = Math.round(position.x);
-      const span = input.moveY && !this.mallet && Math.abs(position.x - column) < 0.35
+      const span = input.moveY && !this.goldTrowel && Math.abs(position.x - column) < 0.35
         ? ladderSpan(grid, column, position.y + Math.sign(input.moveY)) : null;
       if (span && ((input.moveY < 0 && span.bottom === position.y) || (input.moveY > 0 && span.top === position.y))) {
         this.climbing = span;

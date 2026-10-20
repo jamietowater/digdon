@@ -454,19 +454,19 @@ describe('platform movement', () => {
     expect(game.grid.get(2, 3)).toBe(Cell.Brick);
   });
 
-  it('runs scaffold cans, mallet pickups, persistent collectibles and rescue', () => {
+  it('runs scaffold cans, gold trowel pickups, persistent collectibles and the topping-out flag', () => {
     const game = start('..............\n..K.........D.\nBBBBBBBBBBBBBB\n..............\nO.P.M.U.......\nBBBBBBBBBBBBBB');
     run(game, 2.2);
     expect(game.scaffold!.hazards.some(hazard => hazard.kind === 'can')).toBe(true);
     game.player.pos = { x: 4, y: 4 };
     game.update(DT, NO_INPUT);
-    expect(game.player.platform.mallet).toBeGreaterThan(7);
+    expect(game.player.platform.goldTrowel).toBeGreaterThan(7);
     expect(game.scaffold!.trowelHit({ x: 6, y: 4 })).toBe(true);
     expect(game.score).toBe(800);
     game.player.kill();
     run(game, 2.1);
     expect(game.scaffold!.items).toHaveLength(0);
-    expect(game.scaffold!.mallets).toHaveLength(1);
+    expect(game.scaffold!.goldTrowels).toHaveLength(1);
     expect(game.scaffold!.hazards).toHaveLength(0);
     game.player.pos = { x: 12, y: 1 };
     game.update(DT, NO_INPUT);
@@ -536,7 +536,7 @@ describe('summit', () => {
 
   it('exports all six layouts and every platform sprite used by the renderer', () => {
     expect(LEVELS.map(entry => entry.key)).toEqual(['dig', 'bricklayer', 'conga', 'invasion', 'scaffold', 'summit', 'drive']);
-    for (const name of ['CanSlinger', 'DonJr', 'Mallet', 'Can', 'Drum', 'Flame', 'Flag', 'Cactus', 'ChiliAmigo', 'CactusAmigo', 'Luchador']) {
+    for (const name of ['Raccoon', 'DonJr', 'GoldTrowel', 'Can', 'Mixer', 'Blob', 'Flag', 'Cactus', 'Chili', 'CactusPal', 'Luchador', 'TopFlag', 'Cone']) {
       expect(Sprites.characters[name], name).toBeDefined();
     }
     expect(Breeds.some(breed => breed.name === 'Lobster')).toBe(true);
@@ -633,7 +633,7 @@ describe('driving level', () => {
   it('knocks out a creature ahead with a thrown brick', () => {
     const game = drive();
     const race = game.race!;
-    race.addEnemy('ChiliAmigo', race.position + 6000, 0);
+    race.addEnemy('Chili', race.position + 6000, 0);
     game.update(DT, { ...NO_INPUT, firePressed: true });
     run(game, 0.8);
     expect(race.enemies.every(enemy => enemy.hit >= 0)).toBe(true);
@@ -665,10 +665,10 @@ describe('driving level', () => {
     expect(race.speed).toBeLessThanOrEqual(Race.offRoadMaxSpeed + 1);
   });
 
-  it('splats the windshield when a Can Slinger lands a can', () => {
+  it('splats the windshield when a raccoon lands a can', () => {
     const game = drive();
     const race = game.race!;
-    race.addEnemy('CanSlinger', race.position + 8000, 0).timer = 0;
+    race.addEnemy('Raccoon', race.position + 8000, 0).timer = 0;
     run(game, Race.canFlight + 0.1, { moveY: 1 });
     expect(race.splat).toBeGreaterThan(0);
     expect(game.state).toBe('playing');

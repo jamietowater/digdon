@@ -1,4 +1,4 @@
-# Trowelblazer (Dig Don)
+# Trowelblazer
 
 Play at https://jtowater.github.io/trowelblazer/.
 
@@ -7,24 +7,24 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 
 | Level | Objective |
 | --- | --- |
-| 1. Dig Don | Clear the dirt or defeat the creatures. |
+| 1. Groundwork | Clear the dirt or defeat the creatures. |
 | 2. Bricklayer | Seal creatures into small pockets; weapons cannot finish the last creature. |
 | 3. Conga Line | Break the marching chains. Leaders wear hard hats and pay a bonus. |
 | 4. Invasion | Defeat the descending formation using upward throws and brick cover. |
-| 5. Scaffold | As Don Jr., climb past Can Slinger and rescue Don. |
+| 5. Scaffold | As Junior, climb past the raccoon's cans and mortar blobs and raise the topping-out flag. |
 | 6. Summit | Smash through floors, avoid the repair lobsters and dragon, and reach the UFO. |
-| 7. I CAN'T SEE!! | Don Jr. can't see, so his friend drives. Reach the finish before time runs out, dodging or bricking Can Slinger, Luchadors and Chili Amigos. |
+| 7. I CAN'T SEE!! | Junior can't see, so his friend drives. Reach the finish before time runs out, dodging or bricking raccoons, luchadors and chilis. |
 
 ## Controls
 
 - Movement: arrow keys, gamepad D-pad/left stick, or the on-screen pad.
 - Dig, Bricklayer and Conga: Space/J sprays mortar, S throws, A boosts movement, D lays bricks where enabled.
 - Invasion: Space/S throws upward; D builds cover.
-- Scaffold and Summit: Space/J jumps, S throws. Scaffold ladders use Up/Down; mallets prevent climbing until they expire.
+- Scaffold and Summit: Space/J jumps, S throws. Scaffold ladders use Up/Down; a gold trowel smashes cans and blobs but prevents climbing until it expires.
 - Summit co-op on desktop: enable the menu checkbox. Player 2 uses A/D to move, W to jump, F to throw.
 	Player 2 uses the shared keyboard, not a second touch pad or gamepad.
 - I CAN'T SEE!!: Left/Right steer, Up accelerates, Down brakes; the car cruises on its own. Space/J/S throws a brick.
-	A Can Slinger's can splats the windshield for a moment. Crashing or running out of time costs a life.
+	A raccoon's can splats the windshield for a moment. Crashing or running out of time costs a life.
 - Q pauses; touch screens have a pause button.
 
 ### Mobile View
@@ -56,7 +56,7 @@ npm test
 npm run build
 ```
 
-`npm run export-data` regenerates sprite data and all six arena layouts from the sibling Unreal project.
+`npm run export-data` regenerates sprite data (Trowelblazer's replacement art in `src/data/spriteOverrides.ts` is layered on top at load) and all six arena layouts from the sibling Unreal project.
 Level 7 has no Unreal arena: its track is generated in `src/sim/race.ts` and drawn by `src/render/raceView.ts`.
 `npm run build` produces the SDK-free web build in `dist/`. Pushes to `main` run tests and deploy it via GitHub Pages.
 Facebook builds use `npm run build:fb` or `npm run bundle`; deploying Pages does not upload a Facebook bundle.

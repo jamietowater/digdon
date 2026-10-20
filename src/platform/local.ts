@@ -55,7 +55,7 @@ export class LocalPlatform implements Platform {
   }
 
   async share(_image: string, text: string): Promise<void> {
-    await navigator.share?.({ title: 'Dig Don', text, url: location.href });
+    await navigator.share?.({ title: 'Trowelblazer', text, url: location.href });
   }
 
   async challenge(): Promise<void> {}

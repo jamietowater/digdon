@@ -38,7 +38,7 @@ export interface LevelDef {
 const DRIVE_LAYOUT = 'P..\n...\nXXX';
 
 export const LEVELS: readonly LevelDef[] = [
-  { key: 'dig', title: 'DIG DON', layout: arena01, invaders: false, brickLaying: false },
+  { key: 'dig', title: 'GROUNDWORK', layout: arena01, invaders: false, brickLaying: false },
   { key: 'bricklayer', title: 'BRICKLAYER', layout: arena02, invaders: false, brickLaying: true },
   { key: 'conga', title: 'CONGA LINE', layout: arena03, invaders: false, brickLaying: true, conga: 10 },
   { key: 'invasion', title: 'INVASION', layout: arena04, invaders: true, brickLaying: true },

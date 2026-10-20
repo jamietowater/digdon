@@ -1,8 +1,8 @@
 {
-  "name": "digdon-web",
+  "name": "trowelblazer",
   "private": true,
   "version": "0.11.0",
-  "description": "Dig Don - HTML5 build for Facebook Instant Games and the web",
+  "description": "Trowelblazer - HTML5 build for Facebook Instant Games and the web",
   "type": "module",
   "scripts": {
     "dev": "vite",

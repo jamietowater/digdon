@@ -3,7 +3,7 @@ import type { Game } from './game';
 import { clamp, lerp, randInt, randRange, random } from './math';
 import type { Input } from './world';
 
-export type RaceEnemyKind = 'CanSlinger' | 'Luchador' | 'ChiliAmigo';
+export type RaceEnemyKind = 'Raccoon' | 'Luchador' | 'Chili';
 
 export interface RaceEnemy {
   kind: RaceEnemyKind;
@@ -36,11 +36,11 @@ export interface RaceCan {
   age: number;
 }
 
-const POINTS: Record<RaceEnemyKind, number> = { CanSlinger: 300, Luchador: 200, ChiliAmigo: 100 };
+const POINTS: Record<RaceEnemyKind, number> = { Raccoon: 300, Luchador: 200, Chili: 100 };
 const LANES = [-0.6, 0, 0.6];
 
 /**
- * Level 7, I CAN'T SEE!!: a Pole Position-style drive to the finish line. Don Jr. can't see, so his friend drives;
+ * Level 7, I CAN'T SEE!!: a Pole Position-style drive to the finish line. Junior can't see, so his friend drives;
  * the player steers, throws bricks at the creatures on the road and beats the clock.
  */
 export class RaceSite {
@@ -88,7 +88,7 @@ export class RaceSite {
   }
 
   addEnemy(kind: RaceEnemyKind, z: number, x: number): RaceEnemy {
-    const timer = kind === 'CanSlinger' ? randRange(0.5, 1.5) : randRange(1, 2.5);
+    const timer = kind === 'Raccoon' ? randRange(0.5, 1.5) : randRange(1, 2.5);
     const enemy: RaceEnemy = { kind, z, x, targetX: x, hop: 0, timer, hit: -1 };
     this.enemies.push(enemy);
     return enemy;
@@ -167,14 +167,14 @@ export class RaceSite {
     if (z > this.finishZ - 2000) return;
     const roll = random();
     if (roll < 0.35) {
-      // Chili Amigos walk in pairs.
+      // Chilis walk in pairs.
       const x = randRange(-0.7, 0.7);
-      this.addEnemy('ChiliAmigo', z, x - 0.25);
-      this.addEnemy('ChiliAmigo', z + 150, x + 0.25);
+      this.addEnemy('Chili', z, x - 0.25);
+      this.addEnemy('Chili', z + 150, x + 0.25);
     } else if (roll < 0.7) {
       this.addEnemy('Luchador', z, LANES[randInt(LANES.length)]);
     } else {
-      this.addEnemy('CanSlinger', z, randRange(-0.8, 0.8));
+      this.addEnemy('Raccoon', z, randRange(-0.8, 0.8));
     }
   }
 
@@ -220,12 +220,12 @@ export class RaceSite {
     const difficulty = this.game.difficulty();
     for (const enemy of this.enemies) {
       if (enemy.hit >= 0) continue;
-      const pace = enemy.kind === 'CanSlinger' ? 0.4 : enemy.kind === 'Luchador' ? 1.2 : 1;
+      const pace = enemy.kind === 'Raccoon' ? 0.4 : enemy.kind === 'Luchador' ? 1.2 : 1;
       enemy.z -= Race.walkSpeed * difficulty * pace * dt;
       enemy.timer -= dt;
       const rel = enemy.z - this.position;
       if (enemy.kind === 'Luchador') this.hop(enemy, dt, difficulty);
-      if (enemy.kind === 'CanSlinger' && enemy.timer <= 0 && rel >= Race.throwMin && rel <= Race.throwMax) {
+      if (enemy.kind === 'Raccoon' && enemy.timer <= 0 && rel >= Race.throwMin && rel <= Race.throwMax) {
         enemy.timer = randRange(1.6, 2.8) / difficulty;
         const x1 = clamp(this.playerX + randRange(-0.08, 0.08), -1.2, 1.2);
         this.cans.push({ rel, rel0: rel, x: enemy.x, x0: enemy.x, x1, age: 0 });

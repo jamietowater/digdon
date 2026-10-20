@@ -36,7 +36,7 @@ function paint(rows: readonly string[], colours: Record<string, Rgb>): HTMLCanva
 const spriteColours = (sprite: SpriteDef): Record<string, Rgb> =>
   Object.fromEntries(sprite.palette.map(entry => [entry.key, entry.rgb.map(srgb) as Rgb]));
 
-// The front seats from behind: the blond friend drives, Don Jr. rides with his hands over his eyes.
+// The front seats from behind: the blond friend drives, Junior rides with his hands over his eyes, hard hat on.
 const FRIEND = [
   '     YYYYYY     ',
   '   YYYYYYYYYY   ',
@@ -58,10 +58,10 @@ const FRIEND = [
 const FRIEND_COLOURS = { Y: hex('#f5d56a'), y: hex('#c9a13e'), S: hex('#f2c29a'), B: hex('#2f8f9d') };
 
 const DON_JR = [
-  '       AAAAAA       ',
-  '     AAAAAAAAAA     ',
-  '    AAAaAAAAaAAA    ',
-  '    AAAAAAAAAAAA    ',
+  '       OOOOOO       ',
+  '     OOOOOOOOOO     ',
+  '    OOOOOOOOOOOO    ',
+  '   dddddddddddddd   ',
   '   AAaAAAAAAAAaAA   ',
   '  SSAAAAAAAAAAAASS  ',
   '  SSAAAAAAaAAAAASS  ',
@@ -271,7 +271,7 @@ export class RaceView {
       const index = base + n;
       const rel = index * length - race.position;
       if (index % 10 === 0) place(rel, (index % 20 === 0 ? -1 : 1) * 1.5, this.sprite('Cactus'), { size: 1.4 });
-      if (index % 45 === 22) place(rel, (index % 90 === 22 ? 1 : -1) * 1.9, this.sprite('CactusAmigo'), { size: 1.2 });
+      if (index % 45 === 22) place(rel, (index % 90 === 22 ? 1 : -1) * 1.9, this.sprite('CactusPal'), { size: 1.2 });
       if (index === finish) {
         for (const side of [-1.25, 1.25]) place(rel, side, this.sprite('Flag'), { size: 1.6, flip: side > 0 });
         const banner = this.sprite('PapelPicado');

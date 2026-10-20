@@ -160,9 +160,9 @@ export class Overview {
     ];
     for (const threat of threats) marker(threat, '#ff816a', 'threat');
     for (const item of game.scaffold?.items ?? game.summit?.items ?? []) marker(item.pos, '#ffe380', 'item');
-    for (const mallet of game.scaffold?.mallets ?? []) marker(mallet.pos, '#ffe380', 'item');
+    for (const goldTrowel of game.scaffold?.goldTrowels ?? []) marker(goldTrowel.pos, '#ffe380', 'item');
     if (game.bonus) marker(game.bonus.cell, '#ffe380', 'item');
-    if (game.scaffold) marker(game.scaffold.captive, '#ffe380', 'item');
+    if (game.scaffold) marker(game.scaffold.goal, '#ffe380', 'item');
     if (game.summit?.ufo) marker(game.summit.ufo.pos, '#ffe380', 'item');
     if (game.fleet?.ufo) marker(game.fleet.ufo.pos, '#ff816a', 'threat');
     for (const player of game.climbers) marker(player.pos, player === game.player ? '#ffffff' : '#79f2e5', 'player');

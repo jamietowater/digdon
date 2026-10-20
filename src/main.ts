@@ -176,7 +176,7 @@ async function boot(): Promise<void> {
     const w = Math.min(560, (shot.width / shot.height) * h);
     ctx.drawImage(shot, 1200 - w - 20, 20, w, h);
     const title = document.createElement('canvas');
-    drawBlockText(title, 'DIG DON', 12);
+    drawBlockText(title, 'TROWELBLAZER', 12);
     ctx.drawImage(title, 40, 60, 560, (560 / title.width) * title.height);
     ctx.fillStyle = '#f4ecd8';
     ctx.font = 'bold 44px ui-monospace, Menlo, Consolas, monospace';
@@ -236,13 +236,13 @@ async function boot(): Promise<void> {
     back: () => show(returnTo),
     share: () => {
       platform
-        .share(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Dig Don!`)
+        .share(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Trowelblazer!`)
         .then(() => platform.logEvent('share'))
         .catch(() => {});
     },
     challenge: () => {
       platform
-        .challenge(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Dig Don. Beat that!`)
+        .challenge(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Trowelblazer. Beat that!`)
         .then(() => platform.logEvent('challenge'))
         .catch(() => {});
     },

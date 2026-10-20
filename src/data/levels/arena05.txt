@@ -1,7 +1,7 @@
-; Dig-Don arena 05 - Scaffold  (14 x 18)
-; 'B' girder (brick)  'H' ladder  'K' Can Slinger  'D' Don (captive)  'O' drum  'M' mallet  'P' Don Jr. start  'X' bedrock
-; Fiesta decorations (no effect on play): 'F' flag  'T' potted cactus  'A' chili amigo  'Q' cactus amigo  'L' luchador
-; Cans roll along each girder toward its open end and drop to the next, zig-zagging down to the drum.
+; Trowelblazer arena 05 - Scaffold  (14 x 18)
+; 'B' girder (brick)  'H' ladder  'K' raccoon  'D' topping-out flag (goal)  'O' cement mixer  'M' gold trowel  'P' Junior start  'X' bedrock
+; Decorations (no effect on play): 'F' traffic cone  'T' potted cactus  'A' chili  'Q' cactus pal  'L' luchador
+; Cans roll along each girder toward its open end and drop to the next, zig-zagging down to the mixer, which can spit out mortar blobs.
 ; 'U' collectible (grab it, or hit it with the trowel). Roaming creatures appear on their own.
 ; Walking rows are 1, 4, 7, 10, 13 and 16. Row 0 is the sky.
 ..............

@@ -13,7 +13,7 @@ export interface SiteThing {
 }
 
 interface Hazard extends SiteThing {
-  kind: 'can' | 'flame' | 'creature';
+  kind: 'can' | 'blob' | 'creature';
   direction: number;
   age: number;
   falling: boolean;
@@ -26,12 +26,12 @@ interface Hazard extends SiteThing {
 export class ScaffoldSite {
   readonly props: SiteThing[] = [];
   items: SiteThing[];
-  mallets: SiteThing[] = [];
+  goldTrowels: SiteThing[] = [];
   hazards: Hazard[] = [];
   bonus = 5000;
-  readonly captive: Vec2;
+  readonly goal: Vec2;
   readonly thrower: Vec2;
-  readonly drum: Vec2;
+  readonly mixer: Vec2;
   private wait = 2;
   private clock = 0;
   private canTimer = 0;
@@ -41,22 +41,22 @@ export class ScaffoldSite {
   constructor(private readonly game: Game) {
     const markers = game.grid.markers;
     this.thrower = markers.get('K')?.[0] ?? { x: 2, y: 1 };
-    this.captive = markers.get('D')?.[0] ?? { x: game.grid.width - 1, y: 1 };
-    this.drum = markers.get('O')?.[0] ?? { x: 0, y: game.grid.height - 2 };
-    this.props.push({ pos: { x: this.thrower.x, y: this.thrower.y - 0.45 }, sprite: 'CanSlinger', scale: 1.8 },
-      { pos: this.captive, sprite: 'Don' }, { pos: this.drum, sprite: 'Drum' });
-    for (const [marker, sprite] of Object.entries({ F: 'Flag', T: 'Cactus', A: 'ChiliAmigo', Q: 'CactusAmigo', L: 'Luchador' })) {
+    this.goal = markers.get('D')?.[0] ?? { x: game.grid.width - 1, y: 1 };
+    this.mixer = markers.get('O')?.[0] ?? { x: 0, y: game.grid.height - 2 };
+    this.props.push({ pos: { x: this.thrower.x, y: this.thrower.y - 0.45 }, sprite: 'Raccoon', scale: 1.8 },
+      { pos: this.goal, sprite: 'TopFlag' }, { pos: this.mixer, sprite: 'Mixer' });
+    for (const [marker, sprite] of Object.entries({ F: 'Cone', T: 'Cactus', A: 'Chili', Q: 'CactusPal', L: 'Luchador' })) {
       for (const pos of markers.get(marker) ?? []) this.props.push({ pos, sprite });
     }
     this.items = (markers.get('U') ?? []).map((pos, index) => ({ pos, item: (game.round - 1 + 3 * index) % BonusItems.length }));
     this.reset();
   }
 
-  get things(): SiteThing[] { return [...this.props, ...this.items, ...this.mallets, ...this.hazards]; }
+  get things(): SiteThing[] { return [...this.props, ...this.items, ...this.goldTrowels, ...this.hazards]; }
 
   reset(): void {
     this.hazards = [];
-    this.mallets = (this.game.grid.markers.get('M') ?? []).map(pos => ({ pos, sprite: 'Mallet', scale: 0.75 }));
+    this.goldTrowels = (this.game.grid.markers.get('M') ?? []).map(pos => ({ pos, sprite: 'GoldTrowel', scale: 0.75 }));
     this.bonus = 5000;
     this.clock = 0;
     this.wait = 2;
@@ -76,7 +76,7 @@ export class ScaffoldSite {
   }
 
   private spawn(kind: Hazard['kind'], pos: Vec2, breed?: number): void {
-    this.hazards.push({ pos: { ...pos }, kind, breed, sprite: kind === 'can' ? 'Can' : kind === 'flame' ? 'Flame' : undefined,
+    this.hazards.push({ pos: { ...pos }, kind, breed, sprite: kind === 'can' ? 'Can' : kind === 'blob' ? 'Blob' : undefined,
       direction: kind === 'can' ? this.rollDirection(pos, 0) : pos.x < this.game.grid.width / 2 ? 1 : -1,
       age: 0, falling: false, descending: false, velocity: 0, lastColumn: Math.round(pos.x) });
   }
@@ -91,7 +91,7 @@ export class ScaffoldSite {
     if (item) { this.takeItem(item); return true; }
     const hazard = this.hazards.find(thing => dist(thing.pos, pos) < 0.6);
     if (hazard) {
-      if (hazard.kind !== 'flame') this.remove(hazard, 300);
+      if (hazard.kind !== 'blob') this.remove(hazard, 300);
       return true;
     }
     return dist(pos, this.thrower) < 0.9;
@@ -127,7 +127,7 @@ export class ScaffoldSite {
     for (const hazard of [...this.hazards]) {
       hazard.age += dt;
       if (hazard.kind === 'can') this.roll(hazard, dt);
-      else if (hazard.kind === 'flame' || hazard.age > 0.8) this.walk(hazard, dt);
+      else if (hazard.kind === 'blob' || hazard.age > 0.8) this.walk(hazard, dt);
     }
   }
 
@@ -153,10 +153,10 @@ export class ScaffoldSite {
       const speed = 3 * this.game.difficulty();
       hazard.pos.x += hazard.direction * speed * dt;
       hazard.angle = (hazard.angle ?? 0) - hazard.direction * speed * dt * Math.PI * 2 / 0.9;
-      if (dist(hazard.pos, this.drum) < 0.5) {
+      if (dist(hazard.pos, this.mixer) < 0.5) {
         this.remove(hazard);
-        if (random() < 0.25 && this.hazards.filter(thing => thing.kind === 'flame').length < 3) {
-          this.spawn('flame', { x: this.drum.x + 1, y: this.drum.y });
+        if (random() < 0.25 && this.hazards.filter(thing => thing.kind === 'blob').length < 3) {
+          this.spawn('blob', { x: this.mixer.x + 1, y: this.mixer.y });
         }
         return;
       }
@@ -179,10 +179,10 @@ export class ScaffoldSite {
 
   private walk(hazard: Hazard, dt: number): void {
     const grid = this.game.grid;
-    const speed = (hazard.kind === 'flame' ? 1.5 : 1.3) * this.game.difficulty();
+    const speed = (hazard.kind === 'blob' ? 1.5 : 1.3) * this.game.difficulty();
     if (hazard.climbTarget !== undefined) {
       const difference = hazard.climbTarget - hazard.pos.y;
-      const climbSpeed = hazard.kind === 'flame' ? 1.2 * this.game.difficulty() : speed;
+      const climbSpeed = hazard.kind === 'blob' ? 1.2 * this.game.difficulty() : speed;
       hazard.pos.y += Math.sign(difference) * Math.min(Math.abs(difference), climbSpeed * dt);
       if (hazard.pos.y === hazard.climbTarget) hazard.climbTarget = undefined;
       return;
@@ -213,7 +213,7 @@ export class ScaffoldSite {
     for (const target of [row, above]) {
       if (target <= this.thrower.y || this.hazards.filter(thing => thing.kind === 'creature').length >= 4) continue;
       const spots = walking(target).map(column => ({ x: column, y: target }))
-        .filter(pos => dist(pos, this.game.player.pos) >= 4 && dist(pos, this.drum) > 1 && !grid.isLadder(pos.x, pos.y));
+        .filter(pos => dist(pos, this.game.player.pos) >= 4 && dist(pos, this.mixer) > 1 && !grid.isLadder(pos.x, pos.y));
       if (!spots.length) continue;
       let breed = randInt(Breeds.length);
       if (breed === UFO_BREED) breed = (breed + 1) % Breeds.length;
@@ -224,11 +224,11 @@ export class ScaffoldSite {
   private checkPlayer(): void {
     const player = this.game.player;
     if (!player.alive) return;
-    if (dist(player.pos, this.captive) < 0.8) { this.game.completeSite(this.bonus); return; }
-    for (const mallet of [...this.mallets]) {
-      if (dist(player.pos, mallet.pos) >= 0.6) continue;
-      player.platform.mallet = Platform.malletTime;
-      this.mallets.splice(this.mallets.indexOf(mallet), 1);
+    if (dist(player.pos, this.goal) < 0.8) { this.game.completeSite(this.bonus); return; }
+    for (const goldTrowel of [...this.goldTrowels]) {
+      if (dist(player.pos, goldTrowel.pos) >= 0.6) continue;
+      player.platform.goldTrowel = Platform.goldTrowelTime;
+      this.goldTrowels.splice(this.goldTrowels.indexOf(goldTrowel), 1);
     }
     for (const item of [...this.items]) if (dist(player.pos, item.pos) < 0.6) this.takeItem(item);
     if (dist(player.pos, this.thrower) < 0.9) { player.kill(); return; }
@@ -237,9 +237,9 @@ export class ScaffoldSite {
     for (const hazard of [...this.hazards]) {
       if (hazard.kind === 'creature' && hazard.age < 0.5) continue;
       const touches = dist(player.pos, hazard.pos) < 0.6;
-      if (player.platform.mallet > 0 && (touches || dist(reach, hazard.pos) < 0.6)) this.remove(hazard, 500);
+      if (player.platform.goldTrowel > 0 && (touches || dist(reach, hazard.pos) < 0.6)) this.remove(hazard, 500);
       else if (touches) { player.kill(); return; }
-      else if (!player.platform.grounded && !player.platform.climbing && hazard.kind !== 'flame' && !this.jumped.has(hazard) &&
+      else if (!player.platform.grounded && !player.platform.climbing && hazard.kind !== 'blob' && !this.jumped.has(hazard) &&
           Math.abs(player.pos.x - hazard.pos.x) < 0.5 && hazard.pos.y - player.pos.y > 0.3 && hazard.pos.y - player.pos.y < 1.6) {
         this.jumped.add(hazard);
         this.game.addScore(100, player.pos);

@@ -325,7 +325,7 @@ export class GameView {
   private readonly trowels: ViewSet<ThrownTrowel, TrowelView>;
   private readonly bombs: ViewSet<InvaderBomb, BombView>;
   private readonly site: ViewSet<SiteThing, SiteView>;
-  private readonly mallet = buildVoxelSprite(Sprites.characters.Mallet, 0.05);
+  private readonly goldTrowel = buildVoxelSprite(Sprites.characters.GoldTrowel, 0.05);
   private bonus: BonusView | null = null;
   private trophies: BonusView[] = [];
   private shake = 0;
@@ -345,7 +345,7 @@ export class GameView {
     this.trowels = new ViewSet(this.arena, (t) => new TrowelView(t));
     this.bombs = new ViewSet(this.arena, (b) => new BombView(b));
     this.site = new ViewSet(this.arena, thing => new SiteView(thing));
-    this.arena.add(this.mallet.mesh);
+    this.arena.add(this.goldTrowel.mesh);
   }
 
   private rebuild(game: Game): void {
@@ -357,7 +357,7 @@ export class GameView {
     this.trowels.clear();
     this.bombs.clear();
     this.site.clear();
-    this.mallet.mesh.visible = false;
+    this.goldTrowel.mesh.visible = false;
     this.bonus?.root.removeFromParent();
     this.bonus?.dispose();
     this.bonus = null;
@@ -411,9 +411,9 @@ export class GameView {
       game.player.alive && !this.wasAlive);
     this.wasAlive = game.player.alive;
     this.site.sync(game.scaffold?.things ?? game.summit?.things ?? [], view => view.sync(game.levelTime));
-    this.mallet.mesh.visible = game.player.platform.mallet > 0;
-    this.mallet.mesh.position.copy(at({ x: game.player.pos.x + game.player.facing.x * 0.65, y: game.player.pos.y - 0.3 }));
-    this.mallet.mesh.rotation.z = game.player.facing.x * (0.4 + Math.sin(game.levelTime * 18) * 0.8);
+    this.goldTrowel.mesh.visible = game.player.platform.goldTrowel > 0;
+    this.goldTrowel.mesh.position.copy(at({ x: game.player.pos.x + game.player.facing.x * 0.65, y: game.player.pos.y - 0.3 }));
+    this.goldTrowel.mesh.rotation.z = game.player.facing.x * (0.4 + Math.sin(game.levelTime * 18) * 0.8);
     const ufo = game.fleet?.ufo;
     this.enemies.sync(ufo ? [...game.enemies, ufo] : game.enemies, (v) => v.sync());
     this.rocks.sync(game.rocks, (v) => v.sync());
