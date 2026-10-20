@@ -166,6 +166,8 @@ export class FacebookPlatform implements Platform {
     }
   }
 
+  haptic(): void {}
+
   onPause(handler: () => void): void {
     this.fb.onPause(handler);
   }

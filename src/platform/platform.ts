@@ -16,9 +16,12 @@ export interface LeaderboardEntry {
   isPlayer: boolean;
 }
 
-/** Everything the game needs from wherever it is hosted: Facebook Instant Games, or a plain web page. */
+/** Tactile feedback strengths; hosts without a vibration motor ignore them. */
+export type Haptic = 'light' | 'medium' | 'heavy' | 'success' | 'error';
+
+/** Everything the game needs from wherever it is hosted: Facebook Instant Games, a plain web page, or the iOS app. */
 export interface Platform {
-  readonly name: 'facebook' | 'web';
+  readonly name: 'facebook' | 'web' | 'ios';
   /** Up to startGame(): show loading progress 0..100. */
   setLoadingProgress(percent: number): void;
   startGame(): Promise<void>;
@@ -32,5 +35,6 @@ export interface Platform {
   readonly canChallenge: boolean;
   challenge(image: string, text: string): Promise<void>;
   logEvent(name: string, params?: Record<string, string | number>): void;
+  haptic(kind: Haptic): void;
   onPause(handler: () => void): void;
 }

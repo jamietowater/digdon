@@ -60,3 +60,18 @@ npm run build
 Level 7 has no Unreal arena: its track is generated in `src/sim/race.ts` and drawn by `src/render/raceView.ts`.
 `npm run build` produces the SDK-free web build in `dist/`. Pushes to `main` run tests and deploy it via GitHub Pages.
 Facebook builds use `npm run build:fb` or `npm run bundle`; deploying Pages does not upload a Facebook bundle.
+
+## iOS App (Trowelblazer)
+
+The App Store build wraps `dist/` in a Capacitor shell (`ios/`, bundle ID `com.jamietowater.trowelblazer`).
+Inside the app, `src/platform/native.ts` replaces the local platform: saves go to Preferences (UserDefaults),
+game events trigger haptics, and the status bar and splash screen are hidden on start. The game is bundled into the
+app, never loaded from a hosted URL, as App Review guideline 4.2 requires.
+
+```sh
+npm run ios        # build the web game and copy it into ios/
+npm run ios:open   # same, then open the Xcode project
+```
+
+Building, signing, and uploading need full Xcode (not just the Command Line Tools) and an Apple Developer account.
+In Xcode, pick your team under Signing & Capabilities, then Product > Archive to upload to TestFlight.

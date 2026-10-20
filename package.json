@@ -9,15 +9,26 @@
     "build": "tsc && vite build",
     "build:fb": "tsc && vite build --mode fb",
     "bundle": "npm run build:fb && node scripts/bundle.mjs",
+    "ios": "npm run build && cap sync ios",
+    "ios:open": "npm run ios && cap open ios",
     "preview": "vite preview",
     "test": "vitest run",
     "export-data": "python tools/export_unreal_data.py"
   },
   "dependencies": {
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
     "lucide": "^1.49.0",
     "three": "^0.186.1"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
     "@types/three": "^0.186.0",
     "fflate": "^0.8.3",
     "typescript": "^7.0.2",

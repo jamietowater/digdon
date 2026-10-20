@@ -1,9 +1,10 @@
+import { Capacitor } from '@capacitor/core';
 import * as THREE from 'three';
 import { Sfx } from './audio/sfx';
 import { Controls, withoutEdges, type InputFrame } from './input/controls';
 import { FacebookPlatform } from './platform/facebook';
 import { LocalPlatform } from './platform/local';
-import { DEFAULT_SAVE, type Platform, type SaveData } from './platform/platform';
+import { DEFAULT_SAVE, type Haptic, type Platform, type SaveData } from './platform/platform';
 import { Stage } from './render/stage';
 import { mobileCameraPreference } from './render/camera';
 import { GameView } from './render/views';
@@ -19,7 +20,25 @@ const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySe
 const screens = ['loading', 'menu', 'pause', 'over', 'board'] as const;
 type ScreenName = (typeof screens)[number] | null;
 
+/** Which game events buzz the phone, and how hard. */
+const HAPTICS: Partial<Record<GameEvent['type'], Haptic>> = {
+  brickLaid: 'light',
+  trowelKill: 'light',
+  encaseKill: 'medium',
+  rockLand: 'medium',
+  raceHit: 'medium',
+  bomb: 'heavy',
+  crash: 'heavy',
+  playerDied: 'heavy',
+  levelClear: 'success',
+  gameOver: 'error',
+};
+
 async function createPlatform(): Promise<Platform> {
+  if (Capacitor.isNativePlatform()) {
+    const { NativePlatform } = await import('./platform/native');
+    return new NativePlatform();
+  }
   if (window.FBInstant) {
     try {
       return await FacebookPlatform.create(window.FBInstant);
@@ -257,6 +276,8 @@ async function boot(): Promise<void> {
   const onGameEvents = (events: GameEvent[]) => {
     for (const e of events) {
       sfx.play(e);
+      const buzz = HAPTICS[e.type];
+      if (buzz) platform.haptic(buzz);
       if (e.type === 'levelStart') {
         const key = game.level.key;
         overview.reset();

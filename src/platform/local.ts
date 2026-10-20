@@ -64,6 +64,8 @@ export class LocalPlatform implements Platform {
     if (import.meta.env.DEV) console.debug('[event]', name, params ?? '');
   }
 
+  haptic(): void {}
+
   onPause(handler: () => void): void {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) handler();
