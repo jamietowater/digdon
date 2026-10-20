@@ -2,7 +2,7 @@
   "name": "trowelblazer",
   "private": true,
   "version": "0.11.0",
-  "description": "Trowelblazer - HTML5 build for Facebook Instant Games and the web",
+  "description": "Don & Mortar: Trowelblazer - HTML5 build for Facebook Instant Games and the web",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +11,7 @@
     "bundle": "npm run build:fb && node scripts/bundle.mjs",
     "ios": "npm run build && cap sync ios",
     "ios:open": "npm run ios && cap open ios",
+    "brand": "node tools/brand.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "export-data": "python tools/export_unreal_data.py"

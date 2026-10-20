@@ -65,7 +65,7 @@ export class NativePlatform implements Platform {
   }
 
   async share(_image: string, text: string): Promise<void> {
-    await Share.share({ title: 'Trowelblazer', text });
+    await Share.share({ title: 'Don & Mortar: Trowelblazer', text });
   }
 
   async challenge(): Promise<void> {}

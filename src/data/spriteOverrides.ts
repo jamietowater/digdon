@@ -3,7 +3,7 @@ import type { BreedDef, PaletteEntry, SpriteDef } from './sprites';
 /**
  * Trowelblazer art that replaces or removes sprites from the Unreal export (sprites.json), applied at load so
  * `npm run export-data` can't bring the old art back. Original characters only: Don wears a hard hat and safety
- * vest, Level 5's thrower is a raccoon, and nothing leans on national or ethnic caricature.
+ * vest, Level 5's thrower is Mortar the raccoon, and nothing leans on national or ethnic caricature.
  */
 
 type Rgb = [number, number, number];
@@ -98,7 +98,7 @@ const DonJr = sprite('DonJr', [...JR_HEAD, ...JR_BODY, '    J  J    ', '   LL  L
   pal('J', [0.23, 0.29, 0.42]),
 ], [...JR_HEAD, ...JR_BODY, '   J    J   ', '  LL    LL  ']);
 
-/** Level 5's thrower and Level 7's roadside menace: a masked trash bandit flinging soda cans. */
+/** Mortar, the series villain: a masked trash-panda bandit who flings soda cans at Don's building sites. */
 const Raccoon = sprite('Raccoon', [
   '  gg      gg    ',
   ' gEEg    gEEg   ',

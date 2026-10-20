@@ -236,13 +236,13 @@ async function boot(): Promise<void> {
     back: () => show(returnTo),
     share: () => {
       platform
-        .share(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Trowelblazer!`)
+        .share(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Don & Mortar: Trowelblazer!`)
         .then(() => platform.logEvent('share'))
         .catch(() => {});
     },
     challenge: () => {
       platform
-        .challenge(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Trowelblazer. Beat that!`)
+        .challenge(scoreCard(), `I scored ${game.score.toLocaleString('en-US')} in Don & Mortar: Trowelblazer. Beat that!`)
         .then(() => platform.logEvent('challenge'))
         .catch(() => {});
     },

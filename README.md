@@ -1,4 +1,7 @@
-# Trowelblazer
+# Don & Mortar: Trowelblazer
+
+The first game in the Don & Mortar series. Don, a bricklayer in a hard hat, and his son Junior keep building;
+Mortar, a trash-panda bandit, keeps flinging cans at their sites. See `brand/README.md` for the cast and merch art.
 
 Play at https://jtowater.github.io/trowelblazer/.
 
@@ -11,9 +14,9 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 | 2. Bricklayer | Seal creatures into small pockets; weapons cannot finish the last creature. |
 | 3. Conga Line | Break the marching chains. Leaders wear hard hats and pay a bonus. |
 | 4. Invasion | Defeat the descending formation using upward throws and brick cover. |
-| 5. Scaffold | As Junior, climb past the raccoon's cans and mortar blobs and raise the topping-out flag. |
+| 5. Scaffold | As Junior, dodge Mortar's cans and the mixer's mortar blobs, and raise the topping-out flag. |
 | 6. Summit | Smash through floors, avoid the repair lobsters and dragon, and reach the UFO. |
-| 7. I CAN'T SEE!! | Junior can't see, so his friend drives. Reach the finish before time runs out, dodging or bricking raccoons, luchadors and chilis. |
+| 7. I CAN'T SEE!! | Junior can't see, so his friend drives. Reach the finish before time runs out, dodging or bricking Mortar, luchadors and chilis. |
 
 ## Controls
 
@@ -24,7 +27,7 @@ SELECT LEVEL opens a compact menu to repeat a chosen level with increasing diffi
 - Summit co-op on desktop: enable the menu checkbox. Player 2 uses A/D to move, W to jump, F to throw.
 	Player 2 uses the shared keyboard, not a second touch pad or gamepad.
 - I CAN'T SEE!!: Left/Right steer, Up accelerates, Down brakes; the car cruises on its own. Space/J/S throws a brick.
-	A raccoon's can splats the windshield for a moment. Crashing or running out of time costs a life.
+	A can from Mortar splats the windshield for a moment. Crashing or running out of time costs a life.
 - Q pauses; touch screens have a pause button.
 
 ### Mobile View
