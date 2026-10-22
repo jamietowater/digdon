@@ -496,6 +496,49 @@ button {
 .best b {
   color: var(--gold);
 }
+.howto-card {
+  width: min(92vw, 420px);
+  max-height: 100%;
+  overflow-y: auto;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  text-align: left;
+  background: #1d120d;
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  box-shadow: 0 0 24px rgba(255, 217, 90, 0.25);
+}
+.howto-card h2 {
+  text-align: center;
+}
+.howto-level {
+  margin: 0 0 4px;
+  text-align: center;
+  color: var(--dim);
+  font-size: 13px;
+}
+.howto-card h3 {
+  margin: 8px 0 0;
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+.howto-goal {
+  margin: 0;
+  line-height: 1.45;
+}
+.howto-controls {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.5;
+}
+.howto-card .menu {
+  align-self: center;
+  margin-top: 10px;
+}
 .version,
 .keys {
   color: var(--dim);

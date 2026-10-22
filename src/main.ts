@@ -11,13 +11,14 @@ import { GameView } from './render/views';
 import { Game, LEVELS } from './sim/game';
 import type { GameEvent } from './sim/events';
 import { drawBlockText } from './ui/blockText';
+import { renderHowTo } from './ui/howTo';
 import { Hud } from './ui/hud';
 import { Overview } from './ui/overview';
 import { TouchPad } from './ui/touchPad';
 
 const STEP = 1 / 60;
 const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
-const screens = ['loading', 'menu', 'pause', 'over', 'board'] as const;
+const screens = ['loading', 'menu', 'pause', 'howto', 'over', 'board'] as const;
 type ScreenName = (typeof screens)[number] | null;
 
 /** Which game events buzz the phone, and how hard. */
@@ -143,11 +144,38 @@ async function boot(): Promise<void> {
 
   const pause = (on: boolean) => {
     if (game.state === 'menu' || game.state === 'gameOver') return;
+    // The How to Play card already holds the game paused; leaving the app shouldn't swap it for the pause menu.
+    if (screen === 'howto') return;
     game.togglePause(on);
     if (on) {
       sfx.suspend();
       show('pause');
     } else {
+      sfx.resume();
+      show(null);
+    }
+  };
+
+  /** The level's How to Play card, from the pause menu or (paused) the first time the level starts. */
+  let howToFrom: 'pause' | null = null;
+  const openHowTo = (from: 'pause' | null) => {
+    renderHowTo($('#screen-howto'), game.level, game.levelNumber, pad.enabled);
+    howToFrom = from;
+    if (from === null) {
+      game.togglePause(true);
+      sfx.suspend();
+    }
+    show('howto');
+  };
+  const closeHowTo = () => {
+    if (!save.tutorials.includes(game.level.key)) {
+      save.tutorials = [...save.tutorials, game.level.key];
+      persist();
+    }
+    if (howToFrom === 'pause') {
+      show('pause');
+    } else {
+      game.togglePause(false);
       sfx.resume();
       show(null);
     }
@@ -231,6 +259,8 @@ async function boot(): Promise<void> {
     leaderboard: () => openBoard(screen),
     sound: toggleSound,
     resume: () => pause(false),
+    howto: () => openHowTo('pause'),
+    'howto-done': closeHowTo,
     menu: toMenu,
     again: () => startGame(game.singleLevel),
     back: () => show(returnTo),
@@ -295,6 +325,7 @@ async function boot(): Promise<void> {
                 : 'Move: arrows   Turbo: A   Trowel: S   Mortar: Space / J   Pause: Q',
         );
         platform.logEvent('level_start', { level: e.level, round: e.round });
+        if (!save.tutorials.includes(key)) openHowTo(null);
       } else if (e.type === 'levelClear') {
         platform.logEvent('level_clear', { level: e.level, round: e.round });
       } else if (e.type === 'gameOver') {

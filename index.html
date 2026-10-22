@@ -87,10 +87,25 @@
         </fieldset>
         <nav class="menu">
           <button data-action="resume" class="primary">RESUME</button>
+          <button data-action="howto">HOW TO PLAY</button>
           <button data-action="sound" class="sound-toggle">SOUND ON</button>
           <button data-action="menu">QUIT TO MENU</button>
         </nav>
         <p class="keys">Q to resume · M / Esc for the menu</p>
+      </section>
+
+      <section id="screen-howto" class="screen dim" hidden>
+        <div class="howto-card">
+          <h2>HOW TO PLAY</h2>
+          <p class="howto-level"></p>
+          <h3>OBJECTIVE</h3>
+          <p class="howto-goal"></p>
+          <h3>CONTROLS</h3>
+          <ul class="howto-controls"></ul>
+          <nav class="menu">
+            <button data-action="howto-done" class="primary">GOT IT!</button>
+          </nav>
+        </div>
       </section>
 
       <section id="screen-over" class="screen dim" hidden>
