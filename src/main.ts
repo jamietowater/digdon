@@ -11,6 +11,7 @@ import { GameView } from './render/views';
 import { Game, LEVELS } from './sim/game';
 import type { GameEvent } from './sim/events';
 import { drawBlockText } from './ui/blockText';
+import { emblemSvg } from './ui/emblem';
 import { renderHowTo } from './ui/howTo';
 import { Hud } from './ui/hud';
 import { Overview } from './ui/overview';
@@ -55,7 +56,26 @@ function isLowEnd(): boolean {
   return memory <= 3 || (navigator.hardwareConcurrency ?? 8) <= 4;
 }
 
+/** The studio intro plays for at least this long; a tap or key skips the rest once the game has loaded. */
+const INTRO_MS = 3800;
+
+function startIntro(): Promise<void> {
+  const intro = $('#screen-loading');
+  intro.querySelector('.emblem')!.innerHTML = emblemSvg();
+  intro.classList.add('play');
+  return new Promise((resolve) => {
+    const skip = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    const timer = setTimeout(skip, INTRO_MS);
+    intro.addEventListener('pointerdown', skip, { once: true });
+    window.addEventListener('keydown', skip, { once: true });
+  });
+}
+
 async function boot(): Promise<void> {
+  const intro = startIntro();
   document.querySelectorAll<HTMLCanvasElement>('canvas.title').forEach((c) => drawBlockText(c, c.dataset.text ?? '', 10));
   const platform = await createPlatform();
   platform.setLoadingProgress(10);
@@ -411,6 +431,8 @@ async function boot(): Promise<void> {
 
   platform.setLoadingProgress(100);
   await platform.startGame();
+  $('#screen-loading .sub').textContent = '';
+  await intro;
   show('menu');
   const loop = (t: number) => {
     frame(t);

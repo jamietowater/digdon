@@ -496,6 +496,90 @@ button {
 .best b {
   color: var(--gold);
 }
+/* --- Studio intro (the loading screen) --- */
+#screen-loading.intro {
+  justify-content: space-between;
+  background: radial-gradient(ellipse at 50% 42%, #24140e, #0b0605 70%);
+}
+.intro-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.studio {
+  margin: 12px 0 0;
+  color: #fff;
+  font: 700 13px/1 system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.55em;
+  padding-left: 0.55em;
+}
+.emblem svg {
+  width: min(58vw, 270px);
+  overflow: visible;
+}
+.tube path {
+  fill: none;
+  stroke: var(--c);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tube .halo {
+  stroke-width: 8;
+  filter: url(#neon);
+}
+.tube .core {
+  stroke-width: 2.8;
+  stroke: color-mix(in srgb, var(--c) 40%, white);
+}
+.wordmark {
+  margin: 4px 0 0;
+  font: 900 clamp(32px, 10.5vw, 56px)/1.05 system-ui, -apple-system, 'Helvetica Neue', 'Arial Black', sans-serif;
+  letter-spacing: 0.05em;
+  background: linear-gradient(90deg, #ffd21f, #ff6a10 55%, #e2402a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+#screen-loading .title {
+  width: min(66vw, 340px);
+}
+.legal {
+  margin: 0;
+  max-width: 440px;
+  color: var(--dim);
+  font: 10px/1.6 system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+}
+@keyframes neon-on {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  18% { opacity: 0.15; }
+  26% { opacity: 1; }
+  32% { opacity: 0.4; }
+  40%, 100% { opacity: 1; }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.intro.play .tube { opacity: 0; animation: neon-on 0.9s forwards; }
+.intro.play .tube.g0 { animation-delay: 0.3s; }
+.intro.play .tube.g1 { animation-delay: 0.8s; }
+.intro.play .tube.g2 { animation-delay: 1.2s; }
+.intro.play .studio { animation: rise-in 0.6s both; }
+.intro.play .wordmark { animation: rise-in 0.6s 1.6s both; }
+.intro.play .title { animation: rise-in 0.6s 1.9s both; }
+.intro.play .legal { animation: rise-in 0.6s 2s both; }
+@media (prefers-reduced-motion: reduce) {
+  .intro.play .tube,
+  .intro.play .studio,
+  .intro.play .wordmark,
+  .intro.play .title,
+  .intro.play .legal { animation: none; opacity: 1; }
+}
+
 .howto-card {
   width: min(92vw, 420px);
   max-height: 100%;

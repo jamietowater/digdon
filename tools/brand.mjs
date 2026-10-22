@@ -174,6 +174,48 @@ function icon() {
   return iconBackground().map((line, y) => line.map((px, x) => portrait[y][x] ?? px));
 }
 
+// --- Launch image: the neon emblem on the intro's dark gradient --------------------------------------------------
+
+/** Distance from p to segment ab. */
+function segmentDistance(px, py, [ax, ay], [bx, by]) {
+  const dx = bx - ax, dy = by - ay;
+  const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy || 1)));
+  return Math.hypot(px - ax - t * dx, py - ay - t * dy);
+}
+
+/** Square launch image; iOS crops it to fill the screen, so the emblem sits well inside the middle third. */
+function launchImage(tubes, size = 2732, emblemPx = 900) {
+  const centre = hex('#24140e'), edge = hex('#0b0605');
+  const scale = emblemPx / 200, origin = (size - emblemPx) / 2;
+  const rows = [];
+  const segments = tubes.map(t => {
+    const pts = t.closed ? [...t.points, t.points[0]] : t.points;
+    return { colour: hex(t.colour), segs: pts.slice(1).map((p, i) => [pts[i], p]) };
+  });
+  for (let y = 0; y < size; y++) {
+    const line = new Array(size);
+    for (let x = 0; x < size; x++) {
+      const r = Math.min(1, Math.hypot(x - size / 2, (y - size * 0.46) * 1.2) / (size * 0.55));
+      let px = centre.map((c, i) => c + (edge[i] - c) * r);
+      const ux = (x - origin) / scale, uy = (y - origin) / scale;
+      if (ux > -20 && ux < 220 && uy > -20 && uy < 220) {
+        for (const { colour, segs } of segments) {
+          let d = Infinity;
+          for (const [a, b] of segs) d = Math.min(d, segmentDistance(ux, uy, a, b));
+          const halo = 0.85 * Math.exp(-((d / 5) ** 2));
+          const core = Math.max(0, Math.min(1, (1.6 - d) * scale / 2));
+          const lit = colour.map(c => c + (255 - c) * 0.6);
+          px = px.map((c, i) => Math.min(255, c + colour[i] * halo));
+          px = px.map((c, i) => c + (lit[i] - c) * core);
+        }
+      }
+      line[x] = px.map(Math.round);
+    }
+    rows.push(line);
+  }
+  return rows;
+}
+
 // --- Output -----------------------------------------------------------------------------------------------------
 
 const brand = join(root, 'brand');
@@ -189,6 +231,13 @@ writeFileSync(join(root, 'ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon
 mkdirSync(join(root, 'public'), { recursive: true });
 writeFileSync(join(root, 'public/apple-touch-icon.png'), png(art, 6)); // 192 px, iOS scales it down
 writeFileSync(join(root, 'public/favicon.png'), png(art, 2));
+
+const { TUBES } = await import(join(root, 'src/ui/emblem.ts'));
+const launch = png(launchImage(TUBES), 1);
+for (const name of ['splash-2732x2732.png', 'splash-2732x2732-1.png', 'splash-2732x2732-2.png']) {
+  writeFileSync(join(root, 'ios/App/App/Assets.xcassets/Splash.imageset', name), launch);
+}
+out('icon/launch-2732.png', launch);
 
 const portrait = donPortrait().map(line => [null, null, ...line, null, null]);
 portrait.unshift(Array(36).fill(null), Array(36).fill(null));

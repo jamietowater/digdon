@@ -33,12 +33,17 @@ export class NativePlatform implements Platform {
   readonly canShare = true;
   readonly canChallenge = false;
 
-  setLoadingProgress(): void {}
+  private splashHidden = false;
 
-  async startGame(): Promise<void> {
-    await StatusBar.hide().catch(() => {});
-    await SplashScreen.hide({ fadeOutDuration: 200 }).catch(() => {});
+  /** First progress report: the web intro is on screen, so the native launch image can fade into it. */
+  setLoadingProgress(): void {
+    if (this.splashHidden) return;
+    this.splashHidden = true;
+    void StatusBar.hide().catch(() => {});
+    void SplashScreen.hide({ fadeOutDuration: 300 }).catch(() => {});
   }
+
+  async startGame(): Promise<void> {}
 
   locale(): string {
     return navigator.language.replace('-', '_');

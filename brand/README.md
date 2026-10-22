@@ -36,11 +36,13 @@ The name puns on *brick-and-mortar*: Don builds, Mortar wrecks, and they're stuc
 ## Files
 
 - `icon/icon-1024.png`: the app icon (Don close up on a teal brick wall). `icon/icon.svg` is the vector version.
+- `icon/launch-2732.png`: the iOS launch image (the neon emblem), also copied into the Xcode project by `npm run brand`.
+- `icon/intro-iphone.png`: screenshot of the animated studio intro (VERA LABS, emblem, wordmark, legal line).
 - `characters/<name>.svg`: vector art. Use these for print: they stay sharp at any size, from a pin to a poster.
 - `characters/<name>.png`: 2048 px on a transparent background.
 - `characters/<name>-sticker.png`: with a white die-cut border, ready for sticker printers.
 
-Everything here is generated from the game's sprites. After changing art in `src/data/spriteOverrides.ts`, run
+Everything here is generated from the game's sprites and the emblem in `src/ui/emblem.ts`. After changing art in `src/data/spriteOverrides.ts`, run
 `npm run brand` to rebuild this folder, the iOS app icon, and the web icons.
 
 Before printing or filing anything, run a trademark search on "Don & Mortar" and "Trowelblazer".
